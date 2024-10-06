@@ -1,0 +1,652 @@
+/* Fonts and general styles */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+  color: white;
+  background-color: black;
+}
+
+h2 {
+  font-size: 10vw;
+  font-weight: 800;
+  margin: 0%;
+  padding-bottom: 5rem;
+  padding-top: 5rem;
+  text-align: left;
+}
+
+h3 {
+  font-weight: bolder;
+  position: fixed;
+  z-index: 101;
+  font-size: 4rem;
+  top:0;
+  left:1%;
+}
+
+h3 a {
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap:7%;
+}
+
+h4.subLogo {
+  font-size: 0.7rem;
+  visibility: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+canvas {
+  position: fixed;
+  background-color: black;
+  z-index:300;
+}
+
+/*.loadingPage {
+  position: fixed;
+  top: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 200;
+}
+
+.loadingPage div {
+  position: fixed;
+}
+
+.loadingPage div:first-child {
+  top: 0;
+  left: 0;
+  font-size: 1.5rem;
+  color: hsl(180, 100%, 50%);
+}
+.loadingPage div:nth-child(2) {
+  top: 0;
+  right: 0;
+  font-size: 1.5rem;
+  color: hsl(270, 100%, 50%);
+}
+.loadingPage div:nth-child(3) {
+  bottom: 0;
+  left: 0;
+  font-size: 1.5rem;
+  color: hsl(0, 100%, 50%);
+}
+.loadingPage div:nth-child(4) {
+  bottom: 0;
+  right: 0;
+  font-size: 1.5rem;
+  color: hsl(90, 100%, 50%);
+}
+.loadingPage div:nth-child(5) {
+  top: 44%;
+  left: 40%;
+  font-size: 5rem;
+}*/
+
+body.light-mode {
+  background-color: rgb(240, 240, 240);
+  color: black;
+}
+
+a.light-mode {
+  color: black;
+}
+
+.titleDiv.light-mode,
+.aboutMe.light-mode,
+.subTitle.light-mode,
+.singleProject.light-mode,
+.skillsBody tr td.light-mode,
+.skillsHeader tr th.light-mode,
+.linksToMe.light-mode {
+  background-color: rgb(210, 210, 210);
+}
+
+/* .warning{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index:1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 5rem;
+}
+
+.warning div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#tryp {
+  height:70%;
+  align-self: center;
+  background-color: red;
+  border:none;
+  border-radius: 3px;
+  margin:0%;
+  padding:2%;
+  font-size: 3rem;
+}
+#notryp {
+  height:70%;
+  align-self: center;
+  background-color: lightblue;
+  border:none;
+  border-radius: 3px;
+  margin:3%;
+  padding:2%;
+  font-size: 3rem;
+} */
+
+.skillsHeader tr th.light-mode {
+ border-color: rgb(190, 190, 190);
+}
+
+.cursor {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: white 2px double;
+  position: fixed;
+  top: 0;
+  left: 15rem;
+  background-color: none;
+  border-radius: 50%;
+  z-index: 500;
+}
+
+.cursorCenter {
+  content: "";
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 40%;
+  right: 40%;
+}
+
+.loadButton {
+  opacity: 0;
+  position:fixed;
+  font-size: 3rem;
+  background:none;
+  border: white 3px double;
+  color:white;
+  border-radius: 4px;
+  z-index:300;
+  padding: 10px 30px;
+}
+
+.cursor.light-mode {
+  border: black 2px double;
+}
+.cursorCenter.light-mode {
+  background-color: black;
+}
+
+.skillsTable {
+  width: 100%;
+  text-align: center;
+  margin: 2% 0%;
+  table-layout: fixed;
+}
+
+.skillsHeader {
+  font-size: 2.5rem;
+}
+
+.skillsHeader tr th {
+    border: #343434 5px solid;
+    background-color: #232323;
+}
+
+.skillsBody tr td {
+    background-color: #232323;
+}
+
+.skillsBody {
+  font-size: 1.5rem;
+  font-weight: lighter;
+}
+
+.linksToMe {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: #232323;
+  padding: 2% 0%;
+  margin-top: 3%;
+}
+
+.linksToMe a {
+  justify-self: center;
+  align-self: center;
+}
+
+.resumeDiv p {
+  text-align: center;
+  border: black 4px solid;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10%;
+}
+
+.resume {
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+.menu-block.light-mode {
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 240, 240, 1),
+    rgba(240, 240, 240, 0.9),
+    rgba(240, 240, 240, 0.8),
+    rgba(240, 240, 240, 0.7),
+    rgba(240, 240, 240, 0)
+  );
+}
+
+.titleDiv {
+  background-color: #232323;
+}
+
+.skillTypeDisplay {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: min-content;
+  align-items: center;
+}
+
+.titleClass {
+  font-size: 6vw;
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  padding: 1%;
+}
+
+.aboutContainer {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.imgContainer {
+  width: 40%;
+}
+
+.researchProject,
+.jobBechtel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 1%;
+  align-items: center;
+}
+
+.researchDescription,
+.jobDescription {
+  font-size: 1.5rem;
+  justify-self: center;
+  text-align: center;
+}
+
+.researchImage {
+  align-self: center;
+  justify-self: center;
+}
+
+.date {
+  font-style: italic;
+}
+
+.aboutMe {
+  font-size: 1.8rem;
+  width: 60%;
+  line-height: 1.5;
+  position: sticky;
+  padding: 2%;
+  background-color: #232323;
+}
+
+.me-image {
+  max-width: 100%;
+  height: auto;
+  position: sticky;
+  top: 12%;
+}
+
+.menu-block {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0)
+  );
+  z-index: 100;
+}
+
+.menu {
+  display: flex;
+  position: fixed;
+  top: 1.5rem;
+  z-index: 110;
+  right: 15%;
+}
+
+.menu-item {
+  position: relative;
+  margin-right: 4%;
+  white-space: nowrap;
+  font-size: 1.5rem;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.heading {
+  padding-top: 5rem;
+  font-weight: 800;
+}
+
+.projectType {
+  display: grid;
+}
+
+.pythonProjects {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
+
+.pythonAll {
+  padding-bottom: 2%;
+}
+
+.subTitle {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bolder;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  background-color: #232323;
+}
+
+.projectSub {
+  text-align: center;
+  font-size: 1.7rem;
+  margin: 3%;
+}
+
+.gridHeader {
+  background-color: #232323;
+  text-align: center;
+  font-size: 2.5rem;
+  border: #343434 5px solid;
+  flex: 1;
+}
+
+.gridHeader.light-mode,
+.contactAll.light-mode {
+  background-color: rgb(210, 210, 210);
+  border-color: rgb(190, 190, 190);
+}
+
+.gridDiv {
+  display: flex;
+  background-color: #232323;
+  margin: 0.5%;
+}
+
+.gridRank,
+.gridSkills {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: lighter;
+  flex: 1;
+  height: 100%;
+}
+
+.webDevProjects {
+  display: grid;
+}
+
+.contactAll {
+  background-color: #232323;
+  padding-bottom: 2%;
+  border-radius: 1%;
+  margin: 5% 10% 3% 10%;
+  border: #343434 6px solid;
+}
+
+.contactTitle {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.contactFormLabel {
+  font-size: 1.5rem;
+  margin: 3% 3% 0% 3%;
+}
+
+.contactInput {
+  width: 80%;
+  margin: 1% 3%;
+}
+
+.formDiv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#message {
+  height: 5rem;
+}
+
+div .sendButton {
+  background: none;
+  border: none;
+}
+
+.mailCircle {
+  content: "";
+  background-color: hsl(180, 100%, 50%);
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.m-line {
+  content: "";
+  position: relative;
+  background-color: white;
+  border-radius: 5px;
+}
+
+#firstMLine {
+  width: 70px;
+  height: 10px;
+  left: 4px;
+  top: 70px;
+  rotate: 90deg;
+}
+#secondMLine {
+  width: 60px;
+  height: 10px;
+  top: 48px;
+  left: 64px;
+  rotate: -45deg;
+}
+#thirdMLine {
+  width: 60px;
+  height: 10px;
+  top: 38px;
+  left: 27px;
+  rotate: 45deg;
+}
+#fourthMLine {
+  width: 70px;
+  height: 10px;
+  top: 40px;
+  left: 77px;
+  rotate: 90deg;
+}
+#fifthMLine {
+  width: 80px;
+  height: 10px;
+  left: 36px;
+}
+#sixthMLine {
+  width: 80px;
+  height: 10px;
+  top: 50px;
+  left: 36px;
+}
+
+.singleProject {
+  position: relative;
+  background-color: #232323;
+  border-radius: 5px;
+  padding: 5px;
+  justify-self: center;
+  align-self: center;
+}
+
+.pythonProjects div a {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+
+.pythonProjects div a img {
+    width:40vw;
+    height:30vw;
+    justify-self: center;
+    margin: 0 auto;
+}
+.webDevProjects div a img {
+    width:60vw;
+    height:auto;
+    justify-self: center;
+    margin: 0 auto;
+}
+
+.menu-header{
+  display: none;
+}
+
+.marqueeSlider {
+  /* display: flex; */
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  white-space: nowrap;
+}
+
+.marqueeSlider .singleProject {
+  flex: 0 0 auto;
+}
+
+.marqueeSlider div a img {
+  width: 600px;
+  height: 355px;
+}
+
+#shSub,
+#saSub,
+#kuSub,
+#agSub {
+  position: fixed;
+  top: 4rem;
+  z-index: 110;
+  text-align: center;
+  width: 4rem;
+}
+
+#saSub {
+  margin-left: 3rem;
+}
+
+#kuSub {
+  margin-left: 6.1rem;
+}
+
+#agSub {
+  margin-left: 9.2rem;
+}
+
+#Shubham {
+  margin-left: 10%;
+}
+
+#Saluja {
+  margin-left: 20%;
+}
+
+#Kumar {
+  margin-left: 30%;
+}
+
+#Agarwal {
+  margin-left: 40%;
+}
+
+#modeToggle {
+  background: none;
+  border: none;
+  position: fixed;
+  top: 2%;
+  left: 95%;
+  z-index: 115;
+}
+
+.menu-item::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.menu-item.light-mode::after {
+  background-color: black;
+}
+
+
+.menu-item:hover::after {
+  width: 100%;
+}
