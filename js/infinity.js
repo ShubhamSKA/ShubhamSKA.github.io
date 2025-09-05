@@ -45,6 +45,7 @@ loadButton.addEventListener("click", function () {
   }, 10);
 
   setTimeout(function () {
+    loadButton.style.pointerEvents = "none"; // disables hover/click
     loadButton.classList.add("Loaded");
     loadButton.style.visibility = "hidden";
     loadButton.style.display = "none";
