@@ -223,6 +223,20 @@ a.light-mode {
     background-color: #232323;
 }
 
+
+.skillsAll .skill {
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.skillsAll:has(.skill:hover) .skill {
+  opacity: 0.4;
+}
+
+.skillsAll:has(.skill:hover) .skill:hover {
+  opacity: 1;
+}
+
 .skillsBody tr td {
     background-color: #232323;
 }
@@ -230,6 +244,43 @@ a.light-mode {
 .skillsBody {
   font-size: 1.5rem;
   font-weight: lighter;
+}
+
+.subSkillAll{
+  position: relative;
+}
+
+.skillOverlay {
+  display: flex;
+  position: absolute;
+  top:145px;
+  left:0;
+  bottom: 0;
+  background-color: #232323;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* so it doesn't block hover */
+  max-width: 50%;
+  text-align: center;
+  align-items: center;
+  font-size: 1.5rem ;
+}
+
+.skillOverlay.light-mode {
+  position: absolute;
+  background-color: rgb(210, 210, 210);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* so it doesn't block hover */
+  max-width: 50%;
+  text-align: center;
+  font-size: 1.5rem ;
+  top: calc(50px - 10px); /* example */
+
+}
+
+.skillOverlay.active {
+  opacity: 1;
 }
 
 .linksToMe {
@@ -301,7 +352,7 @@ a.light-mode {
 }
 
 .researchProject,
-.jobBechtel {
+.jobBechtel, .jobVernalis, .jobMicron {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 1%;

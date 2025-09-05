@@ -311,6 +311,7 @@ const lightMenuButton = document.querySelector(".menuButton")
 const buttonLine = document.querySelectorAll(".line")
 const phoneMenu = document.querySelector(".menu")
 const menuHeader = document.querySelector(".menu-header")
+const skillOverlay = document.querySelector(".skillOverlay")
 const body = document.body;
 
 modeToggle.addEventListener("click", function () {
@@ -324,6 +325,7 @@ modeToggle.addEventListener("click", function () {
   lightMenuButton.classList.toggle("light-mode");
   phoneMenu.classList.toggle("light-mode");
   menuHeader.classList.toggle("light-mode");
+  skillOverlay.classList.toggle("light-mode");
   if (modeImage.classList.contains("light-mode")) {
     modeImage.src = "/img/dark_mode.png";
   } else {
@@ -543,3 +545,57 @@ animateMenuButton();
 
 // Repeat the function every 5 seconds
 setInterval(animateMenuButton, 6000);
+
+
+const skill_descriptions = {
+  "Python": "Data Engineering, Instrument Communication and Data Acquisition, GUI development, Dashboard Creation, Simple Game Dev.",
+  "C": "Coded several problems from scratch, including tree balancing, Djikstra's Algorithm, Sudoku solving, among others.",
+  "LaTeX": 'Took notes for classes (alongside a friend), as well as developed several reports and assignments. Check out the repository!',
+  "Microsoft":"I love thinking about how I can make PPTX presentations dynamic and visually appealing, so I have some pretty cool presentations. I also have quite a bit of experience using Excel. I have not, however, used Word much since I discovered LaTeX.",
+  "Fusion":"Several designs, like the ones showed on this website. I have also made, and printed casings for PCBs. Finally I know basics of CAM and PCB Design (I have used Autodesk Eagle before).",
+  "Onshape":"Like in Fusion360, I made a few Onshape designs, the relevant skillset is similar, but there are some differences in tool utilization.",
+  "SysVerilog":"Experience writing modules and testbenches. Made a USB 1.0 communication protocol. Now taking a course to develop a Multicore Processor.",
+  "Virtuoso":"Design, Simulation, Layout, Verification of transistor level circuits. Made, simulated, and created the layout for a Manchester Carry Adder and a Wallace Tree Multiplier.",
+  "STM32":"Used an STM32 to count frequency, perform ADC and DAC, and communicate and synchronize with a Python script.",
+  "Embedded":"Learned to code microcontrollers without built-in libraries, like HAL or Arduino. Made a 2-player (2 microcontroller) game of snake with display control, alongside a team of three other people.",
+  "MATLAB":"Scripts for data processing, aligning, filtering, and plotting. Some scripting for simulations, and some scripting for instrument data acquisition.",
+  "HTML":"I designed this webpage from scratch. Learned from Youtube tutorials and LLMs. I can now read and understand how HTML files behave, as well as use this knowledge to help design GUIs.",
+  "CSS":"Learned it alongside HTML. You get the idea, I was trying to learn the stack of front-end development.",
+  "KiCad":"Been using this for PCB design instead of Eagle, since it was more user friendly. I have also taught several people who came to BIDC how to use it.",
+  "Simulink":"Learned it for circuit simulations. That is, I simulated a 5kVDC, 2km transmission line and its subcomponents. I also designed a PLL inverter in Simulink, with hopes of expanding it into a hybrid inverter simulation.",
+  "Javascript":"Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaing a few websites in one of my research teams.",
+  "Arduino":"My first embedded language. Can use it's in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
+  "LTSpice":"Once again, I have used this for circuit simulations. These circuits have been mostly composed of linear components. Used it in some of my classes, as well as to help understand what I am doing in my research projects.",
+  "Kotlin":"Took a basic course in Kotlin for AppDev, but I don't think I know enough to make an actual app with any use.",
+  "AStudio":"Same as Kotlin, learned it for AppDev, but I am not familiar enough to make an app with it.",
+  "ML":"Took a Coursera ML course, so I understand the idea behind it. I have also run, and made slight modifications to some models. However, I would not say I can make a model of my own.",
+  "THSoldering":"Several years of experience with through-hole soldering. Have also taught dozens of people how to solder.",
+  "SMD":"Less experience than through-hole soldering, but still notable. Some challenges I have faced are: an 0402 RF module with 6 ball pins and recreating a broken trace on a copper PCB with no mask.",
+  "TroubleShooting":"I can troubleshoot PCBs with basic techniques like continuity checking and parameter measurements.",
+  "Design":"I can design basic circuits, both linear and logical. Planning to learn more with my senior design project.",
+  "Milling":"Milled up to two layer PCBs on an AccurateCNC PCB Mill, using their proprietary software.",
+  "EPlating":"I know how this works, I have made the solute for it, and I have electroplated (albeit unevenly) some 3D printed objects.",
+  "English":"My most proficient language. I can read upwards of 400WPM while still maintaining a general understanding of what I am reading.",
+  "Spanish":"I was born and raised in Mexico, so I can fluently read, write and converse in Spanish.",
+  "Hindi":"Fluent enough in it to converse and survive in India. I am a very slow reader though. Probably about 2WPM.",
+  "French":"I took the DELF A2 in high school, and scored decently well. I am sure I cannot follow an actual french conversation.",
+};
+
+document.querySelectorAll('.subSkillAll').forEach(container => {
+  const overlay = container.querySelector('.skillOverlay');
+  const skills = container.querySelectorAll('.skill');
+
+  skills.forEach(skill => {
+    skill.addEventListener('mouseenter', () => {
+      const skillName = skill.dataset.skill;
+      // Use innerHTML instead of textContent
+      overlay.innerHTML = skill_descriptions[skillName] || skillName;
+      overlay.classList.add('active');
+    });
+
+    skill.addEventListener('mouseleave', () => {
+      overlay.classList.remove('active');
+    });
+  });
+});
+
