@@ -92,13 +92,13 @@
         <span class="colored">Hello!</span> My name is Shubham. I'm a
         motivated, driven and innovative undergraduate student studying
         <span class="colored">Computer Engineering</span> at Purdue University
-        in West Lafayette, Indiana. I am also pursuing a minor in Math and
-        anticipate earning a Bachelor of Science degree by May 2026. <br />
+        in West Lafayette, Indiana. I am also pursuing minors in Math and Business Economics,
+        anticipating earning a Bachelor of Science degree by May 2026. <br />
         Throughout my academic journey, I have developed a strong interest in
         various aspects of
         <span class="colored">technology, innovation, and programming.</span>
-        I am particularly enthusiastic about electronics, firmware
-        development, and the intersection of technology and entrepreneurship.
+        I am particularly enthusiastic about wearable technologies, firmware
+        development, and human-technology interfaces.
         I am always eager to <span class="colored">explore</span> new
         technologies and expand my knowledge in these areas.
       </p>
@@ -150,7 +150,8 @@
                 <span class="date">August 2023-Present</span>
               </p>
             </div>
-            <img src="/img/lpcvc.png" alt="LPCVC" width="80%" class="researchImage" loading="lazy" style="padding-top: 15%; padding-bottom: 15%;"/>
+            <img src="/img/lpcvc.png" alt="LPCVC" width="80%" class="researchImage" loading="lazy"
+              style="padding-top: 15%; padding-bottom: 15%;" />
           </div>
         </a>
         <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0">
@@ -168,7 +169,8 @@
                 <br />
                 Creating a method to
                 <span class="colored">non-invasively</span> monitor the
-                <span class="colored">state of charge</span> of a battery.
+                <span class="colored">state of charge</span> of a battery with minimal effects of relaxation (<span class="colored">least</span> out of all existing methods). Aiding the process through code for sensor
+                data reading using a microcontroller, soldering boards, data engineering, and setup <span class = "colored">design</span>.
                 <br />
                 <br />
                 <span class="date">April 2023-Present</span>
@@ -207,7 +209,45 @@
       <div class="titleDiv">
         <h5 class="subTitle">
           <span class="colored">J</span>obs
-        </h4>
+          </h4>
+      </div>
+      <div class="jobDisplay">
+        <a href="https://www.vernalisconsulting.com/">
+          <div class="jobVernalis singleProject">
+            <img src="/img/vernalis_img.PNG" width="100%" class="jobImage" loading="lazy" />
+            <p class="jobDescription">
+              <span class="colored">Enginnering Consulting</span> Intern at
+              <span class="colored">Vernalis</span> Consulting.<br />
+              Worked on several projects from several domains of engineering. In <span class="colored">software</span>
+              engineering, I modified a computer vision neural network to improve accuracy. In <span
+                class="colored">hardware</span>, I researched <span class="colored">HVDC</span>, and made simulations of
+              small scale 5kV DC transmission lines. I <span class="colored">communicated</span> extensively with people
+              from different backgrounds, and learned how to <span class="colored">explain</span> technical topics in
+              simple terms.
+              <br />
+              <br />
+              <span class="date">May 2025-August 2025</span>
+            </p>
+          </div>
+        </a>
+      </div>
+      <div class="jobDisplay">
+        <a href="https://www.micron.com/about/company/quality">
+          <div class="jobMicron singleProject">
+            <p class="jobDescription">
+              DRAM Quality Data Engineering Intern at <span class="colored">Micron Technology.</span><br />
+              I made algorithms, plots, and Streamlit dashboards <span class="colored">analyzing</span> lifespan and
+              life expectancy of DRAM components using data pulled from <span class="colored">SQL</span> databases. I
+              also <span class="colored">interfaced</span> Python with an <span class="colored">LLM</span>, making a
+              dashboard that theoretically generated <span class="colored">improving</span> responses through prompt
+              manipulation and a <span class="colored">feedback loop</span>.
+              <br />
+              <br />
+              <span class="date">May 2024-August 2024</span>
+            </p>
+            <img src="/img/micron_img.PNG" width="100%" class="jobImage" loading="lazy" />
+          </div>
+        </a>
       </div>
       <div class="jobDisplay">
         <a href="https://www.purdue.edu/bidc/capabilities/electronics/">
@@ -355,47 +395,7 @@
       </h4>
     </div>
     <div class="skillsDisplay">
-      <div class="hardwareAll">
-        <div>
-          <h5 class="subTitle"><span class="colored">H</span>ardware</h5>
-        </div>
-        <table class="hardwareTable skillsTable">
-          <thead class="skillsHeader">
-            <tr>
-              <th><span class="colored">P</span>roficiency</th>
-              <th><span class="colored">S</span>kills</th>
-            </tr>
-          </thead>
-          <tbody class="skillsBody">
-            <tr class="advancedLevel">
-              <td><span class="colored">A</span>dvanced</td>
-              <td>
-                <span class="colored">T</span>hrough-hole
-                <span class="colored">S</span>oldering,
-                <span class="colored">S</span>MD
-                <span class="colored">S</span>oldering
-              </td>
-            </tr>
-            <tr class="intermediateLevel">
-              <td><span class="colored">I</span>ntermediate</td>
-              <td>
-                <span class="colored">C</span>ircuit
-                <span class="colored">T</span>roubleshooting,
-                <span class="colored">E</span>lectronics
-              </td>
-            </tr>
-            <tr class="beginnerLevel">
-              <td><span class="colored">B</span>eginner</td>
-              <td>
-                <span class="colored">P</span>CB
-                <span class="colored">M</span>illing,
-                <span class="colored">E</span>lectroplating
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="softwareAll">
+      <div class="subSkillAll softwareAll">
         <div>
           <h5 class="subTitle"><span class="colored">S</span>oftware</h5>
         </div>
@@ -410,44 +410,94 @@
             <tr class="advancedLevel">
               <td><span class="colored">A</span>dvanced</td>
               <td>
-                <span class="colored">P</span>ython,
-                <span class="colored">M</span>icrosoft
-                <span class="colored">O</span>ffice
+                <span class="skill" data-skill="Python"><span class="colored">P</span>ython,</span>
+                <span class="skill" data-skill="C"><span class="colored">C</span>,</span>
+                <span class="skill" data-skill="LaTeX"><a href="https://github.com/zkeulr/Notes" target="_blank"
+                    title="Click Me!"><span class="colored">L</span>aTeX,</span></a>
+                <span class="skill" data-skill="Microsoft"><span class="colored">M</span>icrosoft
+                  <span class="colored">O</span>ffice</span>
               </td>
             </tr>
             <tr class="intermediateLevel">
               <td><span class="colored">I</span>ntermediate</td>
               <td>
-                <span class="colored">C</span>,
-                <span class="colored">A</span>utodesk
-                <span class="colored">F</span>usion 360,
-                <span class="colored">O</span>nshape,
-                <span class="colored">M</span>ATLAB,
-                <span class="colored">H</span>TML,
-                <span class="colored">C</span>SS
+                <span class="skill" data-skill="Fusion"><span class="colored">A</span>utodesk
+                  <span class="colored">F</span>usion 360, </span>
+                <span class="skill" data-skill="Onshape"><span class="colored">O</span>nshape,</span>
+                <span class="skill" data-skill="SysVerilog"><span class="colored">S</span>ystem<span
+                    class="colored">V</span>erilog,</span>
+                <span class="skill" data-skill="Virtuoso"><span class="colored">C</span>adence
+                  <span class="colored">V</span>irtuoso,</span>
+                <span class="skill" data-skill="STM32"><span class="colored">S</span>TM32,</span>
+                <span class="skill" data-skill="Embedded"><span class="colored">E</span>mbedded
+                  <span class="colored">C</span>,</span>
+                <span class="skill" data-skill="MATLAB"><span class="colored">M</span>ATLAB,</span>
+                <span class="skill" data-skill="HTML"><span class="colored">H</span>TML,</span>
+                <span class="skill" data-skill="CSS"><span class="colored">C</span>SS,</span>
+                <span class="skill" data-skill="KiCad"><span class="colored">K</span>iCad</span>
               </td>
             </tr>
             <tr class="beginnerLevel">
               <td><span class="colored">B</span>eginner</td>
               <td>
-                <span class="colored">K</span>iCad,
-                <span class="colored">A</span>utodesk
-                <span class="colored">E</span>agle,
-                <span class="colored">J</span>avaScript,
-                <span class="colored">A</span>rduino,
-                <span class="colored">L</span>TSpice,
-                <span class="colored">K</span>otlin,
-                <span class="colored">A</span>ndroid
-                <span class="colored">S</span>tudio,
-                <span class="colored">M</span>achine
-                <span class="colored">L</span>earning
-                <span class="colored">S</span>TM32
+                <span class="skill" data-skill="Simulink"><span class="colored">S</span>imulink, </span>
+                <span class="skill" data-skill="Javascript"><span class="colored">J</span>avaScript, </span>
+                <span class="skill" data-skill="Arduino"><span class="colored">A</span>rduino, </span>
+                <span class="skill" data-skill="LTSpice"><span class="colored">L</span>TSpice, </span>
+                <span class="skill" data-skill="Kotlin"><span class="colored">K</span>otlin, </span>
+                <span class="skill" data-skill="AStudio"><span class="colored">A</span>ndroid
+                  <span class="colored">S</span>tudio, </span>
+                <span class="skill" data-skill="ML"><span class="colored">M</span>achine
+                  <span class="colored">L</span>earning </span>
               </td>
             </tr>
           </tbody>
         </table>
+        <div class="skillOverlay">Hello</div>
       </div>
-      <div class="languageAll">
+      <div class="subSkillAll hardwareAll">
+        <div>
+          <h5 class="subTitle"><span class="colored">H</span>ardware</h5>
+        </div>
+        <table class="hardwareTable skillsTable">
+          <thead class="skillsHeader">
+            <tr>
+              <th><span class="colored">P</span>roficiency</th>
+              <th><span class="colored">S</span>kills</th>
+            </tr>
+          </thead>
+          <tbody class="skillsBody">
+            <tr class="advancedLevel">
+              <td><span class="colored">A</span>dvanced</td>
+              <td>
+                <span class="skill" data-skill="THSoldering"><span class="colored">T</span>hrough-hole
+                  <span class="colored">S</span>oldering, </span>
+                <span class="skill" data-skill="SMD"><span class="colored">S</span>MD
+                  <span class="colored">S</span>oldering </span>
+              </td>
+            </tr>
+            <tr class="intermediateLevel">
+              <td><span class="colored">I</span>ntermediate</td>
+              <td>
+                <span class="skill" data-skill="TroubleShooting"><span class="colored">C</span>ircuit
+                  <span class="colored">T</span>roubleshooting</span>
+              </td>
+            </tr>
+            <tr class="beginnerLevel">
+              <td><span class="colored">B</span>eginner</td>
+              <td>
+                <span class="skill" data-skill="Design"><span class="colored">C</span>ircuit
+                  <span class="colored">D</span>esign, </span>
+                <span class="skill" data-skill="Milling"><span class="colored">P</span>CB
+                  <span class="colored">M</span>illing, </span>
+                <span class="skill" data-skill="EPlating"><span class="colored">E</span>lectroplating </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="skillOverlay">Hello</div>
+      </div>
+      <div class="subSkillAll languageAll">
         <div>
           <h5 class="subTitle"><span class="colored">L</span>anguages</h5>
         </div>
@@ -462,20 +512,25 @@
             <tr class="advancedLevel">
               <td><span class="colored">A</span>dvanced</td>
               <td>
-                <span class="colored">E</span>nglish,
-                <span class="colored">S</span>panish
+                <span class="skill" data-skill="English"><span class="colored">E</span>nglish,</span>
+                <span class="skill" data-skill="Spanish"><span class="colored">S</span>panish</span>
               </td>
             </tr>
             <tr class="intermediateLevel">
               <td><span class="colored">I</span>ntermediate</td>
-              <td><span class="colored">H</span>indi</td>
+              <td>
+                <span class="skill" data-skill="Hindi"><span class="colored">H</span>indi</span>
+              </td>
             </tr>
             <tr class="beginnerLevel">
               <td><span class="colored">B</span>eginner</td>
-              <td><span class="colored">F</span>rench</td>
+              <td>
+                <span class="skill" data-skill="French"><span class="colored">F</span>rench</span>
+              </td>
             </tr>
           </tbody>
         </table>
+        <div class="skillOverlay">Hello</div>
       </div>
     </div>
   </div>
