@@ -311,7 +311,7 @@ const lightMenuButton = document.querySelector(".menuButton")
 const buttonLine = document.querySelectorAll(".line")
 const phoneMenu = document.querySelector(".menu")
 const menuHeader = document.querySelector(".menu-header")
-const skillOverlay = document.querySelector(".skillOverlay")
+const skillOverlay = document.querySelectorAll(".skillOverlay")
 const body = document.body;
 
 modeToggle.addEventListener("click", function () {
@@ -325,7 +325,6 @@ modeToggle.addEventListener("click", function () {
   lightMenuButton.classList.toggle("light-mode");
   phoneMenu.classList.toggle("light-mode");
   menuHeader.classList.toggle("light-mode");
-  skillOverlay.classList.toggle("light-mode");
   if (modeImage.classList.contains("light-mode")) {
     modeImage.src = "/img/dark_mode.png";
   } else {
@@ -348,6 +347,9 @@ modeToggle.addEventListener("click", function () {
     }
   });
   singleProjects.forEach(function (element) {
+    element.classList.toggle("light-mode");
+  });
+  skillOverlay.forEach(function (element) {
     element.classList.toggle("light-mode");
   });
   linksToMe.forEach(function (element) {
@@ -556,7 +558,7 @@ const skill_descriptions = {
   "Onshape":"Like in Fusion360, I made a few Onshape designs, the relevant skillset is similar, but there are some differences in tool utilization.",
   "SysVerilog":"Experience writing modules and testbenches. Made a USB 1.0 communication protocol. Now taking a course to develop a Multicore Processor.",
   "Virtuoso":"Design, Simulation, Layout, Verification of transistor level circuits. Made, simulated, and created the layout for a Manchester Carry Adder and a Wallace Tree Multiplier.",
-  "STM32":"Used an STM32 to count frequency, perform ADC and DAC, and communicate and synchronize with a Python script.",
+  "STM32":"Used an STM32 to accurately count frequency (3Hz resolution), perform ADC and DAC, and communicate and synchronize with a Python script.",
   "Embedded":"Learned to code microcontrollers without built-in libraries, like HAL or Arduino. Made a 2-player (2 microcontroller) game of snake with display control, alongside a team of three other people.",
   "MATLAB":"Scripts for data processing, aligning, filtering, and plotting. Some scripting for simulations, and some scripting for instrument data acquisition.",
   "HTML":"I designed this webpage from scratch. Learned from Youtube tutorials and LLMs. I can now read and understand how HTML files behave, as well as use this knowledge to help design GUIs.",
