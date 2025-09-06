@@ -373,7 +373,7 @@ a.light-mode {
   text-align: center;
 }
 
-.researchImage {
+.researchImage, .jobImage {
   align-self: center;
   justify-self: center;
 }
