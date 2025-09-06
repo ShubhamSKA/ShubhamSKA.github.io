@@ -259,14 +259,15 @@ a.light-mode {
 .skillOverlay {
   display: flex;
   position: absolute;
-  top:145px;
-  left:0;
-  bottom: 0;
+  top:148px;
+  left:2px;
+  right:100px;
+  bottom: 2px;
   background-color: #232323;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none; /* so it doesn't block hover */
-  max-width: 50%;
+  max-width: 49.8%;
   text-align: center;
   align-items: center;
   font-size: 1.5rem ;
