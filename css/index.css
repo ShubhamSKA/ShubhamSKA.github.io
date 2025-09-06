@@ -273,6 +273,7 @@ a.light-mode {
 .skillOverlay.light-mode {
   display: flex;
   position: absolute;
+  background-color: rgb(210, 210, 210);
   top:148px;
   left:2px;
   right:100px;
@@ -284,6 +285,7 @@ a.light-mode {
   text-align: center;
   align-items: center;
   font-size: 1.5rem ;
+
 }
 
 .skillOverlay.active {
