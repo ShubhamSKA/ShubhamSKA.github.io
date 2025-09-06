@@ -229,11 +229,17 @@ a.light-mode {
   opacity: 1;
 }
 
-.skillsAll:has(.skill:hover) .skill {
+.softwareAll:has(.skill:hover) .skill,
+.languageAll:has(.skill:hover) .skill,
+.miscellaneousAll:has(.skill:hover) .skill,
+.hardwareAll:has(.skill:hover) .skill {
   opacity: 0.4;
 }
 
-.skillsAll:has(.skill:hover) .skill:hover {
+.softwareAll:has(.skill:hover) .skill:hover, 
+.languageAll:has(.skill:hover) .skill:hover, 
+.miscellaneousAll:has(.skill:hover) .skill:hover, 
+.hardwareAll:has(.skill:hover) .skill:hover {
   opacity: 1;
 }
 
