@@ -579,6 +579,14 @@ const skill_descriptions = {
   "Spanish":"I was born and raised in Mexico, so I can fluently read, write and converse in Spanish.",
   "Hindi":"Fluent enough in it to converse and survive in India. I am a very slow reader though. Probably about 2WPM.",
   "French":"I took the DELF A2 in high school, and scored decently well. I am sure I cannot follow an actual french conversation.",
+  "Math":"I have ten years of Math Olympiad, achieving national rankings and medals multiple times.",
+  "Physics":"Five years of Physics Olympiad Experience, with multiple International level medals",
+  "Teach":"I have taught people with diverse backgrounds and skills in the Math Olympiad. I have also tutored several people in similar topics.",
+  "Communication":"I can communicate with people from diverse backgrounds and cultures, happily and effectively.",
+  "Optimism":"I view life very optimistically, that is, I can find the positives in everything. 'Live and let live' is my motto.",
+  "PublicSpeaking":"I love public speaking, there is something about standing in front of people that just calls to me.",
+  "Climbing":"I love climbing trees, rocks, and challenges.",
+  "Dancing":"I am not embarassed to love freestyle dance. I see it as a form of expression.",
 };
 
 document.querySelectorAll('.subSkillAll').forEach(container => {
