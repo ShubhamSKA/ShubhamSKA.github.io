@@ -7,9 +7,6 @@
   box-sizing: border-box;
 }
 
-html{
-  overflow-x: hidden;
-}
 
 body {
   font-family: "Roboto", sans-serif;
@@ -391,6 +388,7 @@ a.light-mode {
   background-color: #232323;
 }
 
+
 .me-image {
   max-width: 100%;
   height: auto;
@@ -632,6 +630,10 @@ div .sendButton {
   display:grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   white-space: nowrap;
+}
+
+.fusionAll {
+  overflow-x: hidden;
 }
 
 .marqueeSlider .singleProject {
