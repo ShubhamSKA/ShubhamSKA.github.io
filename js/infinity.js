@@ -34,13 +34,18 @@ let opacity = 0;
 
 loadButton.addEventListener("click", function () {
   body2.style.overflowY = "auto";
+  functionNum = 0;
+  speed = 10;
+  radiusPar = 3;
   const decreaseOpacityInterval = setInterval(function () {
-    opacity -= 0.02;
+    opacity -= 0.005;
     canvas.style.opacity = `${opacity}`;
     loadButton.style.opacity = `${opacity}`;
     if (opacity <= 0) {
       clearInterval(decreaseOpacityInterval);
       canvas.style.display = "none";
+      canvas.height = 0;
+      canvas.width = 0;
     }
   }, 10);
 
@@ -151,11 +156,12 @@ extraPar =
   ];
 
 function circle(t) {
-  const radius = Math.sin(t);
-  const y = Math.sin(t) * radius - 0.4;
-  const x = Math.cos(t) * extraPar * radius;
+  const radius = (speed===10) ? 2.5 : Math.sin(t);
+  const y = (speed===10) ? Math.sin(t) * radius :Math.sin(t) * radius - 0.4;
+  const x = (speed===10) ? Math.cos(t) * radius : Math.cos(t) * extraPar * radius;
   return { x, y };
 }
+
 function dunno(t) {
   const y = Math.sin(t) * Math.cos(t) * Math.sin(extraPar * t);
   const x = Math.cos(t) * Math.cos(extraPar * t);
@@ -214,7 +220,7 @@ let color = loadTime.getMilliseconds() % 360;
 function moveWhiteElements() {
   color += 0.1;
   t += increment;
-  if (t > 2) {
+  if ((t > 2) && (speed!==10)) {
     t = 0;
   }
 
@@ -267,7 +273,7 @@ increaseOpacityInterval = setInterval(function () {
     loadTime.getMinutes() * 60 -
     loadTime.getSeconds();
   if (
-    timeElapsed > 7 &&
+    timeElapsed > 3 &&
     !loadButton.classList.contains("Loaded") &&
     opacity < 1
   ) {
