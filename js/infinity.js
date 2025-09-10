@@ -31,6 +31,7 @@ function handleResize() {
 window.addEventListener("resize", handleResize);
 
 let opacity = 0;
+let start_explosion = 0;
 
 loadButton.addEventListener("click", function () {
   body2.style.overflowY = "auto";
@@ -39,23 +40,32 @@ loadButton.addEventListener("click", function () {
   radiusPar = 3;
   const decreaseOpacityInterval = setInterval(function () {
     opacity -= 0.005;
-    canvas.style.opacity = `${opacity}`;
+    if (start_explosion===1){
+    canvas.style.opacity = `${opacity}+30`;
+    }
     loadButton.style.opacity = `${opacity}`;
-    if (opacity <= 0) {
+    if (opacity <= 30) {
       clearInterval(decreaseOpacityInterval);
-      canvas.style.display = "none";
-      canvas.height = 0;
-      canvas.width = 0;
     }
   }, 10);
-
+  
+  setTimeout(function () {
+    speed = 20;
+    start_explosion = 1;
+  }, 2000);
+  
   setTimeout(function () {
     loadButton.style.pointerEvents = "none"; // disables hover/click
     loadButton.classList.add("Loaded");
     loadButton.style.visibility = "hidden";
     loadButton.style.display = "none";
     loadButton.style.right = "10000px";
-  }, 3000);
+    opacity = 0;
+    canvas.style.opacity = 0;
+    canvas.style.display = "none";
+    canvas.height = 0;
+    canvas.width = 0;
+  }, 4000);
 });
 
 function handleMouseMove(event) {
@@ -156,7 +166,7 @@ extraPar =
   ];
 
 function circle(t) {
-  const radius = (speed===10) ? 2.5 : Math.sin(t);
+  const radius = (speed===10) ? 0 : (start_explosion===1) ? 3 : Math.sin(t);
   const y = (speed===10) ? Math.sin(t) * radius :Math.sin(t) * radius - 0.4;
   const x = (speed===10) ? Math.cos(t) * radius : Math.cos(t) * extraPar * radius;
   return { x, y };

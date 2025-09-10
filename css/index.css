@@ -33,6 +33,7 @@ h3 {
   left:1%;
 }
 
+
 h3 a {
   display:grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
