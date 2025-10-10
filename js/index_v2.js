@@ -550,11 +550,11 @@ setInterval(animateMenuButton, 6000);
 
 
 const skill_descriptions = {
-  "Python": "Data Engineering, Instrument Communication and Data Acquisition, GUI development, Dashboard Creation, Simple Game Dev.",
+  "Python": "Data Engineering, Instrument Communication and Data Acquisition, GUI development, Dashboard Creation, Simple Game Development, Web API management",
   "C": "Coded several problems from scratch, including tree balancing, Djikstra's Algorithm, Sudoku solving, among others.",
   "LaTeX": 'Took notes for classes (alongside a friend), as well as developed several reports and assignments. Check out the repository!',
   "Microsoft":"I love thinking about how I can make PPTX presentations dynamic and visually appealing, so I have some pretty cool presentations. I also have quite a bit of experience using Excel. I have not, however, used Word much since I discovered LaTeX.",
-  "Fusion":"Several designs, like the ones showed on this website. I have also made, and printed casings for PCBs. Finally I know basics of CAM and PCB Design (I have used Autodesk Eagle before).",
+  "Fusion":"Several designs, like the ones showed on this website. I have also made, and printed, casings for PCBs. Finally I know basics of CAM and PCB Design (I have used Autodesk Eagle before).",
   "Onshape":"Like in Fusion360, I made a few Onshape designs, the relevant skillset is similar, but there are some differences in tool utilization.",
   "SysVerilog":"Experience writing modules and testbenches. Made a USB 1.0 communication protocol. Now taking a course to develop a Multicore Processor.",
   "Virtuoso":"Design, Simulation, Layout, Verification of transistor level circuits. Made, simulated, and created the layout for a Manchester Carry Adder and a Wallace Tree Multiplier.",
@@ -567,6 +567,7 @@ const skill_descriptions = {
   "Simulink":"Learned it for circuit simulations. That is, I simulated a 5kVDC, 2km transmission line and its subcomponents. I also designed a PLL inverter in Simulink, with hopes of expanding it into a hybrid inverter simulation.",
   "Javascript":"Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaing a few websites in one of my research teams.",
   "Arduino":"My first embedded language. Can use it's in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
+  "Altium":"Learning PCB design on it now - for a new project I am working on at the Wireless Sensing Lab.",
   "LTSpice":"Once again, I have used this for circuit simulations. These circuits have been mostly composed of linear components. Used it in some of my classes, as well as to help understand what I am doing in my research projects.",
   "Kotlin":"Took a basic course in Kotlin for AppDev, but I don't think I know enough to make an actual app with any use.",
   "AStudio":"Same as Kotlin, learned it for AppDev, but I am not familiar enough to make an app with it.",
