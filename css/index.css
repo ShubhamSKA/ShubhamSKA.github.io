@@ -506,6 +506,16 @@ a.light-mode {
   display: grid;
 }
 
+.verilogProjects {
+  display: flex;
+  justify-content: center;
+}
+
+.verilogProject {
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
 .contactAll {
   background-color: #232323;
   padding-bottom: 2%;
