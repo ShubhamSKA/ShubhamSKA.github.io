@@ -449,12 +449,12 @@ a.light-mode {
   display: grid;
 }
 
-.pythonProjects {
+.pythonProjects, .cadenceProjects, .verilogProjects {
   grid-template-columns: 1fr 1fr;
   grid-gap: 5px;
 }
 
-.pythonAll {
+.pythonAll, .cadenceAll, .verilogAll {
   padding-bottom: 2%;
 }
 
@@ -506,15 +506,6 @@ a.light-mode {
   display: grid;
 }
 
-.verilogProjects, .cadenceProjects {
-  display: flex;
-  justify-content: center;
-}
-
-.verilogProject, .cadenceProject {
-  margin-right: 2%;
-  margin-left: 2%;
-}
 
 .contactAll {
   background-color: #232323;
@@ -618,18 +609,23 @@ div .sendButton {
   align-self: center;
 }
 
-.pythonProjects div a {
+.pythonProjects div a,
+.cadenceProjects div a,
+.verilogProjects div a {
     display: flex;
     flex-direction: column;
     justify-items: center;
 }
 
-.pythonProjects div a img {
+.pythonProjects div a img,
+.cadenceProjects div a img,
+.verilogProjects div a img {
     width:40vw;
     height:30vw;
     justify-self: center;
     margin: 0 auto;
 }
+
 .webDevProjects div a img {
     width:60vw;
     height:auto;
