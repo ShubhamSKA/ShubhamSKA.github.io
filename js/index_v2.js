@@ -173,10 +173,10 @@ function updateColor() {
 setInterval(updateColor, 1000);
 
 const acronymName = [
-  { elementID: "shSub", elementName: "Shubham", elementWord: "Stay" },
-  { elementID: "saSub", elementName: "Saluja", elementWord: "Strong" },
-  { elementID: "kuSub", elementName: "Kumar", elementWord: "Keep" },
-  { elementID: "agSub", elementName: "Agarwal", elementWord: "Advancing" },
+  { elementID: "shSub", elementName: "Shubham", elementWord: "Simulate" },
+  { elementID: "saSub", elementName: "Saluja", elementWord: "Sense" },
+  { elementID: "kuSub", elementName: "Kumar", elementWord: "Know" },
+  { elementID: "agSub", elementName: "Agarwal", elementWord: "Apply" },
 ];
 
 let degrees = 0;
