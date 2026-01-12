@@ -630,6 +630,12 @@ div .sendButton {
   justify-self: center;
   margin: 0 auto;
 }
+.singleProject a video{
+  width: 40vw;
+  height: auto;
+  justify-self: center;
+  margin: 0 auto;
+}
 
 
 
