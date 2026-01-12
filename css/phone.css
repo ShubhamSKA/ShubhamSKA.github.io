@@ -284,7 +284,9 @@ a.light-mode {
 }
 
 .researchProject,
-.jobBechtel {
+.jobBechtel,
+.jobMicron,
+.jobVernalis {
   display: grid;
   grid-template-rows: 1fr 1fr;
   margin-top: 1%;
