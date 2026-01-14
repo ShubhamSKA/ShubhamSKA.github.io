@@ -418,7 +418,6 @@ mailButton.addEventListener("click", function (e) {
     })
     .then(async (response) => {
         if (response.status === 200) {
-            // 4. NOW it is safe to clear the form
              reset2(); 
              console.log("Email sent successfully");
         } else {
