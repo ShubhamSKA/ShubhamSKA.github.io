@@ -378,7 +378,10 @@ mailButton = document.querySelector(".sendButton");
 mailCircle = document.querySelector(".mailCircle");
 let circleColor = 180;
 
-mailButton.addEventListener("click", function () {
+mailButton.addEventListener("click", function (e) {
+  // 1. PREVENT the standard HTML submit so the page doesn't reload
+  e.preventDefault();
+
   let rotation = 0;
   let speed = 2;
   let position = 0;
@@ -387,9 +390,12 @@ mailButton.addEventListener("click", function () {
   const filled = document.querySelectorAll(".contactInput");
   let isFormFilled = true;
 
+  // Check if fields are empty
   filled.forEach(function (element) {
     if (element.value.trim() === "") {
       isFormFilled = false;
+      // Triggers browser validation UI manually since we prevented default
+      element.reportValidity(); 
       return;
     }
   });
@@ -397,8 +403,31 @@ mailButton.addEventListener("click", function () {
   if (!isFormFilled) {
     return;
   }
+
   if (isFormFilled) {
-    reset2();
+    // 2. DO NOT call reset2() here. It deletes the data before we send it.
+    // reset2(); <--- REMOVED
+
+    // 3. SEND THE DATA VIA FETCH
+    const form = document.getElementById("contact-form");
+    const formData = new FormData(form);
+
+    fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+    })
+    .then(async (response) => {
+        if (response.status === 200) {
+            // 4. NOW it is safe to clear the form
+             reset2(); 
+             console.log("Email sent successfully");
+        } else {
+             console.log("Error sending email");
+        }
+    })
+    .catch(error => console.log(error));
+
+    // 5. RUN YOUR ANIMATION
     const rotateInterval = setInterval(function () {
       mailCircle.style.transform = `rotate(${rotation}deg)`;
       rotation += speed;
