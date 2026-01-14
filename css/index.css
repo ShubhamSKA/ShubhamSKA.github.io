@@ -638,7 +638,7 @@ div .sendButton {
 }
 
 .marqueeSlider, 
-.marqueeSlider2 {
+.marqueeSliderArt {
   /* display: flex; */
   display:grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -650,12 +650,12 @@ div .sendButton {
 }
 
 .marqueeSlider .singleProject,
-.marqueeSlider2 .singleProject {
+.marqueeSliderArt .singleProject {
   flex: 0 0 auto;
 }
 
 .marqueeSlider div a img,
-.marqueeSlider2 div a img {
+.marqueeSliderArt div a img {
   width: 600px;
   height: 355px;
 }
