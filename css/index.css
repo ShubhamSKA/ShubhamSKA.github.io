@@ -539,7 +539,7 @@ a.light-mode {
   height: 5rem;
 }
 
-div .sendButton {
+form .sendButton {
   background: none;
   border: none;
 }

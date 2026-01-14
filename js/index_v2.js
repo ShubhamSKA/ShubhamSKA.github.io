@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!isMobileDevice()) {
-    const marqueeContainers = document.querySelectorAll(".marqueeSlider2 .singleProject");
+    const marqueeContainers = document.querySelectorAll(".marqueeSliderArt .singleProject");
     const marqueeWidth = 610;
     const wholeMarqueeWidth = marqueeWidth * marqueeContainers.length;
     let positions = Array.from(marqueeContainers).map(() => ({
