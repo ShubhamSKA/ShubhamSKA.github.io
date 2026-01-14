@@ -505,15 +505,15 @@
       <div class="artAll">
         <div>
           <h5 class="subTitle">
-            <span class="colored">F</span>usion
-            <span class="colored">3</span>60
+            <span class="colored">A</span>rtistic
+            <span class="colored">E</span>xploration
           </h5>
         </div>
-        <div class="artProjects projectType marqueeSlider">
+        <div class="artProjects projectType marqueeSliderArt">
           <div class="artProject singleProject">
             <a href=#>
-              <img src="/img/meliodas_sword.gif" id="textileArt" alt="Teddy Bears flattened and placed on a y-shaped canvas"
-                class="projectImage" loading="lazy" />
+              <img src="/img/meliodas_sword.gif" id="textileArt"
+                alt="Teddy Bears flattened and placed on a y-shaped canvas" class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">F</span>lat
                 <span class="colored">T</span>extile
@@ -522,8 +522,8 @@
           </div>
           <div class="artProject singleProject">
             <a href=#>
-              <img src="/img/merlin_aldan.gif" id="glassArt" alt="Acryilic Paint on Glass"
-                class="projectImage" loading="lazy" />
+              <img src="/img/merlin_aldan.gif" id="glassArt" alt="Acryilic Paint on Glass" class="projectImage"
+                loading="lazy" />
               <p class="projectSub">
                 <span class="colored">A</span>cryilic on
                 <span class="colored">G</span>lass
@@ -532,8 +532,8 @@
           </div>
           <div class="artProject singleProject">
             <a href=#>
-              <img src="/img/escanor_axe.gif" id="plasticineArt" alt="Album art made from Plasticine" class="projectImage"
-                loading="lazy" />
+              <img src="/img/escanor_axe.gif" id="plasticineArt" alt="Album art made from Plasticine"
+                class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">P</span>lasticine
               </p>
@@ -541,8 +541,8 @@
           </div>
           <div class="artProject singleProject">
             <a href=#>
-              <img src="/img/diane_hammer.gif" id="evaArt" alt="Boba drink made using EVA Foam"
-                class="projectImage" loading="lazy" />
+              <img src="/img/diane_hammer.gif" id="evaArt" alt="Boba drink made using EVA Foam" class="projectImage"
+                loading="lazy" />
               <p class="projectSub">
                 <span class="colored">EVA</span>
                 <span class="colored">F</span>oam
@@ -551,8 +551,7 @@
           </div>
           <div class="artProject singleProject">
             <a href=#>
-              <img src="/img/ban_nunchuck.gif" id="clayArt" alt="Clay fighter jet"
-                class="projectImage" />
+              <img src="/img/ban_nunchuck.gif" id="clayArt" alt="Clay fighter jet" class="projectImage" />
               <p class="projectSub">
                 <span class="colored">C</span>lay
               </p>
@@ -755,14 +754,19 @@
         </h6>
       </div>
       <div class="formDiv">
-        <form class="contactForm" name="contact-form" action="https://api.web3forms.com/submit" method="POST"
-          id="contact-form">
+        <form class="contactForm" action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+
           <input type="hidden" name="access_key" value="f6e18920-b804-4802-af62-cde9e047f9c0">
+
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
           <label for="name" class="contactFormLabel" id="nameLabel"><span class="colored">N</span>ame:</label><br />
           <input type="text" id="name" name="Name" class="contactInput" placeholder="John Doe" required /><br />
+
           <label for="email" class="contactFormLabel" id="emailLabel"><span class="colored">E</span>mail:</label><br />
-          <input type="text" id="email" name="Email" class="contactInput" placeholder="youremail@email.com"
+          <input type="email" id="email" name="Email" class="contactInput" placeholder="youremail@email.com"
             required /><br />
+
           <label for="message" class="contactFormLabel" id="messageLabel"><span
               class="colored">M</span>essage:</label><br />
           <textarea id="message" name="Message" class="contactInput" required></textarea>
@@ -780,9 +784,9 @@
       </div>
     </div>
   </div>
-  
-  
-  
+
+
+
   <footer>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
