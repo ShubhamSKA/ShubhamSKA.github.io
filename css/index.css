@@ -637,7 +637,8 @@ div .sendButton {
   display: none;
 }
 
-.marqueeSlider {
+.marqueeSlider, 
+.marqueeSlider2 {
   /* display: flex; */
   display:grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -648,11 +649,13 @@ div .sendButton {
   overflow-x: hidden;
 }
 
-.marqueeSlider .singleProject {
+.marqueeSlider .singleProject,
+.marqueeSlider2 .singleProject {
   flex: 0 0 auto;
 }
 
-.marqueeSlider div a img {
+.marqueeSlider div a img,
+.marqueeSlider2 div a img {
   width: 600px;
   height: 355px;
 }
