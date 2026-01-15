@@ -480,6 +480,7 @@ function reset2() {
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!isMobileDevice()) {
+    const sliderContainer = document.querySelector(".marqueeSlider");
     const marqueeContainers = document.querySelectorAll(
       ".marqueeSlider .singleProject"
     );
@@ -489,9 +490,19 @@ document.addEventListener("DOMContentLoaded", () => {
       displacement: 0,
     }));
 
+    let speed = 0.005;
+
+    // Hover listeners
+    sliderContainer.addEventListener("mouseenter", () => {
+      speed = 0.002; // Slow down
+    });
+    sliderContainer.addEventListener("mouseleave", () => {
+      speed = 0.005; // Resume normal speed
+    });
+
     function animateMarquee() {
       marqueeContainers.forEach((container, index) => {
-        positions[index].displacement -= marqueeWidth * 0.005;
+        positions[index].displacement -= marqueeWidth * speed;
         if (positions[index].displacement < -marqueeWidth * (index + 1)) {
           positions[index].displacement += wholeMarqueeWidth;
         }
@@ -507,6 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!isMobileDevice()) {
+    const sliderContainer = document.querySelector(".marqueeSliderArt");
     const marqueeContainers = document.querySelectorAll(
       ".marqueeSliderArt .singleProject"
     );
@@ -515,22 +527,26 @@ document.addEventListener("DOMContentLoaded", () => {
     let positions = Array.from(marqueeContainers).map(() => ({
       displacement: 0,
     }));
+    let speed2 = 0.005;
+
+    // Hover listeners
+    sliderContainer.addEventListener("mouseenter", () => {
+      speed2 = 0.002; // Slow down
+    });
+    sliderContainer.addEventListener("mouseleave", () => {
+      speed2 = 0.005; // Resume normal speed
+    });
 
     function animateMarquee() {
       marqueeContainers.forEach((container, index) => {
-        positions[index].displacement += marqueeWidth * 0.005;
+        positions[index].displacement += marqueeWidth * speed2;
 
-        // CORRECTED LOGIC:
-        // We calculate the boundary relative to the total width.
-        // Or simpler: Check if the PHYSICAL position (Start + Disp) exceeds the width.
         const effectivePosition =
           (index+1) * marqueeWidth + positions[index].displacement;
 
-        // If the item has moved completely off the right edge (assuming container width approx wholeMarqueeWidth)
         if (effectivePosition > wholeMarqueeWidth) {
           positions[index].displacement -= wholeMarqueeWidth;
         }
-
         container.style.transform = `translateX(${positions[index].displacement}px)`;
       });
 
