@@ -658,6 +658,7 @@ div .sendButton {
 .marqueeSliderArt div a img {
   width: 600px;
   height: 355px;
+  background: none;
 }
 
 #shSub,
