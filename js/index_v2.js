@@ -1,22 +1,6 @@
 document.documentElement.style.cursor = "none";
 console.log(navigator.userAgentData);
 
-function loadingPage() {
-  const loadingBackground = document.querySelector(".loadingPage");
-  let opacityLoadingBackground = 1;
-
-  const opacityInterval = setInterval(function () {
-    opacityLoadingBackground -= 0.1;
-    loadingBackground.style.opacity = opacityLoadingBackground;
-
-    if (opacityLoadingBackground <= 0) {
-      clearInterval(opacityInterval);
-      loadingBackground.style.visibility = "hidden";
-      loadingBackground.style.display = "none";
-    }
-  }, 10);
-}
-
 function isMobileDevice() {
   let a;
   console.log(a);
