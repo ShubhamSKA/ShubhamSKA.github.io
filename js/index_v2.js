@@ -130,23 +130,41 @@ function handleScrollEvent(element) {
 nameElements.forEach(handleScrollEvent);
 
 let colorTimer = 0;
+let lightnessOffset = 0;
 
 function updateColor() {
   const currentTime = new Date();
   colorTimer = (currentTime.getMinutes() * 60 + currentTime.getSeconds()) % 360;
+  const LightnessLowerBound = 210;
+  const LightnessRange = 120;
+  lightnessOffset =
+    colorTimer > LightnessLowerBound &&
+    colorTimer < LightnessLowerBound + LightnessRange
+      ? 16 *
+        20 *
+        ((colorTimer - LightnessLowerBound) / LightnessRange) *
+        ((colorTimer - LightnessLowerBound) / LightnessRange) *
+        (1 - (colorTimer - LightnessLowerBound) / LightnessRange) *
+        (1 - (colorTimer - LightnessLowerBound) / LightnessRange)
+      : 0;
   const coloredElements = document.querySelectorAll("span.colored");
   const letters = document.querySelectorAll("h3 div");
   const formBackgrounds = document.querySelectorAll(".contactInput");
   const resume = document.querySelectorAll(".resume");
+
   coloredElements.forEach(function (element) {
-    element.style.color = `hsl(${colorTimer}, 100%, 50%)`;
+    element.style.color = `hsl(${colorTimer}, 100%, ${50 + lightnessOffset}%)`;
   });
   resume.forEach(function (element) {
-    element.style.borderColor = `hsl(${colorTimer}, 100%, 40%)`;
-    element.style.backgroundColor = `hsl(${colorTimer}, 100%, 40%)`;
+    element.style.borderColor = `hsl(${colorTimer}, 100%, ${
+      40 + lightnessOffset
+    }%)`;
+    element.style.backgroundColor = `hsl(${colorTimer}, 100%, ${
+      40 + lightnessOffset
+    }%)`;
   });
   letters.forEach(function (element) {
-    element.style.color = `hsl(${colorTimer}, 100%, 50%)`;
+    element.style.color = `hsl(${colorTimer}, 100%, ${50 + lightnessOffset}%)`;
   });
   formBackgrounds.forEach(function (element) {
     element.style.backgroundColor = `hsl(${colorTimer}, 100%, 90%)`;
@@ -379,7 +397,7 @@ mailButton.addEventListener("click", function (e) {
     if (element.value.trim() === "") {
       isFormFilled = false;
       // Triggers browser validation UI manually since we prevented default
-      element.reportValidity(); 
+      element.reportValidity();
       return;
     }
   });
@@ -397,18 +415,18 @@ mailButton.addEventListener("click", function (e) {
     const formData = new FormData(form);
 
     fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData
+      method: "POST",
+      body: formData,
     })
-    .then(async (response) => {
+      .then(async (response) => {
         if (response.status === 200) {
-             reset2(); 
-             console.log("Email sent successfully");
+          reset2();
+          console.log("Email sent successfully");
         } else {
-             console.log("Error sending email");
+          console.log("Error sending email");
         }
-    })
-    .catch(error => console.log(error));
+      })
+      .catch((error) => console.log(error));
 
     // 5. RUN YOUR ANIMATION
     const rotateInterval = setInterval(function () {
@@ -526,7 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
         positions[index].displacement += marqueeWidth * speed2;
 
         const effectivePosition =
-          (index+1) * marqueeWidth + positions[index].displacement;
+          (index + 1) * marqueeWidth + positions[index].displacement;
 
         if (effectivePosition > wholeMarqueeWidth) {
           positions[index].displacement -= wholeMarqueeWidth;
