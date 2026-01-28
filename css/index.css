@@ -659,6 +659,7 @@ div .sendButton {
   width: 600px;
   height: 355px;
   background: none;
+  object-fit: contain;
 }
 
 #shSub,
