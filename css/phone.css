@@ -287,10 +287,14 @@ a.light-mode {
 .jobBechtel,
 .jobMicron,
 .jobVernalis {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
   margin-top: 1%;
   align-items: center;
+}
+
+.researchDescriptionDiv,
+.jobDescription {
+  order:1;
 }
 
 #HVPSDiv {
@@ -627,9 +631,10 @@ div .sendButton {
 .singleProject div a img,
 .singleProject a img {
   width: 90vw;
-  height: auto;
+  max-height: 200px;
   justify-self: center;
   margin: 0 auto;
+  object-fit: contain;
 }
 .singleProject a video{
   width: 90vw;
