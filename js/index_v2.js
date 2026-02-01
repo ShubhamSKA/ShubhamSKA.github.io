@@ -487,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ".marqueeSlider .singleProject"
     );
     sliderContainer.style.gridTemplateColumns = `repeat(${marqueeContainers.length}, 1fr)`;
-    const marqueeWidth = 610;
+    const marqueeWidth = 620;
     const wholeMarqueeWidth = marqueeWidth * marqueeContainers.length;
     let positions = Array.from(marqueeContainers).map(() => ({
       displacement: 0,
@@ -526,7 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ".marqueeSliderArt .singleProject"
     );
     sliderContainer.style.gridTemplateColumns = `repeat(${marqueeContainers.length}, 1fr)`;
-    const marqueeWidth = 610;
+    const marqueeWidth = 620;
     const wholeMarqueeWidth = marqueeWidth * marqueeContainers.length;
     let positions = Array.from(marqueeContainers).map(() => ({
       displacement: 0,
