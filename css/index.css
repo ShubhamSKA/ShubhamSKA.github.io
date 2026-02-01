@@ -657,7 +657,7 @@ div .sendButton {
 .marqueeSlider div a img,
 .marqueeSliderArt div a img {
   width: 600px;
-  height: 355px;
+  max-height: 355px;
   background: none;
   object-fit: contain;
 }
