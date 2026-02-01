@@ -648,13 +648,17 @@ div .sendButton {
 .fusionAll {
   overflow-x: hidden;
 }
-
 .marqueeSlider .singleProject,
 .marqueeSliderArt .singleProject {
   flex: 0 0 auto;
+  margin-right: 10px;
 }
 
-.marqueeSlider div a img,
+.marqueeSlider div a img {
+  width: 600px;
+  height: 355px;
+  background: none;
+}
 .marqueeSliderArt div a img {
   width: 600px;
   max-height: 355px;
