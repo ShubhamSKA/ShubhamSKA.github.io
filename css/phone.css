@@ -288,6 +288,7 @@ a.light-mode {
 .jobMicron,
 .jobVernalis {
   display: flex;
+  flex-direction: column;
   margin-top: 1%;
   align-items: center;
 }
@@ -656,7 +657,7 @@ div .sendButton {
   align-self: center;
   justify-self: center;
   width: 90%;
-  margin-bottom: 1%;
+  margin-bottom: 3%;
 }
 
 .marqueeSlider div a img {
