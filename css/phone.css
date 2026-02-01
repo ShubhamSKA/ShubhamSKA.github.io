@@ -647,20 +647,23 @@ div .sendButton {
 
 
 
-.marqueeSlider {
+.marqueeSlider,
+.marqueeSliderArt {
   display: flex;
   flex-direction: column;
   white-space: nowrap;
 }
 
-.marqueeSlider .singleProject {
+.marqueeSlider .singleProject,
+.marqueeSliderArt .singleProject{
   align-self: center;
   justify-self: center;
   width: 90%;
   margin-bottom: 3%;
 }
 
-.marqueeSlider div a img {
+.marqueeSlider div a img, 
+.marqueeSliderArt div a img {
   align-self: center;
   justify-self: center;
   width: 100%;
