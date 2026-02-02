@@ -632,7 +632,6 @@ div .sendButton {
 .singleProject div a img,
 .singleProject a img {
   width: 90vw;
-  max-height: 200px;
   justify-self: center;
   margin: 0 auto;
   object-fit: contain;
@@ -643,8 +642,6 @@ div .sendButton {
   justify-self: center;
   margin: 0 auto;
 }
-
-
 
 
 .marqueeSlider,
