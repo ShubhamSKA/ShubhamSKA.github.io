@@ -1,4 +1,4 @@
-const canvas = document.querySelector("canvas");
+i const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const body2 = document.querySelector("body");
 body2.style.overflowY = "hidden";
@@ -29,7 +29,7 @@ function handleResize() {
   }px`;
 }
 window.addEventListener("resize", handleResize);
-
+window.addEventListener("load", handleResize); 
 let opacity = 0;
 let overall_opacity = 1;
 let start_explosion = 0;
