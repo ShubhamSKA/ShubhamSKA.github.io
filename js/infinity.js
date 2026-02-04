@@ -5,6 +5,8 @@ body2.style.overflowY = "hidden";
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+let currentCenterX = window.innerWidth / 2;
+let currentCenterY = window.innerHeight / 2;
 
 //ctx.imageSmoothingEnabled = false;
 
@@ -19,8 +21,26 @@ loadButton.style.top = `${
 loadButton.style.left = `${(window.innerWidth - loadButton.offsetWidth) / 2}px`;
 
 function handleResize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const newWidth = window.innerWidth;
+  const newHeight = window.innerHeight;
+  
+  const newCenterX = newWidth / 2;
+  const newCenterY = newHeight / 2;
+
+  const deltaX = newCenterX - currentCenterX;
+  const deltaY = newCenterY - currentCenterY;
+
+  canvas.width = newWidth;
+  canvas.height = newHeight;
+
+  for (let i = 0; i < whiteElements.length; i++) {
+    whiteElements[i].x += deltaX;
+    whiteElements[i].y += deltaY;
+  }
+
+  currentCenterX = newCenterX;
+  currentCenterY = newCenterY;
+
   loadButton.style.top = `${
     (window.innerHeight - loadButton.offsetHeight) / 2
   }px`;
