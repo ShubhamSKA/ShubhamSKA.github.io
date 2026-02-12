@@ -452,12 +452,7 @@ a.light-mode {
   display: grid;
 }
 
-.pythonProjects {
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 5px;
-}
-
-.pythonAll {
+.projectAll {
   padding-bottom: 2%;
 }
 
@@ -611,19 +606,6 @@ div .sendButton {
 .pythonProjects div a {
   display: block;
 }
-
-/* .pythonProjects div a img {
-  width: 90vw;
-  height: auto;
-  margin: 0 auto;
-}
-
-.webDevProjects div a img {
-  width: 90vw;
-  height: auto;
-  justify-self: center;
-  margin: 0 auto;
-} */
 
 .singleProject div a {
   display: block;
