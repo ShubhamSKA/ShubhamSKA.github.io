@@ -449,12 +449,7 @@ a.light-mode {
   display: grid;
 }
 
-.pythonProjects, .cadenceProjects, .verilogProjects {
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 5px;
-}
-
-.pythonAll, .cadenceAll, .verilogAll {
+.pythonAll, .cadenceAll, .verilogAll, .opticAll {
   padding-bottom: 2%;
 }
 
@@ -502,8 +497,8 @@ a.light-mode {
   height: 100%;
 }
 
-.webDevProjects {
-  display: grid;
+#couplerImg {
+  object-fit: contain;
 }
 
 
@@ -611,7 +606,9 @@ div .sendButton {
 
 .pythonProjects div a,
 .cadenceProjects div a,
-.verilogProjects div a {
+.verilogProjects div a,
+.opticProjects div a,
+.webDevProjects div a {
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -619,15 +616,18 @@ div .sendButton {
 
 .pythonProjects div a img,
 .cadenceProjects div a img,
-.verilogProjects div a img {
-    width:40vw;
-    height:30vw;
+.verilogProjects div a img,
+.opticProjects div a img {
     justify-self: center;
     margin: 0 auto;
 }
 
+
+.webDevProjects {
+  display: grid;
+}
+
 .webDevProjects div a img {
-    width:60vw;
     height:auto;
     justify-self: center;
     margin: 0 auto;
@@ -639,7 +639,6 @@ div .sendButton {
 
 .marqueeSlider, 
 .marqueeSliderArt {
-  /* display: flex; */
   display:grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   white-space: nowrap;
