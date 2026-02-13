@@ -725,13 +725,13 @@ document.querySelectorAll(".subSkillAll").forEach((container) => {
 });
 
 
-// Select all containers with the class .projectType
+
 const projectContainers = document.querySelectorAll('.projectType');
 
 projectContainers.forEach(container => {
     const numChildren = container.children.length;
 
-    if (numChildren < 5) {
+    if (numChildren < 5 && !isMobileDevice()) {
         container.style.display = 'grid';
         container.style.gridTemplateColumns = `repeat(${numChildren}, 1fr)`;
 
