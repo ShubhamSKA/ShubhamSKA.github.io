@@ -736,39 +736,41 @@ projectContainers.forEach(container => {
         container.style.gridTemplateColumns = `repeat(${numChildren}, 1fr)`;
 
         const dynamicWidth = 120 / (numChildren + 1);
-        const images = container.querySelectorAll('div a img');
         
-        // 1. Set the widths first
-        images.forEach(img => {
-            img.style.width = `${dynamicWidth}vw`;
-            img.style.height = 'auto'; // Ensure aspect ratio is maintained
-            // img.style.display = 'block';
-            // img.style.margin = '0 auto';
+        // Select both images and videos at once
+        const mediaElements = container.querySelectorAll('div a img, div a video');
+        
+        // 1. Set the widths first for both images and videos
+        mediaElements.forEach(media => {
+            media.style.width = `${dynamicWidth}vw`;
+            media.style.height = 'auto'; // Ensure aspect ratio is maintained
+            // media.style.display = 'block';
+            // media.style.margin = '0 auto';
         });
 
         // 2. Wait for the browser to render the new widths before measuring
         requestAnimationFrame(() => {
             let maxHeight = 0;
 
-            // Find the true tallest image at the NEW width
-            images.forEach(img => {
-                const h = img.getBoundingClientRect().height;
-                console.log(h);
+            // Find the true tallest media element at the NEW width
+            mediaElements.forEach(media => {
+                const h = media.getBoundingClientRect().height;
+                // console.log(h);
                 if (h > maxHeight) maxHeight = h;
             });
 
             // 3. Apply margins based on the accurate maxHeight
-            images.forEach(img => {
-                const currentHeight = img.getBoundingClientRect().height;
+            mediaElements.forEach(media => {
+                const currentHeight = media.getBoundingClientRect().height;
                 const diff = (maxHeight - currentHeight) / 2;
                 
                 // Only apply if there's actually a difference
                 if (diff > 1) { 
-                    img.style.marginTop = `${diff}px`;
-                    img.style.marginBottom = `${diff}px`;
+                    media.style.marginTop = `${diff}px`;
+                    media.style.marginBottom = `${diff}px`;
                 } else {
-                    img.style.marginTop = '0px';
-                    img.style.marginBottom = '0px';
+                    media.style.marginTop = '0px';
+                    media.style.marginBottom = '0px';
                 }
             });
         });
