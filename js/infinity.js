@@ -47,8 +47,6 @@ function handleResize() {
 window.addEventListener("resize", handleResize);
 window.addEventListener("load", handleResize); 
 
-let start_explosion = 0;
-
 // Demote the canvas from a full-screen overlay to a faint backdrop. The
 // animation keeps running and keeps reacting to the cursor -- it just stops
 // being the thing you have to get past.
@@ -66,10 +64,6 @@ if (prefersReducedMotion || window.location.hash) {
 } else {
   root.classList.add("intro-active");
   canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
-  setTimeout(function () {
-    speed = 20;
-    start_explosion = 1;
-  }, INTRO_HOLD_MS * 0.5);
   setTimeout(settleIntoBackground, INTRO_HOLD_MS);
   // Never strand a visitor behind the overlay if anything above throws.
   setTimeout(function () {
@@ -179,9 +173,9 @@ extraPar =
   ];
 
 function circle(t) {
-  const radius =(start_explosion===1) ? 3 : Math.sin(t);
-  const y = (speed===10) ? Math.sin(t) * radius :Math.sin(t) * radius - 0.4;
-  const x = (speed===10) ? Math.cos(t) * radius : Math.cos(t) * extraPar * radius;
+  const radius = Math.sin(t);
+  const y = Math.sin(t) * radius - 0.4;
+  const x = Math.cos(t) * extraPar * radius;
   return { x, y };
 }
 function dunno(t) {
@@ -242,7 +236,7 @@ let color = loadTime.getMilliseconds() % 360;
 function moveWhiteElements() {
   color += 0.1;
   t += increment;
-  if ((t > 2) && (speed!==30)) {
+  if (t > 2) {
     t = 0;
   }
 
