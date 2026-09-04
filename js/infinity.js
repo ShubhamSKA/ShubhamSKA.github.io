@@ -1,7 +1,16 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const body2 = document.querySelector("body");
-body2.style.overflowY = "hidden";
+const root = document.documentElement;
+
+// The intro plays as a full-screen overlay, then demotes itself to a faint
+// background layer. Nothing is gated behind a click.
+const INTRO_HOLD_MS = 2000; // how long the overlay stays opaque
+const INTRO_FADE_MS = 900; // how long it takes to sink into the background
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+let introDone = false;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -13,12 +22,6 @@ let currentCenterY = window.innerHeight / 2;
 document.addEventListener("mousemove", handleMouseMove);
 let cursorPosition = { x: 0, y: 0, prevX: 0, prevY: 0 };
 const loadTime = new Date();
-const loadButton = document.querySelector(".loadButton");
-
-loadButton.style.top = `${
-  (window.innerHeight - loadButton.offsetHeight) / 2
-}px`;
-loadButton.style.left = `${(window.innerWidth - loadButton.offsetWidth) / 2}px`;
 
 function handleResize() {
   const newWidth = window.innerWidth;
@@ -40,56 +43,43 @@ function handleResize() {
 
   currentCenterX = newCenterX;
   currentCenterY = newCenterY;
-
-  loadButton.style.top = `${
-    (window.innerHeight - loadButton.offsetHeight) / 2
-  }px`;
-  loadButton.style.left = `${
-    (window.innerWidth - loadButton.offsetWidth) / 2
-  }px`;
 }
 window.addEventListener("resize", handleResize);
 window.addEventListener("load", handleResize); 
 
-let opacity = 0;
-let overall_opacity = 1;
 let start_explosion = 0;
 
-loadButton.addEventListener("click", function () {
-  functionNum = 0;
-  speed = 30;
-  radiusPar = 3;
-  const decreaseOpacityInterval = setInterval(function () {
-    overall_opacity -= 0.005;
-    if (start_explosion===1){
-      canvas.style.opacity = `${overall_opacity}`;
-    }
-    loadButton.style.opacity = `${overall_opacity}`;
-    if (overall_opacity <= 0) {
-      body2.style.overflowY = "auto";
-      clearInterval(decreaseOpacityInterval);
-    }
-  }, 10);
-  
+// Demote the canvas from a full-screen overlay to a faint backdrop. The
+// animation keeps running and keeps reacting to the cursor -- it just stops
+// being the thing you have to get past.
+function settleIntoBackground() {
+  if (introDone) return;
+  introDone = true;
+  canvas.classList.add("canvas--settled");
+  root.classList.remove("intro-active");
+}
+
+if (prefersReducedMotion || window.location.hash) {
+  // Reduced motion, or a deep link straight to a section: skip the intro
+  // entirely rather than making the visitor wait for it.
+  settleIntoBackground();
+} else {
+  root.classList.add("intro-active");
+  canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
   setTimeout(function () {
     speed = 20;
     start_explosion = 1;
-  }, 1000);
-  
+  }, INTRO_HOLD_MS * 0.5);
+  setTimeout(settleIntoBackground, INTRO_HOLD_MS);
+  // Never strand a visitor behind the overlay if anything above throws.
   setTimeout(function () {
-    loadButton.style.pointerEvents = "none"; // disables hover/click
-    loadButton.classList.add("Loaded");
-    loadButton.style.visibility = "hidden";
-    loadButton.style.display = "none";
-    loadButton.style.right = "10000px";
-    opacity = 0;
-    overall_opacity = 0;
-    canvas.style.opacity = 0;
-    canvas.style.display = "none";
-    canvas.height = 0;
-    canvas.width = 0;
-  }, 2000);
-});
+    root.classList.remove("intro-active");
+  }, INTRO_HOLD_MS + INTRO_FADE_MS + 500);
+  // Any deliberate interaction skips the rest of the intro.
+  ["pointerdown", "keydown", "wheel", "touchstart"].forEach(function (evt) {
+    window.addEventListener(evt, settleIntoBackground, { once: true, passive: true });
+  });
+}
 
 function handleMouseMove(event) {
   cursorPosition.prevX = cursorPosition.x;
@@ -258,10 +248,6 @@ function moveWhiteElements() {
 
   if (whiteElements.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (t === 0) {
-      console.log(functionNum);
-      console.log(extraPar);
-    }
     for (let i = 0; i < whiteElements.length; i++) {
       let whiteElement = whiteElements[i];
       let angle = t + i;
@@ -288,51 +274,21 @@ function moveWhiteElements() {
       ctx.fillRect(whiteElement.x, whiteElement.y, 1, 1);
     }
 
-    if (!loadButton.classList.contains("Loaded")) {
+    if (!prefersReducedMotion && !document.hidden) {
       requestAnimationFrame(moveWhiteElements);
+    } else {
+      rafPending = false;
     }
   }
 }
 
+let rafPending = true;
 moveWhiteElements();
 
-let increaseOpacityInterval;
-increaseOpacityInterval = setInterval(function () {
-  const currentTime = new Date();
-  const timeElapsed =
-    currentTime.getMinutes() * 60 +
-    currentTime.getSeconds() -
-    loadTime.getMinutes() * 60 -
-    loadTime.getSeconds();
-  if (
-    timeElapsed > 3 &&
-    !loadButton.classList.contains("Loaded") &&
-    opacity < 1 && overall_opacity === 1
-  ) {
-    opacity += 0.05;
-    loadButton.style.opacity = `${opacity}`;
-    if (opacity >= 1) {
-      clearInterval(increaseOpacityInterval);
-    }
+// Stop burning frames on a backgrounded tab; pick back up on return.
+document.addEventListener("visibilitychange", function () {
+  if (!document.hidden && !prefersReducedMotion && !rafPending) {
+    rafPending = true;
+    moveWhiteElements();
   }
-}, 50);
-
-function hoverEffect(element) {
-  let intervalId; // variable to store the interval ID
-  if (!loadButton.classList.contains("Loaded")) {
-    element.addEventListener("mouseover", function () {
-      intervalId = setInterval(function () {
-        element.style.color = `hsl(${color}, 100%, 75%)`;
-        element.style.borderColor = `hsl(${color}, 100%, 75%)`;
-      }, 10);
-    });
-
-    element.addEventListener("mouseout", function () {
-      clearInterval(intervalId); // Stop the interval when mouse leaves
-      element.style.color = "white";
-      element.style.borderColor = "white";
-    });
-  }
-}
-
-hoverEffect(loadButton);
+});

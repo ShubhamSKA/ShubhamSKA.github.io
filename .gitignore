@@ -1,0 +1,7 @@
+# Saved-page captures ("Save page as") must never land in the repo
+*_files/
+"My Account.html"
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

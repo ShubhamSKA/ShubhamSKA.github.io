@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Roboto", sans-serif;
+      background-color: black;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    :root[data-theme="light"] body { background-color: rgb(240, 240, 240); color: black; }
+
+    h1 { font-size: clamp(3rem, 12vw, 7rem); font-weight: 800; letter-spacing: 0.05em; }
+    .accent { color: hsl(190, 100%, 50%); }
+    p { font-size: 1.2rem; max-width: 42ch; line-height: 1.6; opacity: 0.85; }
+
+    nav { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 0.5rem; }
+    a { color: inherit; text-decoration: none; border-bottom: 2px solid hsl(190, 100%, 50%); padding-bottom: 2px; }
+    a:hover, a:focus-visible { color: hsl(190, 100%, 50%); }
+    :focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+  </style>
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <h1><span class="accent">4</span>0<span class="accent">4</span></h1>
+  <p>That page isn't here. It may have moved, or the link may have been mistyped.</p>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/#workExperience">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#contact">Contact</a>
+  </nav>
+</body>
+
+</html>

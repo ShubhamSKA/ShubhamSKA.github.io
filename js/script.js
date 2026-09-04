@@ -1,9 +1,9 @@
-document.documentElement.style.cursor = "none";
-console.log(navigator.userAgentData);
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
 
 function isMobileDevice() {
   let a;
-  console.log(a);
   if (
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/webOS/i) ||
@@ -17,7 +17,6 @@ function isMobileDevice() {
   } else {
     a = false;
   }
-  console.log(a);
   return a;
 }
 
@@ -27,42 +26,6 @@ if (isMobileDevice()) {
 } else {
   stylesheet.href = "/css/style.css";
 }
-
-let currentFontSize = 1.5;
-let currentMargin = 0;
-let currentDirection = 0;
-let loadingPageSpeed = 4.5;
-function fontIncrease() {
-  const loadingLetters = document.querySelectorAll(".loadingPage div p[id]");
-  if (currentFontSize < 20) {
-    currentFontSize += 0.25;
-  }
-  if (currentFontSize >= 20) {
-    if (currentDirection % 1300 < 650) {
-      currentMargin += loadingPageSpeed;
-      currentDirection += loadingPageSpeed;
-    } else {
-      currentMargin -= loadingPageSpeed;
-      currentDirection += loadingPageSpeed;
-    }
-    loadingLetters.forEach(function (element, index) {
-      if (index % 2 === 0) {
-        element.style.transform = `translateX(${currentMargin}px)`;
-      } else {
-        element.style.transform = `translateX(${-currentMargin}px)`;
-      }
-    });
-  }
-  loadingLetters.forEach(function (element) {
-    element.style.fontSize = `${currentFontSize}rem`;
-  });
-}
-
-setInterval(fontIncrease, 8);
-
-window.addEventListener("load", function () {
-  setTimeout(loadingPage, 3860);
-});
 
 function handleScroll(elementId, letterId, staticMargin, subLetter) {
   const subscript = document.getElementById(subLetter);
@@ -148,7 +111,7 @@ function updateColor() {
         (1 - (colorTimer - LightnessLowerBound) / LightnessRange)
       : 0;
   const coloredElements = document.querySelectorAll("span.colored");
-  const letters = document.querySelectorAll("h3 div");
+  const letters = document.querySelectorAll(".logoLetters a div");
   const formBackgrounds = document.querySelectorAll(".contactInput");
   const resume = document.querySelectorAll(".resume");
 
@@ -199,6 +162,10 @@ function rotateLogo(ID, Name, Word) {
 }
 
 function rotateLogoEvent(element) {
+  if (reducedMotion) {
+    document.getElementById(element.elementID).innerText = element.elementName;
+    return;
+  }
   setInterval(function () {
     rotateLogo(element.elementID, element.elementName, element.elementWord);
   }, 50);
@@ -219,11 +186,7 @@ function hoverEffect(element) {
 
   element.addEventListener("mouseout", function () {
     clearInterval(intervalId); // Stop the interval when mouse leaves
-    if (element.classList.contains("light-mode")) {
-      element.style.color = "black";
-    } else {
-      element.style.color = "white";
-    }
+    element.style.color = ""; // hand the colour back to the stylesheet
   });
 }
 menuItems.forEach(hoverEffect);
@@ -234,7 +197,7 @@ function hoverEffect2(element) {
   let intervalId; // variable to store the interval ID
 
   element.addEventListener("mouseover", function () {
-    if (element.classList.contains("light-mode")) {
+    if (isLightTheme()) {
       intervalId = setInterval(function () {
         element.style.backgroundColor = `hsl(${colorTimer}, 100%, 90%)`;
       }, 100);
@@ -253,128 +216,57 @@ function hoverEffect2(element) {
 
 projectItems.forEach(hoverEffect2);
 
-document
-  .querySelector("a[href='#aboutMe']")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor click behavior
-    document.querySelector(".aboutAll").scrollIntoView({ behavior: "smooth" });
-  });
-
-document
-  .querySelector("a[href='#workExperience']")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor click behavior
-    document.querySelector(".workAll").scrollIntoView({ behavior: "smooth" });
-  });
-
-document
-  .querySelector("a[href='#projects']")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor click behavior
-    document
-      .querySelector(".projectsAll")
-      .scrollIntoView({ behavior: "smooth" });
-  });
-
-document
-  .querySelector("a[href='#skills']")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor click behavior
-    document.querySelector(".skillsAll").scrollIntoView({ behavior: "smooth" });
-  });
-
-document
-  .querySelector("a[href='#contact']")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor click behavior
-    document
-      .querySelector(".contactAll")
-      .scrollIntoView({ behavior: "smooth" });
-  });
-
+// ---- Theme -----------------------------------------------------------------
+// One attribute on <html> drives every colour rule in the stylesheet. Defaults
+// to the visitor's system setting; an explicit choice is remembered.
+const THEME_KEY = "ska-theme";
 const modeToggle = document.getElementById("modeToggle");
-const allLinks = document.querySelectorAll("a");
-const allSubtitles = document.querySelectorAll(".subTitle");
-const singleProjects = document.querySelectorAll(".singleProject");
-const aboutMe = document.querySelector(".aboutMe");
-const allTitleDivs = document.querySelectorAll(".titleDiv");
-const menuRectangle = document.querySelector(".menu-block");
-const menuItemsAll = document.querySelectorAll(".menu-item");
 const modeImage = document.getElementById("modeImage");
-const tableBody = document.querySelectorAll(".skillsBody tr td");
-const tableHeader = document.querySelectorAll(".skillsHeader tr th");
-const contactMain = document.querySelector(".contactAll");
-const linksToMe = document.querySelectorAll(".linksToMe");
-const gitImage = document.querySelectorAll(".gitImage");
-const cursorLight = document.querySelector(".cursor");
-const cursorDot = document.querySelector(".cursorCenter");
-const lightMenuButton = document.querySelector(".menuButton");
-const buttonLine = document.querySelectorAll(".line");
-const phoneMenu = document.querySelector(".menu");
-const menuHeader = document.querySelector(".menu-header");
-const skillOverlay = document.querySelectorAll(".skillOverlay");
-const body = document.body;
+
+function storedTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY);
+  } catch (e) {
+    return null;
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const light = theme === "light";
+  modeToggle.setAttribute("aria-pressed", light ? "true" : "false");
+  modeToggle.title = light ? "Switch to dark mode" : "Switch to light mode";
+  modeImage.src = light ? "/img/dark_mode.png" : "/img/sun_white.png";
+  document.querySelectorAll(".gitImage").forEach(function (element) {
+    element.src = light ? "/img/github-mark.png" : "/img/github-mark-white.png";
+  });
+}
+
+const systemLight = window.matchMedia("(prefers-color-scheme: light)");
+applyTheme(storedTheme() || (systemLight.matches ? "light" : "dark"));
+
+systemLight.addEventListener("change", function (event) {
+  if (!storedTheme()) {
+    applyTheme(event.matches ? "light" : "dark");
+  }
+});
 
 modeToggle.addEventListener("click", function () {
-  body.classList.toggle("light-mode");
-  aboutMe.classList.toggle("light-mode");
-  menuRectangle.classList.toggle("light-mode");
-  modeImage.classList.toggle("light-mode");
-  contactMain.classList.toggle("light-mode");
-  cursorLight.classList.toggle("light-mode");
-  cursorDot.classList.toggle("light-mode");
-  lightMenuButton.classList.toggle("light-mode");
-  phoneMenu.classList.toggle("light-mode");
-  menuHeader.classList.toggle("light-mode");
-  if (modeImage.classList.contains("light-mode")) {
-    modeImage.src = "/img/dark_mode.png";
-  } else {
-    modeImage.src = "/img/sun_white.png";
+  const next =
+    document.documentElement.getAttribute("data-theme") === "light"
+      ? "dark"
+      : "light";
+  applyTheme(next);
+  try {
+    localStorage.setItem(THEME_KEY, next);
+  } catch (e) {
+    /* private browsing: the choice just won't survive a reload */
   }
-  gitImage.forEach(function (element) {
-    element.classList.toggle("light-mode");
-    if (element.classList.contains("light-mode")) {
-      element.src = "img/github-mark.png";
-    } else {
-      element.src = "img/github-mark-white.png";
-    }
-  });
-  allLinks.forEach(function (element) {
-    element.classList.toggle("light-mode");
-    if (element.classList.contains("light-mode")) {
-      element.style.color = "black";
-    } else {
-      element.style.color = "";
-    }
-  });
-  singleProjects.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  skillOverlay.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  linksToMe.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  allSubtitles.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  buttonLine.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  allTitleDivs.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  menuItemsAll.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  tableHeader.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
-  tableBody.forEach(function (element) {
-    element.classList.toggle("light-mode");
-  });
 });
+
+function isLightTheme() {
+  return document.documentElement.getAttribute("data-theme") === "light";
+}
 
 mailButton = document.querySelector(".sendButton");
 mailCircle = document.querySelector(".mailCircle");
@@ -419,14 +311,18 @@ mailButton.addEventListener("click", function (e) {
       body: formData,
     })
       .then(async (response) => {
-        if (response.status === 200) {
-          reset2();
-          console.log("Email sent successfully");
-        } else {
-          console.log("Error sending email");
+        if (response.status !== 200) {
+          throw new Error(`web3forms responded ${response.status}`);
         }
+        reset2();
+        setFormStatus("Thanks -- your message is on its way.");
       })
-      .catch((error) => console.log(error));
+      .catch(function () {
+        setFormStatus(
+          "That didn't send. Please try again, or reach me on LinkedIn.",
+          true
+        );
+      });
 
     // 5. RUN YOUR ANIMATION
     const rotateInterval = setInterval(function () {
@@ -452,6 +348,9 @@ mailButton.addEventListener("click", function (e) {
 
 let cursorCircle = document.querySelector(".cursor");
 cursorCircle.style.pointerEvents = "none";
+if (reducedMotion) {
+  cursorCircle.style.display = "none";
+}
 
 function throttle(callback, delay) {
   let timeoutId;
@@ -480,8 +379,16 @@ function reset2() {
   document.getElementById("contact-form").reset();
 }
 
+// Keeps the address out of the markup -- the form still tells you what happened.
+function setFormStatus(message, isError) {
+  const status = document.getElementById("formStatus");
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle("formStatus--error", Boolean(isError));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  if (!isMobileDevice()) {
+  if (!isMobileDevice() && !reducedMotion) {
     const sliderContainer = document.querySelector(".marqueeSlider");
     const marqueeContainers = document.querySelectorAll(
       ".marqueeSlider .singleProject"
@@ -520,7 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (!isMobileDevice()) {
+  if (!isMobileDevice() && !reducedMotion) {
     const sliderContainer = document.querySelector(".marqueeSliderArt");
     const marqueeContainers = document.querySelectorAll(
       ".marqueeSliderArt .singleProject"
@@ -624,20 +531,17 @@ function animateMenuButton() {
   }, 4000);
 }
 
-// Call the function initially
-animateMenuButton();
-
-// Repeat the function every 5 seconds
-setInterval(animateMenuButton, 6000);
+if (!reducedMotion) {
+  animateMenuButton();
+  setInterval(animateMenuButton, 6000);
+}
 
 const skill_descriptions = {
   Python:
     "Data Engineering, Instrument Communication and Data Acquisition, GUI development, Dashboard Creation, Simple Game Development, Web API management",
-  C: "Coded several problems from scratch, including tree balancing, Djikstra's Algorithm, Sudoku solving, among others.",
+  C: "Coded several problems from scratch, including tree balancing, Dijkstra's Algorithm, Sudoku solving, among others.",
   LaTeX:
     "Took notes for classes (alongside a friend), as well as developed several reports and assignments. Check out the repository!",
-  Microsoft:
-    "I love thinking about how I can make PPTX presentations dynamic and visually appealing, so I have some pretty cool presentations. I also have quite a bit of experience using Excel. I have not, however, used Word much since I discovered LaTeX.",
   Fusion:
     "Several designs, like the ones showed on this website. I have also made, and printed, casings for PCBs. Finally I know basics of CAM and PCB Design (I have used Autodesk Eagle before).",
   Onshape:
@@ -659,7 +563,7 @@ const skill_descriptions = {
   Simulink:
     "Learned it for circuit simulations. That is, I simulated a 5kVDC, 2km transmission line and its subcomponents. I also designed a PLL inverter in Simulink, with hopes of expanding it into a hybrid inverter simulation.",
   Javascript:
-    "Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaing a few websites in one of my research teams.",
+    "Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaining a few websites in one of my research teams.",
   Arduino:
     "My first embedded language. Can use it's in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
   Altium:
@@ -697,13 +601,11 @@ const skill_descriptions = {
     "I have taught people with diverse backgrounds and skills in the Math Olympiad. I have also tutored several people in similar topics.",
   Communication:
     "I can communicate with people from diverse backgrounds and cultures, happily and effectively.",
-  Optimism:
-    "I view life very optimistically, that is, I can find the positives in everything. 'Live and let live' is my motto.",
   PublicSpeaking:
     "I love public speaking, there is something about standing in front of people that just calls to me.",
   Climbing: "I love climbing trees, rocks, and challenges.",
   Dancing:
-    "I am not embarassed to love freestyle dance. I see it as a form of expression.",
+    "I am not embarrassed to love freestyle dance. I see it as a form of expression.",
 };
 
 document.querySelectorAll(".subSkillAll").forEach((container) => {
@@ -755,7 +657,6 @@ projectContainers.forEach(container => {
             // Find the true tallest media element at the NEW width
             mediaElements.forEach(media => {
                 const h = media.getBoundingClientRect().height;
-                // console.log(h);
                 if (h > maxHeight) maxHeight = h;
             });
 

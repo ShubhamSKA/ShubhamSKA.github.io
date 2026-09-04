@@ -1,42 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="dark">
 
 <head>
-  <title>Shubham SKA</title>
-  <link id="stylesheet" rel="stylesheet" href="/css/style.css" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+
+  <title>Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware</title>
+  <meta name="description"
+    content="Computer engineer building wearable sensing hardware: non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, and PCB design." />
+  <meta name="author" content="Shubham Saluja Kumar Agarwal" />
+  <link rel="canonical" href="https://shubhamska.github.io/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Shubham Saluja Kumar Agarwal" />
+  <meta property="og:title" content="Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware" />
+  <meta property="og:description"
+    content="Non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, PCB design, and ML for photonic inverse design." />
+  <meta property="og:url" content="https://shubhamska.github.io/" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Shubham Saluja Kumar Agarwal — wearable sensing hardware and firmware" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware" />
+  <meta name="twitter:description"
+    content="Non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, PCB design, and ML for photonic inverse design." />
+  <meta name="twitter:image" content="https://shubhamska.github.io/img/og-card.png" />
+
+  <link id="stylesheet" rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Runs before first paint so the page never flashes the wrong palette.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) {
+        t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
 </head>
 
 <body>
-  <canvas></canvas>
-  <button class="loadButton">ENTER</button>
+  <canvas aria-hidden="true"></canvas>
   <div class="menu-block"></div>
-  <h2 class="mainName">
+  <h1 class="mainName">
     <div id="Shubham"><span class="colored">S</span>hubham</div>
     <div id="Saluja"><span class="colored">S</span>aluja</div>
     <div id="Kumar"><span class="colored">K</span>umar</div>
     <div id="Agarwal"><span class="colored">A</span>garwal</div>
-  </h2>
+  </h1>
   <div class="logoAll">
-    <h3>
-      <a href="index.html">
+    <div class="logoLetters">
+      <a href="index.html" aria-label="Back to top">
         <div id="ShubhamS">S</div>
         <div id="SalujaS">S</div>
         <div id="KumarK">K</div>
         <div id="AgarwalA">A</div>
       </a>
-    </h3>
-    <h4 class="subLogo">
+    </div>
+    <div class="subLogo" aria-hidden="true">
       <div class="sublogos">
         <div id="shSub">Shubham</div>
         <div id="saSub">Saluja</div>
         <div id="kuSub">Kumar</div>
         <div id="agSub">Agarwal</div>
       </div>
-    </h4>
+    </div>
   </div>
-  <div class="menu">
+  <nav class="menu" aria-label="Section navigation">
     <div class="menu-header">
       <button class="menuButton">
         <div class="line"></div>
@@ -61,55 +98,55 @@
     <div class="menu-item">
       <a href="#contact" id="menuContact"><span class="colored">C</span>ontact&nbsp;<span class="colored">M</span>e</a>
     </div>
-  </div>
-  <div class="aboutAll">
+  </nav>
+  <section class="aboutAll" id="aboutMe">
     <div class="titleDiv">
-      <h4 class="aboutTitle titleClass">
+      <h2 class="aboutTitle titleClass">
         <span class="colored">A</span>bout <span class="colored">M</span>e
-      </h4>
+      </h2>
     </div>
     <div class="aboutContainer">
       <div class="imgContainer">
         <img src="img/comic_typing.PNG" width="100%" alt="Shubham, typing" class="me-image" />
       </div>
       <p class="aboutMe">
-        <span class="colored">Hello!</span> My name is Shubham. I'm a
-        motivated, driven and innovative
-        <span class="colored">Computer Engineer</span> with a degree from Purdue University, and now pursuing an
-        Master's of Engineering from Cornell University. <br />
-        Throughout my academic journey, I have developed a strong interest in
-        various aspects of
-        <span class="colored">technology, innovation, and programming.</span>
-        I am particularly enthusiastic about wearable technologies, firmware
-        development, and human-technology interfaces.
-        However, I am always eager to <span class="colored">explore</span> new
-        technologies and expand my knowledge in these areas.
+        I build the <span class="colored">physical sensing layer</span> for interfaces that adapt to
+        people, instead of asking people to adapt to them &mdash; the wearable hardware, the
+        <span class="colored">firmware</span> that runs on it, and the signal processing that makes its
+        measurements worth trusting.
+        <br /><br />
+        In practice that has meant <span class="colored">non-invasive battery state estimation</span> at the
+        Wireless Sensing Circuits and Systems Lab, <span class="colored">machine learning</span> for photonic
+        inverse design with QuMETA, and an evaluation pipeline still in use at the
+        <span class="colored">Low Power Computer Vision Challenge</span>. I hold a
+        <span class="colored">BS in Computer Engineering</span> from Purdue University and am completing a
+        <span class="colored">Master of Engineering</span> at Cornell University.
       </p>
     </div>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
-        <img src="/img/LI-In-Bug.png" width="50px" loading="lazy" />
+        <img src="/img/LI-In-Bug.png" width="50" height="50" loading="lazy" alt="LinkedIn" />
       </a>
-      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" title="Open Resume">
+      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer" title="Open industry resume (PDF)">
         <div class="resumeDiv">
           <p class="resume">&nbsp;&nbsp;&nbsp;RESUME&nbsp;&nbsp;&nbsp;</p>
         </div>
       </a>
       <a href="https://github.com/ShubhamSKA?tab=repositories" title="GitHub">
-        <img src="/img/github-mark-white.png" width="50px" class="gitImage" loading="lazy" />
+        <img src="/img/github-mark-white.png" width="50" height="50" class="gitImage" loading="lazy" alt="GitHub" />
       </a>
     </div>
-  </div>
-  <div class="workAll">
+  </section>
+  <section class="workAll" id="workExperience">
     <div class="titleDiv">
-      <h4 class="workTitle titleClass">
+      <h2 class="workTitle titleClass">
         <span class="colored">W</span>ork
         <span class="colored">E</span>xperience
-      </h4>
+      </h2>
     </div>
     <div class="workResearchAll">
       <div>
-        <h5 class="subTitle"><span class="colored">R</span>esearch</h5>
+        <h3 class="subTitle"><span class="colored">R</span>esearch</h3>
       </div>
       <div class="researchDisplay">
         <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0">
@@ -118,19 +155,20 @@
               class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                Research at
-                <span class="colored">Wireless Sensing</span> Circuits and
-                Systems Lab in the College of
-                <span class="colored">Electrical and Computer</span>
-                Engineering at <span class="colored">Purdue</span>
-                University, West Lafayette, IN.
+                <span class="colored">Non-invasive battery state-of-charge estimation</span> &mdash; Wireless
+                Sensing Circuits and Systems Lab, Purdue University.
+                <br /><br />
+                <span class="cardLabel">Problem.</span> State of charge cannot be measured directly, and online
+                estimators drift badly while a cell relaxes after load.
                 <br />
-                Creating a method to
-                <span class="colored">non-invasively</span> monitor the
-                <span class="colored">state of charge</span> of a battery with minimal effects of relaxation (<span
-                  class="colored">least</span> out of all existing methods). Aiding the process through code for sensor
-                data reading using a microcontroller, soldering boards, data engineering, and setup <span
-                  class="colored">design</span>.
+                <span class="cardLabel">Built.</span> The sensing chain end to end: acquisition firmware on the
+                microcontroller, the boards it runs on, the measurement setup, and the data pipeline behind it.
+                <br />
+                <span class="cardLabel">Result.</span> Under <span class="colored">0.1% estimation error</span> with
+                roughly <span class="colored">1% relaxation drift</span> &mdash; about
+                <span class="colored">5&times;</span> better than state-of-the-art online estimators.
+                <br />
+                <span class="cardLabel">Artifact.</span> Manuscript in preparation.
                 <br />
                 <br />
                 <span class="date">April 2023-Present</span>
@@ -142,14 +180,17 @@
           <div class="researchProject singleProject">
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                Research with the
-                <span class="colored">NanoML</span> team in the <span class="colored">QuMETA</span> group at Purdue.
-                Working on benchmarking a Thermophotovoltaic Inverse Design <span class="colored">Dataset</span> and
-                <span class="colored"> Machine Learning</span> Models. My
-                current work has been related to
-                running and assessing an Adversarial Autoencoder performance on a new<span class="colored">
-                  dataset</span>, which can then be
-                used in other works.
+                <span class="colored">Benchmarking ML models for thermophotovoltaic inverse design</span> &mdash;
+                NanoML, QuMETA group, Purdue University.
+                <br /><br />
+                <span class="cardLabel">Problem.</span> Inverse-design work needs a dataset and a set of baselines
+                other groups can actually build on, rather than one-off results.
+                <br />
+                <span class="cardLabel">Built.</span> The benchmarking of a thermophotovoltaic inverse-design
+                <span class="colored">dataset</span>, including training and evaluating an
+                <span class="colored">adversarial autoencoder</span> against it.
+                <br />
+                <span class="cardLabel">Status.</span> Ongoing; the benchmark is intended for reuse by later work.
                 <br />
                 <br />
                 <span class="date">March 2025-Present</span>
@@ -164,18 +205,21 @@
               style="padding-top: 15%; padding-bottom: 15%;" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                Research with the
-                <span class="colored">Vertically Integrated Program</span> at Purdue,
-                working with the CVES team, in the
-                <span class="colored">Low Power Computer Vision</span> Committee
-                with the goal of organizing and researching the Low Power Computer Vision <span
-                  class="colored">Challenge</span>.
+                <span class="colored">Evaluation framework for the Low Power Computer Vision Challenge</span>
+                &mdash; Vertically Integrated Program, Purdue University.
+                <br /><br />
+                <span class="cardLabel">Problem.</span> An international challenge needs a submission and scoring
+                pipeline that ranks 3D-reconstruction models fairly under a hard power budget.
                 <br />
-                Using Machine Learning to create an open source
-                <span class="colored">reference solution</span> that participants must surpass to be
-                <span class="colored">qualified</span> in the challenge.
-                Creating a <span class="colored">submission</span> pipeline and <span class="colored"> evaluation
-                </span> model for 3D reconstruction computer vision models.
+                <span class="cardLabel">Built.</span> The submission pipeline and the evaluation model itself, plus an
+                open-source <span class="colored">reference solution</span> entrants must beat to qualify.
+                <br />
+                <span class="cardLabel">Result.</span> The framework was adopted the year after I left and used to
+                judge <span class="colored">59 teams</span> across
+                <span class="colored">516 submitted solutions</span>.
+                <br />
+                <span class="cardLabel">Artifact.</span> <span class="colored">lpcv.ai</span> &mdash; the challenge runs
+                on it.
                 <br />
                 <br />
                 <span class="date">August 2023-May 2024</span>
@@ -214,16 +258,17 @@
     </div>
     <div class="jobAll">
       <div class="titleDiv">
-        <h5 class="subTitle">
+        <h3 class="subTitle">
           <span class="colored">J</span>obs
-          </h4>
+        </h3>
       </div>
       <div class="jobDisplay">
         <a href="https://www.vernalisconsulting.com/">
           <div class="jobVernalis singleProject">
-            <img src="/img/vernalis_img.PNG" width="80%" height="auto" class="jobImage" loading="lazy" />
+            <img src="/img/vernalis_img.PNG" width="80%" height="auto" class="jobImage" loading="lazy"
+              alt="Vernalis Consulting" />
             <p class="jobDescription">
-              <span class="colored">Enginnering Consulting</span> Intern at
+              <span class="colored">Engineering Consulting</span> Intern at
               <span class="colored">Vernalis</span> Consulting.<br />
               Worked on several projects from several domains of engineering. In <span class="colored">software</span>
               engineering, I modified a computer vision neural network to improve accuracy. In <span
@@ -252,14 +297,16 @@
               <br />
               <span class="date">May 2024-August 2024</span>
             </p>
-            <img src="/img/micron_img.PNG" width="80%" height="auto" class="jobImage" loading="lazy" padding="0%" />
+            <img src="/img/micron_img.PNG" width="80%" height="auto" class="jobImage" loading="lazy"
+              alt="Micron Technology" />
           </div>
         </a>
       </div>
       <div class="jobDisplay">
         <a href="https://www.purdue.edu/bidc/capabilities/electronics/">
           <div class="jobBechtel singleProject">
-            <img src="/img/bidc.jpg" width="80%" class="jobImage" loading="lazy" />
+            <img src="/img/bidc.jpg" width="80%" class="jobImage" loading="lazy"
+              alt="The Bechtel Innovation Design Center electronics lab" />
             <p class="jobDescription">
               Peer <span class="colored">Mentor</span> at the
               <span class="colored">Electronics</span> Lab.<br />
@@ -269,7 +316,7 @@
               students with their electronics
               <span class="colored">projects</span>. With <span class="colored">over 200</span> projects across majors
               and experience levels, I have acquired great physical intuition on how to <span
-                class="colored">design</span> and <span class="colored">debug</span> ciruits.
+                class="colored">design</span> and <span class="colored">debug</span> circuits.
               <br />
               <br />
               <span class="date">November 2022-Present</span>
@@ -278,22 +325,22 @@
         </a>
       </div>
     </div>
-  </div>
-  <div class="projectsAll">
+  </section>
+  <section class="projectsAll" id="projects">
     <div class="titleDiv">
-      <h4 class="projTitle titleClass">
+      <h2 class="projTitle titleClass">
         <span class="colored">P</span>rojects
-      </h4>
+      </h2>
     </div>
     <div class="projectDisplay">
       <div class="pythonAll projectAll">
         <div>
-          <h5 class="subTitle"><span class="colored">P</span>ython</h5>
+          <h3 class="subTitle"><span class="colored">P</span>ython</h3>
         </div>
         <div class="pythonProjects projectType">
           <div class="snakeProject singleProject">
             <a href="https://github.com/ShubhamSKA/Games/blob/main/Snake/Snake_v8.py">
-              <img src="/img/snake.gif" id="snakeGame" alt="gif of snake game" class="projectImage" height="448px"
+              <img src="/img/snake.webp" id="snakeGame" alt="gif of snake game" class="projectImage" height="448px"
                 loading="lazy" />
               <p class="projectSub">
                 <span class="colored">S</span>nake Game using
@@ -316,15 +363,15 @@
       </div>
       <div class="embeddedAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">E</span>mbedded
             <span class="colored">S</span>ystems
-          </h5>
+          </h3>
         </div>
         <div class="embeddedProjects projectType">
           <div class="mcuSnakeProject singleProject">
             <a href="#">
-              <video width="600" controls>
+              <video width="600" height="338" controls preload="none">
                 <source src="img/362_Final_Project_-_Group_32.mp4" type="video/mp4">
               </video>
               <p class="projectSub">
@@ -335,8 +382,8 @@
             </a>
           </div>
           <div class="stereoBoy singleProject">
-            <a href="pdf/Spark Poster.pdf" target="_blank">
-              <video width="600" controls>
+            <a href="pdf/Spark Poster.pdf" target="_blank" rel="noopener noreferrer">
+              <video width="600" height="338" controls preload="none">
                 <source src="img/sb_final.mp4" type="video/mp4">
               </video>
               <p class="projectSub">
@@ -351,14 +398,14 @@
       </div>
       <div class="cadenceAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">C</span>adence
             <span class="colored">V</span>irtuoso
-          </h5>
+          </h3>
         </div>
         <div class="cadenceProjects projectType">
           <div class="wallaceTreeProject singleProject">
-            <a href="pdf/ECE45600Project2.pdf" target="_blank">
+            <a href="pdf/ECE45600Project2.pdf" target="_blank" rel="noopener noreferrer">
               <img src="/img/wallace_tree.png" id="wallaceTree"
                 alt="Top-level Diagram and Layout of an 8-bit Wallace-Tree Multiplier" class="projectImage"
                 loading="lazy" />
@@ -371,7 +418,7 @@
             </a>
           </div>
           <div class="manchesterCarryProject singleProject">
-            <a href="pdf/ECE45600Project1.pdf" target="_blank">
+            <a href="pdf/ECE45600Project1.pdf" target="_blank" rel="noopener noreferrer">
               <img src="/img/manchester_adder.png" id="manchesterAdder"
                 alt="Top-level Diagram and Layout of an 8-bit Manchester Carry Adder" class="projectImage"
                 loading="lazy" />
@@ -384,7 +431,7 @@
             </a>
           </div>
           <div class="flashADCProject singleProject">
-            <a href="pdf/ECE40656Project.pdf" target="_blank">
+            <a href="pdf/ECE40656Project.pdf" target="_blank" rel="noopener noreferrer">
               <img src="/img/top_level_flash.png" id="FlashADC" alt="Top-level Diagram of a Low power Dynamic Flash ADC"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
@@ -400,10 +447,10 @@
       </div>
       <div class="verilogAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">S</span>ystem
             <span class="colored">V</span>erilog
-          </h5>
+          </h3>
         </div>
         <div class="verilogProjects projectType">
           <div class="processorProject singleProject">
@@ -433,15 +480,15 @@
       </div>
       <div class="webDevAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">W</span>eb
             <span class="colored">D</span>evelopment
-          </h5>
+          </h3>
         </div>
         <div class="webDevProjects projectType">
           <div class="webProject singleProject">
             <a href="https://github.com/ShubhamSKA/ShubhamSKA.github.io/tree/main">
-              <img src="/img/webpage2.gif" id="webPageGif" alt="gif of web page" class="projectImage" width="800px"
+              <img src="/img/webpage2.webp" id="webPageGif" alt="gif of web page" class="projectImage" width="800px"
                 loading="lazy" />
               <p class="projectSub">
                 <span class="colored">P</span>ersonal
@@ -453,10 +500,10 @@
       </div>
       <div class="opticAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">O</span>ptic
             <span class="colored">S</span>imulation
-          </h5>
+          </h3>
         </div>
         <div class="opticProjects projectType">
           <div class="opticProject singleProject">
@@ -493,15 +540,15 @@
       </div>
       <div class="fusionAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">F</span>usion
             <span class="colored">3</span>60
-          </h5>
+          </h3>
         </div>
         <div class="fusionProjects projectType marqueeSlider">
           <div class="fusionProject singleProject">
             <a href="https://grabcad.com/library/meliodas-blade-1">
-              <img src="/img/meliodas_sword.gif" id="swordCad" alt="Meliodas Sword made in Fusion 360"
+              <img src="/img/meliodas_sword.webp" id="swordCad" alt="Meliodas Sword made in Fusion 360"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">M</span>eliodas'
@@ -511,7 +558,7 @@
           </div>
           <div class="fusionProject singleProject">
             <a href="https://grabcad.com/library/merlin-s-morning-star-aldan-1">
-              <img src="/img/merlin_aldan.gif" id="aldanCad" alt="Merlin's 'staff' Aldan made in Fusion 360"
+              <img src="/img/merlin_aldan.webp" id="aldanCad" alt="Merlin's 'staff' Aldan made in Fusion 360"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">M</span>erlin's
@@ -521,7 +568,7 @@
           </div>
           <div class="fusionProject singleProject">
             <a href="https://grabcad.com/library/escanor-s-axe-1">
-              <img src="/img/escanor_axe.gif" id="axeCad" alt="Escanor's axe made in Fusion 360" class="projectImage"
+              <img src="/img/escanor_axe.webp" id="axeCad" alt="Escanor's axe made in Fusion 360" class="projectImage"
                 loading="lazy" />
               <p class="projectSub">
                 <span class="colored">E</span>scanor's
@@ -531,7 +578,7 @@
           </div>
           <div class="fusionProject singleProject">
             <a href="https://grabcad.com/library/diane-s-hammer-1">
-              <img src="/img/diane_hammer.gif" id="hammerCad" alt="Diane's hammer made in Fusion 360"
+              <img src="/img/diane_hammer.webp" id="hammerCad" alt="Diane's hammer made in Fusion 360"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">D</span>iane's
@@ -541,7 +588,7 @@
           </div>
           <div class="fusionProject singleProject">
             <a href="https://grabcad.com/library/ban-nunchucks-1">
-              <img src="/img/ban_nunchuck.gif" id="nunchucksCad" alt="Ban's nunchucks made in Fusion 360"
+              <img src="/img/ban_nunchuck.webp" id="nunchucksCad" alt="Ban's nunchucks made in Fusion 360"
                 class="projectImage" />
               <p class="projectSub">
                 <span class="colored">B</span>an's
@@ -553,15 +600,15 @@
       </div>
       <div class="artAll projectAll">
         <div>
-          <h5 class="subTitle">
+          <h3 class="subTitle">
             <span class="colored">A</span>rtistic
             <span class="colored">E</span>xploration
-          </h5>
+          </h3>
         </div>
         <div class="artProjects projectType marqueeSliderArt">
           <div class="artProject singleProject">
             <a href=#>
-              <img src="/img/bears.gif" id="textileArt" alt="Teddy Bears flattened and placed on a y-shaped canvas"
+              <img src="/img/bears.webp" id="textileArt" alt="Teddy Bears flattened and placed on a y-shaped canvas"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">F</span>lat
@@ -600,7 +647,7 @@
           </div>
           <div class="artProject singleProject">
             <a href=#>
-              <img src="img/acrylic.gif" id="acrylicArt" alt="Individually Selectable frames of laser engraved acrylic"
+              <img src="img/acrylic.webp" id="acrylicArt" alt="Individually Selectable frames of laser engraved acrylic"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
                 <span class="colored">L</span>ayered
@@ -633,17 +680,17 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="skillsAll">
+  </section>
+  <section class="skillsAll" id="skills">
     <div class="titleDiv">
-      <h4 class="aboutTitle titleClass">
+      <h2 class="aboutTitle titleClass">
         <span class="colored">S</span>kills
-      </h4>
+      </h2>
     </div>
     <div class="skillsDisplay">
       <div class="subSkillAll softwareAll">
         <div>
-          <h5 class="subTitle"><span class="colored">S</span>oftware</h5>
+          <h3 class="subTitle"><span class="colored">S</span>oftware</h3>
         </div>
         <table class="softwareTable skillsTable">
           <thead class="skillsHeader">
@@ -659,9 +706,7 @@
                 <span class="skill" data-skill="Python"><span class="colored">P</span>ython,</span>
                 <span class="skill" data-skill="C"><span class="colored">C</span>,</span>
                 <span class="skill" data-skill="LaTeX"><a href="https://github.com/zkeulr/Notes" target="_blank"
-                    title="Click Me!"><span class="colored">L</span>aTeX,</span></a>
-                <span class="skill" data-skill="Microsoft"><span class="colored">M</span>icrosoft
-                  <span class="colored">O</span>ffice</span>
+                    rel="noopener noreferrer" title="Click Me!"><span class="colored">L</span>aTeX</a></span>
               </td>
             </tr>
             <tr class="intermediateLevel">
@@ -671,7 +716,7 @@
                   <span class="colored">F</span>usion 360, </span>
                 <span class="skill" data-skill="Onshape"><a
                     href="https://cad.onshape.com/documents/32bc4f20865db83648149377/w/382872df3f6f5f74dbeff142/e/faa30504cea2a16765bc6b82?renderMode=0&uiState=68bc56ea01a5c1a58e12c3b2"
-                    target="_blank" title="Click Me!"><span class="colored">O</span>nshape,</span></a>
+                    target="_blank" rel="noopener noreferrer" title="Click Me!"><span class="colored">O</span>nshape,</a></span>
                 <span class="skill" data-skill="SysVerilog"><span class="colored">S</span>ystem<span
                     class="colored">V</span>erilog,</span>
                 <span class="skill" data-skill="Virtuoso"><span class="colored">C</span>adence
@@ -707,7 +752,7 @@
       </div>
       <div class="subSkillAll hardwareAll">
         <div>
-          <h5 class="subTitle"><span class="colored">H</span>ardware</h5>
+          <h3 class="subTitle"><span class="colored">H</span>ardware</h3>
         </div>
         <table class="hardwareTable skillsTable">
           <thead class="skillsHeader">
@@ -733,7 +778,7 @@
                   <span class="colored">T</span>roubleshooting</span>,
                 <span class="skill" data-skill="Design"><span class="colored">D</span>igital <span
                     class="colored">C</span>ircuit
-                  <span class="colored">D</span>esign, </span>
+                  <span class="colored">D</span>esign</span>
               </td>
             </tr>
             <tr class="beginnerLevel">
@@ -750,7 +795,7 @@
       </div>
       <div class="subSkillAll languageAll">
         <div>
-          <h5 class="subTitle"><span class="colored">L</span>anguages</h5>
+          <h3 class="subTitle"><span class="colored">L</span>anguages</h3>
         </div>
         <table class="languageTable skillsTable">
           <thead class="skillsHeader">
@@ -785,7 +830,7 @@
       </div>
       <div class="subSkillAll miscellaneousAll">
         <div>
-          <h5 class="subTitle"><span class="colored">O</span>thers</h5>
+          <h3 class="subTitle"><span class="colored">O</span>thers</h3>
         </div>
         <table class="miscellaneousTable skillsTable">
           <thead class="skillsHeader">
@@ -809,7 +854,6 @@
               <td>
                 <span class="skill" data-skill="Teach"><span class="colored">T</span>eaching</span>,
                 <span class="skill" data-skill="Communication"><span class="colored">C</span>ommunication</span>,
-                <span class="skill" data-skill="Optimism"><span class="colored">O</span>ptimism</span>,
                 <span class="skill" data-skill="PublicSpeaking"><span class="colored">P</span>ublic <span
                     class="colored">S</span>peaking</span>,
                 <span class="skill" data-skill="Climbing"><span class="colored">C</span>limbing</span>,
@@ -821,13 +865,13 @@
         <div class="skillOverlay"></div>
       </div>
     </div>
-  </div>
-  <div class="contactAll">
+  </section>
+  <section class="contactAll" id="contact">
     <div class="contactForm">
       <div>
-        <h6 class="contactTitle">
+        <h2 class="contactTitle">
           <span class="colored">C</span>ontact <span class="colored">M</span>e
-        </h6>
+        </h2>
       </div>
       <div class="formDiv">
         <form class="contactForm" action="https://api.web3forms.com/submit" method="POST" id="contact-form">
@@ -847,6 +891,7 @@
               class="colored">M</span>essage:</label><br />
           <textarea id="message" name="Message" class="contactInput" required></textarea>
         </form>
+        <p class="formStatus" id="formStatus" role="status" aria-live="polite"></p>
         <button form="contact-form" type="submit" class="sendButton" title="Send Message">
           <div class="mailCircle">
             <div class="m-line" id="firstMLine"></div>
@@ -859,31 +904,40 @@
         </button>
       </div>
     </div>
-  </div>
+  </section>
 
 
 
   <footer>
+    <p class="currently">
+      <span class="colored">Currently</span> &mdash; PCB design in Altium for a new project at the Wireless Sensing
+      Circuits and Systems Lab, and benchmarking inverse-design models with NanoML.
+    </p>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
-        <img src="/img/LI-In-Bug.png" width="50px" loading="lazy" />
+        <img src="/img/LI-In-Bug.png" width="50" height="50" loading="lazy" alt="LinkedIn" />
       </a>
-      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" title="Open Resume">
+      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer" title="Open industry resume (PDF)">
         <div class="resumeDiv">
           <p class="resume">&nbsp;&nbsp;&nbsp;RESUME&nbsp;&nbsp;&nbsp;</p>
         </div>
       </a>
       <a href="https://github.com/ShubhamSKA?tab=repositories" title="GitHub">
-        <img src="/img/github-mark-white.png" width="50px" class="gitImage" loading="lazy" />
+        <img src="/img/github-mark-white.png" width="50" height="50" class="gitImage" loading="lazy" alt="GitHub" />
       </a>
     </div>
+    <!-- TODO: drop the academic CV at pdf/CV Shubham Saluja Kumar Agarwal.pdf, then
+         uncomment the link below so readers get the CV as well as the resume.
+    <p class="cvLine">
+      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer">Academic CV (PDF)</a>
+    </p>
+    -->
+    <p class="lastUpdated">Last updated &mdash; September 2026</p>
   </footer>
   <button id="modeToggle" title="Switch Dark Mode">
-    <img src="\img\sun_white.png" height="40px" id="modeImage" loading="lazy" />
+    <img src="/img/sun_white.png" width="40" height="40" id="modeImage" alt="" />
   </button>
-  <div class="cursor">
-    <div class="cursorCenter"></div>
-  </div>
+  <div class="cursor" aria-hidden="true"></div>
 </body>
 <script src="js/infinity.js"></script>
 <script src="js/script.js"></script>

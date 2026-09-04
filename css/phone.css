@@ -15,7 +15,7 @@ body {
   max-width: 100vw;
 }
 
-h2 {
+.mainName {
   font-size: 15vw;
   font-weight: 800;
   margin: 0%;
@@ -25,7 +25,7 @@ h2 {
   overflow: hidden;
 }
 
-h3 {
+.logoLetters {
   font-weight: bolder;
   position: fixed;
   top: 0.5%;
@@ -34,12 +34,12 @@ h3 {
   font-size: 3rem;
 }
 
-h3 a {
+.logoLetters a {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-h4.subLogo {
+.subLogo {
   font-size: 0.5rem;
   visibility: hidden;
   position: fixed;
@@ -54,8 +54,56 @@ a {
 
 canvas {
   position: fixed;
+  inset: 0;
   background-color: black;
   z-index: 300;
+  pointer-events: none;
+}
+
+/* After the intro resolves the canvas keeps animating, but behind everything. */
+canvas.canvas--settled {
+  z-index: -1;
+  background-color: transparent;
+  opacity: 0.3;
+}
+
+:root[data-theme="light"] canvas.canvas--settled {
+  filter: invert(1) saturate(1.5);
+  opacity: 0.35;
+}
+
+/* Scroll is locked only while the intro overlay is up. */
+html.intro-active,
+html.intro-active body {
+  overflow: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  canvas {
+    z-index: -1;
+    background-color: transparent;
+    opacity: 0.25;
+  }
 }
 
 .loadingPage {
@@ -102,22 +150,22 @@ canvas {
   font-size: 5rem;
 }
 
-body.light-mode {
+:root[data-theme="light"] body {
   background-color: rgb(240, 240, 240);
   color: black;
 }
 
-a.light-mode {
+:root[data-theme="light"] a {
   color: black;
 }
 
-.titleDiv.light-mode,
-.aboutMe.light-mode,
-.subTitle.light-mode,
-.singleProject.light-mode,
-.skillsBody tr td.light-mode,
-.skillsHeader tr th.light-mode,
-.linksToMe.light-mode {
+:root[data-theme="light"] .titleDiv,
+:root[data-theme="light"] .aboutMe,
+:root[data-theme="light"] .subTitle,
+:root[data-theme="light"] .singleProject,
+:root[data-theme="light"] .skillsBody tr td,
+:root[data-theme="light"] .skillsHeader tr th,
+:root[data-theme="light"] .linksToMe {
   background-color: rgb(210, 210, 210);
 }
 
@@ -164,7 +212,7 @@ a.light-mode {
   font-size: 3rem;
 } */
 
-.skillsHeader tr th.light-mode {
+:root[data-theme="light"] .skillsHeader tr th {
   border-color: rgb(190, 190, 190);
 }
 
@@ -172,25 +220,9 @@ a.light-mode {
   display: none;
 }
 
-.loadButton {
-  opacity: 0;
-  position: fixed;
-  font-size: 3rem;
-  background: none;
-  border: white 3px double;
-  color: white;
-  border-radius: 4px;
-  z-index: 300;
-  padding: 10px 30px;
-}
-
-.cursor.light-mode {
+:root[data-theme="light"] .cursor {
   border: black 2px double;
 }
-.cursorCenter.light-mode {
-  background-color: black;
-}
-
 .skillsTable {
   width: 100%;
   text-align: center;
@@ -249,7 +281,7 @@ a.light-mode {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.menu-block.light-mode {
+:root[data-theme="light"] .menu-block {
   background: linear-gradient(
     to bottom,
     rgba(240, 240, 240, 1),
@@ -424,18 +456,18 @@ a.light-mode {
   left: 19px;
 }
 
-.menu.light-mode,
-.menuButton.light-mode,
-.menu-header.light-mode {
+:root[data-theme="light"] .menu,
+:root[data-theme="light"] .menuButton,
+:root[data-theme="light"] .menu-header {
   background-color: rgb(240, 240, 240);
 }
 
-.menu-item.light-mode {
+:root[data-theme="light"] .menu-item {
   border-color: rgb(190, 190, 190);
   background-color: rgb(210, 210, 210);
 }
 
-.line.light-mode {
+:root[data-theme="light"] .line {
   background-color: black;
 }
 
@@ -479,8 +511,8 @@ a.light-mode {
   flex: 1;
 }
 
-.gridHeader.light-mode,
-.contactAll.light-mode {
+:root[data-theme="light"] .gridHeader,
+:root[data-theme="light"] .contactAll {
   background-color: rgb(210, 210, 210);
   border-color: rgb(190, 190, 190);
 }
@@ -690,10 +722,45 @@ div .sendButton {
   transition: width 0.3s ease;
 }
 
-.menu-item.light-mode::after {
+:root[data-theme="light"] .menu-item::after {
   background-color: black;
 }
 
 .menu-item:hover::after {
   width: 100%;
+}
+
+.formStatus {
+  min-height: 1.5rem;
+  margin: 0.5rem 3%;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.formStatus--error {
+  color: hsl(0, 90%, 70%);
+}
+
+:root[data-theme="light"] .formStatus--error {
+  color: hsl(0, 75%, 40%);
+}
+
+.cardLabel {
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.currently {
+  text-align: center;
+  font-size: 1.1rem;
+  max-width: 60ch;
+  margin: 2rem auto 0.5rem;
+  line-height: 1.5;
+}
+
+.lastUpdated {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin: 0.5rem 0 2rem;
 }
