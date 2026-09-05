@@ -804,7 +804,8 @@ div .sendButton {
 }
 
 /* ---- Publications and awards ---- */
-.pubsDisplay {
+.pubsAll,
+.awardsAll {
   padding: 0 4%;
 }
 
@@ -875,4 +876,19 @@ div .sendButton {
 /* The logo and menu are fixed, so an anchor jump has to stop short of them. */
 section[id] {
   scroll-margin-top: 6rem;
+}
+
+/* .formDiv is a two-column grid: form on the left, send button on the right.
+   The status line spans both so it cannot displace the button. */
+.formDiv {
+  align-items: center;
+}
+
+.formStatus {
+  grid-column: 1 / -1;
+}
+
+.pubLink + .pubLink,
+.pubVenue + .pubLink {
+  margin-left: 0.6rem;
 }

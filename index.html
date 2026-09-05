@@ -225,7 +225,7 @@
             </div>
           </div>
         </a>
-          <div class="researchProject singleProject researchProject--flip">
+          <div class="researchProject singleProject researchProject--flip" id="research-materials-ml">
             <img src="/img/coming_soon.webp" alt="Machine learning on limited materials datasets - image coming soon" width="80%" class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
@@ -251,7 +251,7 @@
             </div>
           </div>
         <a href="https://engineering.purdue.edu/~shalaev/team.php">
-          <div class="researchProject singleProject">
+          <div class="researchProject singleProject" id="research-photonic">
             <img src="/img/AAE.png" alt="Adversarial autoencoder architecture" width="80%" class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
@@ -359,7 +359,7 @@
           </div>
         </a>
         <a href="https://iopscience.iop.org/article/10.1088/1742-6596/2261/1/012001">
-          <div class="researchProject singleProject">
+          <div class="researchProject singleProject" id="research-hvps">
             <img src="/img/high-voltage-power-supply.PNG" alt="High voltage power supply built from recycled parts" width="80%" class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
@@ -460,44 +460,21 @@
         <span class="colored">P</span>ublications
       </h2>
     </div>
-    <div class="pubsDisplay">
-      <div class="titleDiv">
-        <h3 class="subTitle">
-          <span class="colored">P</span>apers &amp; <span class="colored">T</span>alks
-        </h3>
-      </div>
-      <ol class="pubList">
-        <li class="pubItem">
+    <ol class="pubList">
+      <li class="pubItem">
           <span class="selfName">Kumar Agarwal, S. S.</span>, Iyer, V., et al. <span class="pubTitle">Benchmarking of Generative Models for Photonic Device Design.</span> <span class="pubVenue">Manuscript in progress.</span>
-        </li>
-        <li class="pubItem">
+          <a class="pubLink" href="#research-photonic">See the work</a>
+      </li>
+      <li class="pubItem">
           <span class="selfName">Kumar Agarwal, S. S.</span>, Avalos, F., et al. <span class="pubTitle">Time Agnostic Machine Learning Model for Contaminant Classification and Contaminant Concentration Prediction.</span> <span class="pubVenue">Manuscript in progress.</span>
-        </li>
-        <li class="pubItem">
-          Mirani, A., <span class="selfName">Kumar Agarwal, S. S.</span> (presenter), et al. <span class="pubTitle">Transformer for Video Dehazing.</span> <span class="pubVenue">Poster, Purdue 2024 Spring Research Talk &amp; Poster Conference.</span>
-        </li>
-        <li class="pubItem">
-          <span class="selfName">Kumar Agarwal, S. S.</span> (presenter), Singhal, V., et al. <span class="pubTitle">Low-Power Computer Vision Challenge.</span> <span class="pubVenue">Research talk, Purdue 2023 Fall Research Talk &amp; Poster Conference.</span>
-        </li>
-        <li class="pubItem">
+          <a class="pubLink" href="#research-materials-ml">See the work</a>
+      </li>
+      <li class="pubItem">
           <span class="selfName">Kumar Agarwal, S. S.</span>, Mendoza Enr&iacute;quez, B. U., &amp; Hern&aacute;ndez Rivera, D. (2022). <span class="pubTitle">Device Fabrication from Recycled Electronic Spare Parts: Dip Coating Device and High Voltage Power Supply Adapted for Electrospinning Device.</span> <span class="pubVenue">Journal of Physics: Conference Series, 2261, 012001. ICIEE 2022.</span>
           <a class="pubLink" href="https://doi.org/10.1088/1742-6596/2261/1/012001" target="_blank" rel="noopener noreferrer">DOI</a>
-        </li>
-      </ol>
-      <div class="titleDiv">
-        <h3 class="subTitle">
-          <span class="colored">A</span>wards
-        </h3>
-      </div>
-      <ul class="awardList">
-        <li class="awardItem">Lester B. Knight Scholar, Cornell University, 2026&ndash;2027</li>
-        <li class="awardItem">Best Electrical and Computer Engineering Senior Design Project, 2026 Purdue Spark Challenge</li>
-        <li class="awardItem">J. Bruce Majerus Electrical and Computer Engineering Student Scholar Award, 2025</li>
-        <li class="awardItem">Honorable Mention, Electrical and Computer Engineering Undergraduate Research Awards, 2024</li>
-        <li class="awardItem">Purdue Engineering Student Council Gold Industrial Roundtable Scholarship, 2023</li>
-        <li class="awardItem">Best Presenter, 2022 International Conference on Information and Electronics Engineering</li>
-      </ul>
-    </div>
+          <a class="pubLink" href="#research-hvps">See the work</a>
+      </li>
+    </ol>
   </section>
   <section class="projectsAll" id="projects">
     <div class="titleDiv">
@@ -854,6 +831,19 @@
       </div>
     </div>
   </section>
+  <section class="awardsAll" id="awards">
+    <div class="titleDiv">
+      <h2 class="awardsTitle titleClass">
+        <span class="colored">A</span>wards
+      </h2>
+    </div>
+    <ul class="awardList">
+      <li class="awardItem">Lester B. Knight Scholar, Cornell University, 2026&ndash;2027</li>
+      <li class="awardItem">Best Electrical and Computer Engineering Senior Design Project, 2026 Purdue Spark Challenge</li>
+      <li class="awardItem">J. Bruce Majerus Electrical and Computer Engineering Student Scholar Award, 2025</li>
+      <li class="awardItem">Best Presenter, 2022 International Conference on Information and Electronics Engineering</li>
+    </ul>
+  </section>
   <section class="skillsAll" id="skills">
     <div class="titleDiv">
       <h2 class="aboutTitle titleClass">
@@ -1069,7 +1059,6 @@
               class="colored">M</span>essage:</label><br />
           <textarea id="message" name="Message" class="contactInput" required></textarea>
         </form>
-        <p class="formStatus" id="formStatus" role="status" aria-live="polite"></p>
         <button form="contact-form" type="submit" class="sendButton" title="Send Message">
           <div class="mailCircle">
             <div class="m-line" id="firstMLine"></div>
@@ -1080,6 +1069,7 @@
             <div class="m-line" id="sixthMLine"></div>
           </div>
         </button>
+        <p class="formStatus" id="formStatus" role="status" aria-live="polite"></p>
       </div>
     </div>
   </section>
