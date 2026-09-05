@@ -47,9 +47,7 @@ function handleResize() {
 window.addEventListener("resize", handleResize);
 window.addEventListener("load", handleResize); 
 
-// Demote the canvas from a full-screen overlay to a faint backdrop. The
-// animation keeps running and keeps reacting to the cursor -- it just stops
-// being the thing you have to get past.
+
 function settleIntoBackground() {
   if (introDone) return;
   introDone = true;
@@ -58,18 +56,14 @@ function settleIntoBackground() {
 }
 
 if (prefersReducedMotion || window.location.hash) {
-  // Reduced motion, or a deep link straight to a section: skip the intro
-  // entirely rather than making the visitor wait for it.
   settleIntoBackground();
 } else {
   root.classList.add("intro-active");
   canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
   setTimeout(settleIntoBackground, INTRO_HOLD_MS);
-  // Never strand a visitor behind the overlay if anything above throws.
   setTimeout(function () {
     root.classList.remove("intro-active");
   }, INTRO_HOLD_MS + INTRO_FADE_MS + 500);
-  // Any deliberate interaction skips the rest of the intro.
   ["pointerdown", "keydown", "wheel", "touchstart"].forEach(function (evt) {
     window.addEventListener(evt, settleIntoBackground, { once: true, passive: true });
   });

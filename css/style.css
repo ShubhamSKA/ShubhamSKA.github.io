@@ -62,7 +62,7 @@ canvas {
 canvas.canvas--settled {
   z-index: -1;
   background-color: transparent;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 :root[data-theme="light"] canvas.canvas--settled {
@@ -785,4 +785,94 @@ div .sendButton {
   font-size: 0.9rem;
   opacity: 0.6;
   margin: 0.5rem 0 2rem;
+}
+
+/* Alternate which side the image sits on, DOM order stays image-first so the
+   phone stylesheet can order them uniformly. */
+.researchProject--flip .researchImage {
+  order: 2;
+}
+
+.researchProject--flip .researchDescriptionDiv {
+  order: 1;
+}
+
+.advisor {
+  font-style: italic;
+  opacity: 0.75;
+  font-size: 0.85em;
+}
+
+/* ---- Publications and awards ---- */
+.pubsDisplay {
+  padding: 0 4%;
+}
+
+.pubList,
+.awardList {
+  max-width: 105ch;
+  margin: 1.5rem auto 2.5rem;
+  padding-left: 2.5rem;
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.pubItem,
+.awardItem {
+  margin-bottom: 1.1rem;
+  padding-left: 0.4rem;
+}
+
+.pubItem::marker,
+.awardItem::marker {
+  font-weight: 700;
+}
+
+.selfName {
+  font-weight: 700;
+}
+
+.pubTitle {
+  font-style: italic;
+}
+
+.pubVenue {
+  opacity: 0.75;
+}
+
+.pubLink {
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
+}
+
+/* ---- Project cards ----
+   Every card in a row is the same height, the media stays optically centred,
+   and the caption sits on the bottom edge of the card rather than wherever the
+   image happens to end. The marquee rows are excluded: they scroll sideways. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject {
+  align-self: stretch;
+  justify-self: stretch;
+  display: flex;
+}
+
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Auto margins absorb the spare vertical space, which centres the media and
+   pushes the caption to the bottom. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a > img,
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a > video {
+  margin: auto;
+}
+
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a > .projectSub {
+  margin-bottom: 0;
+}
+
+/* The logo and menu are fixed, so an anchor jump has to stop short of them. */
+section[id] {
+  scroll-margin-top: 6rem;
 }

@@ -538,7 +538,7 @@ if (!reducedMotion) {
 
 const skill_descriptions = {
   Python:
-    "Data Engineering, Instrument Communication and Data Acquisition, GUI development, Dashboard Creation, Simple Game Development, Web API management",
+    "Data engineering, instrument communication and data acquisition, GUI development, dashboard creation, simple game development, and web API management. NumPy and Pandas for analysis; PyTorch and TensorFlow for models.",
   C: "Coded several problems from scratch, including tree balancing, Dijkstra's Algorithm, Sudoku solving, among others.",
   LaTeX:
     "Took notes for classes (alongside a friend), as well as developed several reports and assignments. Check out the repository!",
@@ -567,14 +567,20 @@ const skill_descriptions = {
   Arduino:
     "My first embedded language. Can use it's in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
   Altium:
-    "Learning PCB design on it now - for a new project I am working on at the Wireless Sensing Lab.",
+    "Outlined the circuit architecture and designed the initial PCB prototypes for AirVolt, the wireless voltage-sensing project at the Wireless Sensing Lab.",
+  SQL:
+    "Pulled and joined data from production SQL databases at Micron to build lifespan and life-expectancy analyses for DRAM components.",
+  RISCV:
+    "Coursework and project work on multicore processor design, writing and verifying modules against the RISC-V ISA.",
+  PyTorch:
+    "Trained and evaluated models in both: baseline benchmarks and a VGGNet-based efficiency predictor for photonic inverse design, and a time-agnostic classifier for small materials datasets.",
   LTSpice:
     "Once again, I have used this for circuit simulations. These circuits have been mostly composed of linear components. Used it in some of my classes, as well as to help understand what I am doing in my research projects.",
   Kotlin:
     "Took a basic course in Kotlin for AppDev, but I don't think I know enough to make an actual app with any use.",
   AStudio:
     "Same as Kotlin, learned it for AppDev, but I am not familiar enough to make an app with it.",
-  ML: "Took a Coursera ML course, so I understand the idea behind it. I have also run, and made slight modifications to some models. However, I would not say I can make a model of my own.",
+  ML: "Trained four baseline models to benchmark an inverse-design framework, built a VGGNet-based network that replaces an electromagnetic solver and cuts efficiency evaluation time by over 100x, and trained a time-agnostic model reaching 97% classification accuracy on small materials datasets.",
   THSoldering:
     "Several years of experience with through-hole soldering. Have also taught dozens of people how to solder.",
   SMD: "Less experience than through-hole soldering, but still notable. Some challenges I have faced are: an 0402 RF module with 6 ball pins and recreating a broken trace on a copper PCB with no mask.",
@@ -642,38 +648,12 @@ projectContainers.forEach(container => {
         // Select both images and videos at once
         const mediaElements = container.querySelectorAll('div a img, div a video');
         
-        // 1. Set the widths first for both images and videos
+        // Vertical centring and equal card heights are handled in CSS; this
+        // only has to set the width the media should render at.
         mediaElements.forEach(media => {
             media.style.width = `${dynamicWidth}vw`;
             media.style.height = 'auto'; // Ensure aspect ratio is maintained
-            // media.style.display = 'block';
-            // media.style.margin = '0 auto';
         });
 
-        // 2. Wait for the browser to render the new widths before measuring
-        requestAnimationFrame(() => {
-            let maxHeight = 0;
-
-            // Find the true tallest media element at the NEW width
-            mediaElements.forEach(media => {
-                const h = media.getBoundingClientRect().height;
-                if (h > maxHeight) maxHeight = h;
-            });
-
-            // 3. Apply margins based on the accurate maxHeight
-            mediaElements.forEach(media => {
-                const currentHeight = media.getBoundingClientRect().height;
-                const diff = (maxHeight - currentHeight) / 2;
-                
-                // Only apply if there's actually a difference
-                if (diff > 1) { 
-                    media.style.marginTop = `${diff}px`;
-                    media.style.marginBottom = `${diff}px`;
-                } else {
-                    media.style.marginTop = '0px';
-                    media.style.marginBottom = '0px';
-                }
-            });
-        });
     }
 });

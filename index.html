@@ -7,7 +7,7 @@
 
   <title>Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware</title>
   <meta name="description"
-    content="Computer engineer building wearable sensing hardware: non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, and PCB design." />
+    content="Computer engineer building wearable sensing hardware and firmware: haptic actuators, system-on-fiber circuits, wireless battery sensing, inverse design." />
   <meta name="author" content="Shubham Saluja Kumar Agarwal" />
   <link rel="canonical" href="https://shubhamska.github.io/" />
 
@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="Shubham Saluja Kumar Agarwal" />
   <meta property="og:title" content="Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware" />
   <meta property="og:description"
-    content="Non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, PCB design, and ML for photonic inverse design." />
+    content="Magnetically actuated haptics at Cornell, system-on-fiber circuits at MIT, wireless battery sensing and photonic inverse design at Purdue." />
   <meta property="og:url" content="https://shubhamska.github.io/" />
   <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
   <meta property="og:image:width" content="1200" />
@@ -25,12 +25,11 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware" />
   <meta name="twitter:description"
-    content="Non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, PCB design, and ML for photonic inverse design." />
+    content="Magnetically actuated haptics at Cornell, system-on-fiber circuits at MIT, wireless battery sensing and photonic inverse design at Purdue." />
   <meta name="twitter:image" content="https://shubhamska.github.io/img/og-card.png" />
 
   <link id="stylesheet" rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
   <script>
@@ -90,6 +89,9 @@
         <span class="colored">E</span>xperience</a>
     </div>
     <div class="menu-item">
+      <a href="#publications" id="menuPubs"><span class="colored">P</span>ublications</a>
+    </div>
+    <div class="menu-item">
       <a href="#projects" id="menuProjects"><span class="colored">P</span>rojects</a>
     </div>
     <div class="menu-item">
@@ -115,21 +117,27 @@
         <span class="colored">firmware</span> that runs on it, and the signal processing that makes its
         measurements worth trusting.
         <br /><br />
-        In practice that has meant <span class="colored">non-invasive battery state estimation</span> at the
-        Wireless Sensing Circuits and Systems Lab, <span class="colored">machine learning</span> for photonic
-        inverse design with QuMETA, and an evaluation pipeline still in use at the
-        <span class="colored">Low Power Computer Vision Challenge</span>. I hold a
-        <span class="colored">BS in Computer Engineering</span> from Purdue University and am completing a
-        <span class="colored">Master of Engineering</span> at Cornell University.
+        Right now that means <span class="colored">magnetically actuated haptic displays</span> at Cornell's
+        Versatile Electronic Systems Lab, shape-memory-alloy treatment gloves at the
+        <span class="colored">Hybrid Body Lab</span>, and the next generation of
+        <span class="colored">system-on-fiber</span> circuits with Responsive Environments at the
+        <span class="colored">MIT Media Lab</span>. Before that, wireless battery state estimation and
+        <span class="colored">photonic inverse design</span> at Purdue.
+        <br /><br />
+        I hold a <span class="colored">BS in Computer Engineering</span> from Purdue University
+        (<span class="colored">4.00/4.00</span>, concentrations in Computer Systems and Microelectronics &amp;
+        Semiconductors) and am completing a <span class="colored">Master of Engineering</span> in Electrical and
+        Computer Engineering at Cornell University.
       </p>
     </div>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
         <img src="/img/LI-In-Bug.png" width="50" height="50" loading="lazy" alt="LinkedIn" />
       </a>
-      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer" title="Open industry resume (PDF)">
+      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer"
+        title="Open curriculum vitae (PDF)">
         <div class="resumeDiv">
-          <p class="resume">&nbsp;&nbsp;&nbsp;RESUME&nbsp;&nbsp;&nbsp;</p>
+          <p class="resume">&nbsp;&nbsp;&nbsp;CV&nbsp;&nbsp;&nbsp;</p>
         </div>
       </a>
       <a href="https://github.com/ShubhamSKA?tab=repositories" title="GitHub">
@@ -149,109 +157,229 @@
         <h3 class="subTitle"><span class="colored">R</span>esearch</h3>
       </div>
       <div class="researchDisplay">
-        <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0">
+        <a href="https://vesl.ece.cornell.edu/">
           <div class="researchProject singleProject">
-            <img src="/img/charger-discharger.PNG" alt="battery charger discharger setup" width="80%"
-              class="researchImage" loading="lazy" />
+            <img src="/img/coming_soon.webp" alt="Magnetically actuated haptic displays - image coming soon" width="80%" class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                <span class="colored">Non-invasive battery state-of-charge estimation</span> &mdash; Wireless
-                Sensing Circuits and Systems Lab, Purdue University.
+                <span class="colored">Magnetically Actuated Haptic Displays</span>
+                <br />
+                Versatile Electronic Systems Lab, <span class="colored">Cornell</span> University.
+                <br />
+                <span class="advisor">Advisor: Prof. Amal El-Ghazaly</span>
                 <br /><br />
-                <span class="cardLabel">Problem.</span> State of charge cannot be measured directly, and online
-                estimators drift badly while a cell relaxes after load.
-                <br />
-                <span class="cardLabel">Built.</span> The sensing chain end to end: acquisition firmware on the
-                microcontroller, the boards it runs on, the measurement setup, and the data pipeline behind it.
-                <br />
-                <span class="cardLabel">Result.</span> Under <span class="colored">0.1% estimation error</span> with
-                roughly <span class="colored">1% relaxation drift</span> &mdash; about
-                <span class="colored">5&times;</span> better than state-of-the-art online estimators.
-                <br />
-                <span class="cardLabel">Artifact.</span> Manuscript in preparation.
+                Designing new form factors for a <span class="colored">soft actuator</span> driven by
+                <span class="colored">electro-permanent magnets</span>, so a display can hold a shape without
+                holding a current.
                 <br />
                 <br />
-                <span class="date">April 2023-Present</span>
+                <span class="date">September 2026-Present</span>
               </p>
             </div>
           </div>
         </a>
-        <a href="https://engineering.purdue.edu/~shalaev/team.php">
-          <div class="researchProject singleProject">
+        <a href="https://www.hybridbody.human.cornell.edu/">
+          <div class="researchProject singleProject researchProject--flip">
+            <img src="/img/coming_soon.webp" alt="EdemaFlex treatment glove - image coming soon" width="80%" class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                <span class="colored">Benchmarking ML models for thermophotovoltaic inverse design</span> &mdash;
-                NanoML, QuMETA group, Purdue University.
+                <span class="colored">EdemaFlex &mdash; Hand Edema Treatment Glove</span>
+                <br />
+                Hybrid Body Lab, <span class="colored">Cornell</span> University.
+                <br />
+                <span class="advisor">Advisor: Prof. Cindy Hsin-Liu Kao</span>
                 <br /><br />
-                <span class="cardLabel">Problem.</span> Inverse-design work needs a dataset and a set of baselines
-                other groups can actually build on, rather than one-off results.
+                <span class="cardLabel">Built.</span> Knit gloves actuated by <span class="colored">shape-memory alloy</span> springs
+                for hand-edema treatment, and the interface that generates their design files.
                 <br />
-                <span class="cardLabel">Built.</span> The benchmarking of a thermophotovoltaic inverse-design
-                <span class="colored">dataset</span>, including training and evaluating an
-                <span class="colored">adversarial autoencoder</span> against it.
+                <span class="cardLabel">Why it matters.</span> Compression therapy a patient can put on unaided, rather than one
+                fitted for them.
                 <br />
-                <span class="cardLabel">Status.</span> Ongoing; the benchmark is intended for reuse by later work.
+                <br />
+                <span class="date">August 2026-Present</span>
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="https://www.media.mit.edu/groups/responsive-environments/overview/">
+          <div class="researchProject singleProject">
+            <img src="/img/coming_soon.webp" alt="FiberCircuits system-on-fiber - image coming soon" width="80%" class="researchImage" loading="lazy" />
+            <div class="researchDescriptionDiv">
+              <p class="researchDescription">
+                <span class="colored">FiberCircuits &mdash; System-on-Fiber</span>
+                <br />
+                Responsive Environments, <span class="colored">MIT</span> Media Lab.
+                <br />
+                <span class="advisor">Advisor: Prof. Joseph A. Paradiso</span>
+                <br /><br />
+                <span class="cardLabel">Problem.</span> Electronics woven into fabric stop feeling like fabric once the fiber gets
+                thick enough to notice.
+                <br />
+                <span class="cardLabel">Built.</span> The next FiberCircuits topology, taking the fiber from
+                <span class="colored">1.4&nbsp;mm to under 1&nbsp;mm</span>, with components aimed at
+                <span class="colored">sleep detection</span> and <span class="colored">electrostimulation</span>.
+                <br />
+                <br />
+                <span class="date">May 2026-Present</span>
+              </p>
+            </div>
+          </div>
+        </a>
+          <div class="researchProject singleProject researchProject--flip">
+            <img src="/img/coming_soon.webp" alt="Machine learning on limited materials datasets - image coming soon" width="80%" class="researchImage" loading="lazy" />
+            <div class="researchDescriptionDiv">
+              <p class="researchDescription">
+                <span class="colored">Machine Learning on Limited Materials Datasets</span>
+                <br />
+                Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de <span class="colored">Morelos</span>.
+                <br />
+                <span class="advisor">Advisor: Prof. Vivechana Agarwal</span>
+                <br /><br />
+                <span class="cardLabel">Problem.</span> Materials science datasets are small and sampled at inconsistent times, which is
+                exactly what most models cannot handle.
+                <br />
+                <span class="cardLabel">Built.</span> A <span class="colored">time-agnostic</span> model for small-sample datasets.
+                <br />
+                <span class="cardLabel">Result.</span> <span class="colored">97% accuracy</span> classifying contaminants and
+                <span class="colored">0.061 mean absolute error</span> predicting concentration.
+                <br />
+                <span class="cardLabel">Artifact.</span> Manuscript in progress.
+                <br />
+                <br />
+                <span class="date">May 2026-August 2026</span>
+              </p>
+            </div>
+          </div>
+        <a href="https://engineering.purdue.edu/~shalaev/team.php">
+          <div class="researchProject singleProject">
+            <img src="/img/AAE.png" alt="Adversarial autoencoder architecture" width="80%" class="researchImage" loading="lazy" />
+            <div class="researchDescriptionDiv">
+              <p class="researchDescription">
+                <span class="colored">Inverse Design of Photonic Devices</span>
+                <br />
+                QuMETA NanoML Group, <span class="colored">Purdue</span> University.
+                <br />
+                <span class="advisor">Advisors: Prof. Alexander V. Kildishev, Prof. Alexandra Boltasseva, Prof. Vladimir Shalaev</span>
+                <br /><br />
+                <span class="cardLabel">Problem.</span> Evaluating a candidate photonic structure means running an electromagnetic
+                solver, and that cost is what makes inverse design slow.
+                <br />
+                <span class="cardLabel">Built.</span> A <span class="colored">VGGNet-based</span> network that predicts efficiency directly,
+                plus a curated and validated <span class="colored">metagrating dataset</span> of
+                <span class="colored">10,000+</span> device structures, headed for open source.
+                <br />
+                <span class="cardLabel">Result.</span> Efficiency evaluation <span class="colored">over 100&times; faster</span> with minimal
+                accuracy loss; benchmarks set by training <span class="colored">4 baseline models</span> across two
+                custom datasets.
+                <br />
+                <span class="cardLabel">Artifact.</span> Manuscript in progress.
                 <br />
                 <br />
                 <span class="date">March 2025-Present</span>
               </p>
             </div>
-            <img src="/img/AAE.png" alt="AdversarialAutoEncoder" width="80%" class="researchImage" loading="lazy" />
+          </div>
+        </a>
+        <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0">
+          <div class="researchProject singleProject researchProject--flip">
+            <img src="/img/coming_soon.webp" alt="AirVolt wireless voltage sensing - image coming soon" width="80%" class="researchImage" loading="lazy" />
+            <div class="researchDescriptionDiv">
+              <p class="researchDescription">
+                <span class="colored">AirVolt &mdash; Wireless Voltage Sensing</span>
+                <br />
+                Wireless Sensing Circuits and Systems Lab, <span class="colored">Purdue</span> University.
+                <br />
+                <span class="advisor">Advisor: Prof. Byunghoo Jung</span>
+                <br /><br />
+                <span class="cardLabel">Problem.</span> Measuring high voltage in power plants and on power rails means contact, and
+                contact means a shutdown.
+                <br />
+                <span class="cardLabel">Built.</span> I lead early-stage development: I outlined the
+                <span class="colored">circuit architecture</span> and designed the initial
+                <span class="colored">PCB prototypes</span> in Altium Designer for proof-of-concept testing.
+                <br />
+                <br />
+                <span class="date">August 2025-May 2026</span>
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0">
+          <div class="researchProject singleProject">
+            <img src="/img/charger-discharger.PNG" alt="Battery charger and discharger test setup" width="80%" class="researchImage" loading="lazy" />
+            <div class="researchDescriptionDiv">
+              <p class="researchDescription">
+                <span class="colored">Wireless Battery State-of-Charge Estimation</span>
+                <br />
+                Wireless Sensing Circuits and Systems Lab, <span class="colored">Purdue</span> University.
+                <br />
+                <span class="advisor">Advisor: Prof. Byunghoo Jung</span>
+                <br /><br />
+                <span class="cardLabel">Problem.</span> State of charge cannot be measured directly, and online estimators drift badly
+                while a cell relaxes after load.
+                <br />
+                <span class="cardLabel">Built.</span> A wireless online LiPo charge-detection method, an
+                <span class="colored">STM32</span> frequency counter (30&nbsp;MHz range,
+                <span class="colored">&plusmn;3&nbsp;Hz</span> error) with a Python GUI for live logging, and the
+                acquisition pipelines &mdash; filtering, noise removal, synchronization &mdash; behind the
+                multi-instrument datasets.
+                <br />
+                <span class="cardLabel">Result.</span> Relaxation-induced error under
+                <span class="colored">&plusmn;1%</span>, better than existing state-of-the-art online sensing
+                methods.
+                <br />
+                <br />
+                <span class="date">April 2023-August 2025</span>
+              </p>
+            </div>
           </div>
         </a>
         <a href="https://lpcv.ai/">
-          <div class="researchProject singleProject">
-            <img src="/img/lpcvc.png" alt="LPCVC" width="80%" class="researchImage" loading="lazy"
-              style="padding-top: 15%; padding-bottom: 15%;" />
+          <div class="researchProject singleProject researchProject--flip">
+            <img src="/img/lpcvc.png" alt="Low Power Computer Vision Challenge" width="80%" class="researchImage" loading="lazy" style="padding-top: 15%; padding-bottom: 15%;" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                <span class="colored">Evaluation framework for the Low Power Computer Vision Challenge</span>
-                &mdash; Vertically Integrated Program, Purdue University.
+                <span class="colored">Low Power Computer Vision Challenge 2024</span>
+                <br />
+                Vertically Integrated Projects &mdash; Computer Vision for Embedded Systems, <span class="colored">Purdue</span> University.
+                <br />
+                <span class="advisor">Advisor: Prof. Yung-Hsiang Lu</span>
                 <br /><br />
-                <span class="cardLabel">Problem.</span> An international challenge needs a submission and scoring
-                pipeline that ranks 3D-reconstruction models fairly under a hard power budget.
+                <span class="cardLabel">Problem.</span> An international challenge needs a pipeline that scores
+                <span class="colored">3D reconstruction</span> models fairly under a hard power budget.
                 <br />
-                <span class="cardLabel">Built.</span> The submission pipeline and the evaluation model itself, plus an
-                open-source <span class="colored">reference solution</span> entrants must beat to qualify.
-                <br />
-                <span class="cardLabel">Result.</span> The framework was adopted the year after I left and used to
-                judge <span class="colored">59 teams</span> across
-                <span class="colored">516 submitted solutions</span>.
-                <br />
-                <span class="cardLabel">Artifact.</span> <span class="colored">lpcv.ai</span> &mdash; the challenge runs
-                on it.
+                <span class="cardLabel">Built.</span> The 3D-reconstruction <span class="colored">evaluation pipeline</span> for the 2024
+                challenge, and the benchmarks of open-source models that set the power and accuracy baselines
+                entrants were measured against.
                 <br />
                 <br />
                 <span class="date">August 2023-May 2024</span>
               </p>
             </div>
-
           </div>
         </a>
-
-        <a href="https://iopscience.iop.org/issue/1742-6596/2261/1">
-          <div class="researchProject singleProject" id="HVPSDiv">
+        <a href="https://iopscience.iop.org/article/10.1088/1742-6596/2261/1/012001">
+          <div class="researchProject singleProject">
+            <img src="/img/high-voltage-power-supply.PNG" alt="High voltage power supply built from recycled parts" width="80%" class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                Research at the
-                <span class="colored">Nanomaterials Lab</span> at the
-                Autonomous University of the State of Morelos,
-                <span class="colored">Mexico</span>.
+                <span class="colored">High Voltage Power Supply from Recycled Parts</span>
                 <br />
-                Created a <span class="colored">High Voltage</span> Power
-                Supply using recycled electronic components. This was used to
-                power an <span class="colored">Electrospinning</span> Device,
-                which is still used for research at the lab.
+                Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de <span class="colored">Morelos</span>.
                 <br />
-                <span class="colored">Published</span> a paper in the
-                <span class="colored">ICIEE</span> 2022.
+                <span class="advisor">Advisor: Prof. Vivechana Agarwal</span>
+                <br /><br />
+                <span class="cardLabel">Built.</span> A high-voltage power supply and dip-coating device assembled from
+                <span class="colored">recycled electronic parts</span>, powering an
+                <span class="colored">electrospinning</span> rig still in use at the lab.
+                <br />
+                <span class="cardLabel">Artifact.</span> Published in <span class="colored">J. Phys. Conf. Ser. 2261</span>, 012001
+                (ICIEE 2022); Best Presenter award.
                 <br />
                 <br />
                 <span class="date">July-September 2021</span>
               </p>
             </div>
-            <img src="/img/high-voltage-power-supply.PNG" alt="High voltage power supply" width="80%"
-              class="researchImage" loading="lazy" />
           </div>
         </a>
       </div>
@@ -319,11 +447,56 @@
                 class="colored">design</span> and <span class="colored">debug</span> circuits.
               <br />
               <br />
-              <span class="date">November 2022-Present</span>
+              <span class="date">November 2022-May 2026</span>
             </p>
           </div>
         </a>
       </div>
+    </div>
+  </section>
+  <section class="pubsAll" id="publications">
+    <div class="titleDiv">
+      <h2 class="pubsTitle titleClass">
+        <span class="colored">P</span>ublications
+      </h2>
+    </div>
+    <div class="pubsDisplay">
+      <div class="titleDiv">
+        <h3 class="subTitle">
+          <span class="colored">P</span>apers &amp; <span class="colored">T</span>alks
+        </h3>
+      </div>
+      <ol class="pubList">
+        <li class="pubItem">
+          <span class="selfName">Kumar Agarwal, S. S.</span>, Iyer, V., et al. <span class="pubTitle">Benchmarking of Generative Models for Photonic Device Design.</span> <span class="pubVenue">Manuscript in progress.</span>
+        </li>
+        <li class="pubItem">
+          <span class="selfName">Kumar Agarwal, S. S.</span>, Avalos, F., et al. <span class="pubTitle">Time Agnostic Machine Learning Model for Contaminant Classification and Contaminant Concentration Prediction.</span> <span class="pubVenue">Manuscript in progress.</span>
+        </li>
+        <li class="pubItem">
+          Mirani, A., <span class="selfName">Kumar Agarwal, S. S.</span> (presenter), et al. <span class="pubTitle">Transformer for Video Dehazing.</span> <span class="pubVenue">Poster, Purdue 2024 Spring Research Talk &amp; Poster Conference.</span>
+        </li>
+        <li class="pubItem">
+          <span class="selfName">Kumar Agarwal, S. S.</span> (presenter), Singhal, V., et al. <span class="pubTitle">Low-Power Computer Vision Challenge.</span> <span class="pubVenue">Research talk, Purdue 2023 Fall Research Talk &amp; Poster Conference.</span>
+        </li>
+        <li class="pubItem">
+          <span class="selfName">Kumar Agarwal, S. S.</span>, Mendoza Enr&iacute;quez, B. U., &amp; Hern&aacute;ndez Rivera, D. (2022). <span class="pubTitle">Device Fabrication from Recycled Electronic Spare Parts: Dip Coating Device and High Voltage Power Supply Adapted for Electrospinning Device.</span> <span class="pubVenue">Journal of Physics: Conference Series, 2261, 012001. ICIEE 2022.</span>
+          <a class="pubLink" href="https://doi.org/10.1088/1742-6596/2261/1/012001" target="_blank" rel="noopener noreferrer">DOI</a>
+        </li>
+      </ol>
+      <div class="titleDiv">
+        <h3 class="subTitle">
+          <span class="colored">A</span>wards
+        </h3>
+      </div>
+      <ul class="awardList">
+        <li class="awardItem">Lester B. Knight Scholar, Cornell University, 2026&ndash;2027</li>
+        <li class="awardItem">Best Electrical and Computer Engineering Senior Design Project, 2026 Purdue Spark Challenge</li>
+        <li class="awardItem">J. Bruce Majerus Electrical and Computer Engineering Student Scholar Award, 2025</li>
+        <li class="awardItem">Honorable Mention, Electrical and Computer Engineering Undergraduate Research Awards, 2024</li>
+        <li class="awardItem">Purdue Engineering Student Council Gold Industrial Roundtable Scholarship, 2023</li>
+        <li class="awardItem">Best Presenter, 2022 International Conference on Information and Electronics Engineering</li>
+      </ul>
     </div>
   </section>
   <section class="projectsAll" id="projects">
@@ -727,23 +900,28 @@
                 <span class="skill" data-skill="MATLAB"><span class="colored">M</span>ATLAB,</span>
                 <span class="skill" data-skill="HTML"><span class="colored">H</span>TML,</span>
                 <span class="skill" data-skill="CSS"><span class="colored">C</span>SS,</span>
-                <span class="skill" data-skill="KiCad"><span class="colored">K</span>iCad</span>
+                <span class="skill" data-skill="KiCad"><span class="colored">K</span>iCad,</span>
+                <span class="skill" data-skill="SQL"><span class="colored">S</span>QL,</span>
+                <span class="skill" data-skill="RISCV"><span class="colored">R</span>ISC-<span
+                    class="colored">V</span>,</span>
+                <span class="skill" data-skill="PyTorch"><span class="colored">P</span>yTorch /
+                  <span class="colored">T</span>ensorFlow,</span>
+                <span class="skill" data-skill="Altium"><span class="colored">A</span>ltium
+                  <span class="colored">D</span>esigner,</span>
+                <span class="skill" data-skill="ML"><span class="colored">M</span>achine
+                  <span class="colored">L</span>earning</span>
               </td>
             </tr>
             <tr class="beginnerLevel">
               <td><span class="colored">B</span>eginner</td>
               <td>
-                <span class="skill" data-skill="Altium"><span class="colored">A</span>ltium <span
-                    class="colored">D</span>esigner, </span>
                 <span class="skill" data-skill="Simulink"><span class="colored">S</span>imulink, </span>
                 <span class="skill" data-skill="Javascript"><span class="colored">J</span>avaScript, </span>
                 <span class="skill" data-skill="Arduino"><span class="colored">A</span>rduino, </span>
                 <span class="skill" data-skill="LTSpice"><span class="colored">L</span>TSpice, </span>
                 <span class="skill" data-skill="Kotlin"><span class="colored">K</span>otlin, </span>
                 <span class="skill" data-skill="AStudio"><span class="colored">A</span>ndroid
-                  <span class="colored">S</span>tudio, </span>
-                <span class="skill" data-skill="ML"><span class="colored">M</span>achine
-                  <span class="colored">L</span>earning </span>
+                  <span class="colored">S</span>tudio</span>
               </td>
             </tr>
           </tbody>
@@ -910,28 +1088,22 @@
 
   <footer>
     <p class="currently">
-      <span class="colored">Currently</span> &mdash; PCB design in Altium for a new project at the Wireless Sensing
-      Circuits and Systems Lab, and benchmarking inverse-design models with NanoML.
+      <span class="colored">Currently</span> &mdash; Focusing on <span class="colored">wearable technologies</span> while doing my M.Eng at Cornell. Working with Responsive Environments at MIT Media Lab on <span class="colored">FiberCircuits</span>. Working, as well, with Prof. Cindy Kao on the next version of <span class="colored">EdemaFlex</span>, as well as with Prof. Amal El-Ghazaly on magnetically actuated <span class="colored">haptic displays</span>. 
     </p>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
         <img src="/img/LI-In-Bug.png" width="50" height="50" loading="lazy" alt="LinkedIn" />
       </a>
-      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer" title="Open industry resume (PDF)">
+      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer"
+        title="Open curriculum vitae (PDF)">
         <div class="resumeDiv">
-          <p class="resume">&nbsp;&nbsp;&nbsp;RESUME&nbsp;&nbsp;&nbsp;</p>
+          <p class="resume">&nbsp;&nbsp;&nbsp;CV&nbsp;&nbsp;&nbsp;</p>
         </div>
       </a>
       <a href="https://github.com/ShubhamSKA?tab=repositories" title="GitHub">
         <img src="/img/github-mark-white.png" width="50" height="50" class="gitImage" loading="lazy" alt="GitHub" />
       </a>
     </div>
-    <!-- TODO: drop the academic CV at pdf/CV Shubham Saluja Kumar Agarwal.pdf, then
-         uncomment the link below so readers get the CV as well as the resume.
-    <p class="cvLine">
-      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer">Academic CV (PDF)</a>
-    </p>
-    -->
     <p class="lastUpdated">Last updated &mdash; September 2026</p>
   </footer>
   <button id="modeToggle" title="Switch Dark Mode">

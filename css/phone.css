@@ -330,18 +330,6 @@ html {
   order:1;
 }
 
-#HVPSDiv {
-  grid-template-areas:
-    "pic"
-    "description";
-}
-#HVPSDiv div {
-  grid-area: description;
-}
-#HVPSDiv img {
-  grid-area: pic;
-}
-
 .researchDescription,
 .jobDescription {
   font-size: 1rem;
@@ -763,4 +751,55 @@ div .sendButton {
   font-size: 0.9rem;
   opacity: 0.6;
   margin: 0.5rem 0 2rem;
+}
+
+.advisor {
+  font-style: italic;
+  opacity: 0.75;
+  font-size: 0.85em;
+}
+
+/* ---- Publications and awards ---- */
+.pubsDisplay {
+  padding: 0 4%;
+}
+
+.pubList,
+.awardList {
+  margin: 1rem auto 2rem;
+  padding-left: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.pubItem,
+.awardItem {
+  margin-bottom: 1.1rem;
+  padding-left: 0.4rem;
+}
+
+.pubItem::marker,
+.awardItem::marker {
+  font-weight: 700;
+}
+
+.selfName {
+  font-weight: 700;
+}
+
+.pubTitle {
+  font-style: italic;
+}
+
+.pubVenue {
+  opacity: 0.75;
+}
+
+.pubLink {
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
+}
+
+section[id] {
+  scroll-margin-top: 4rem;
 }
