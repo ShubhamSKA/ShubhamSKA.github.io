@@ -854,12 +854,14 @@ div .sendButton {
   align-self: stretch;
   justify-self: stretch;
   display: flex;
+  flex-direction: column;
 }
 
 .projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a {
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex: 1 1 auto;
 }
 
 /* Auto margins absorb the spare vertical space, which centres the media and
@@ -891,4 +893,34 @@ section[id] {
 .pubLink + .pubLink,
 .pubVenue + .pubLink {
   margin-left: 0.6rem;
+}
+
+/* ---- Learn more ---- */
+.cardActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.learnMore {
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.3rem;
+  border: 2px solid;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.learnMore:hover,
+.learnMore:focus-visible {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .learnMore:hover,
+:root[data-theme="light"] .learnMore:focus-visible {
+  background-color: rgba(0, 0, 0, 0.09);
 }

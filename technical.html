@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Technical Detail &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="Technical write-ups of Shubham Saluja Kumar Agarwal's research projects and the StereoBoy modular audio system." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Technical Detail &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="Technical write-ups of the research projects and the StereoBoy modular audio system." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+    :root {
+      --bg: #000;
+      --panel: #232323;
+      --panel-edge: #343434;
+      --text: #fff;
+      --muted: rgba(255, 255, 255, 0.62);
+      --accent: hsl(190, 100%, 55%);
+    }
+
+    :root[data-theme="light"] {
+      --bg: rgb(240, 240, 240);
+      --panel: rgb(210, 210, 210);
+      --panel-edge: rgb(190, 190, 190);
+      --text: #000;
+      --muted: rgba(0, 0, 0, 0.62);
+      --accent: hsl(198, 100%, 32%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Roboto", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .colored {
+      color: var(--accent);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrap {
+      max-width: 90ch;
+      margin: 0 auto;
+      padding: 0 5vw 6rem;
+    }
+
+    /* ---- masthead ---- */
+    .masthead {
+      padding: 3rem 0 1rem;
+    }
+
+    .backLink {
+      display: inline-block;
+      font-size: 1.05rem;
+      text-decoration: none;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 2px;
+      margin-bottom: 2.5rem;
+    }
+
+    .backLink:hover,
+    .backLink:focus-visible {
+      color: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+
+    .standfirst {
+      margin-top: 1.25rem;
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    /* ---- contents ---- */
+    .contents {
+      margin: 3rem 0 1rem;
+      background-color: var(--panel);
+      border: var(--panel-edge) 4px solid;
+      border-radius: 6px;
+      padding: 1.5rem 1.75rem;
+    }
+
+    .contents h2 {
+      font-size: 1.1rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .contents ol {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: 0.4rem 2rem;
+    }
+
+    .contents a {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .contents a:hover,
+    .contents a:focus-visible {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ---- entries ---- */
+    section[id] {
+      scroll-margin-top: 2rem;
+      margin-top: 4.5rem;
+    }
+
+    section[id] > h2 {
+      font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .meta {
+      margin-top: 0.6rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .meta .sep {
+      opacity: 0.5;
+      margin: 0 0.5rem;
+    }
+
+    .rule {
+      height: 3px;
+      width: 4.5rem;
+      background: var(--accent);
+      margin: 1.25rem 0 1.5rem;
+    }
+
+    section[id] h3 {
+      font-size: 1.15rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 2rem 0 0.75rem;
+    }
+
+    section[id] p {
+      margin-bottom: 1rem;
+      max-width: 72ch;
+    }
+
+    section[id] ul {
+      margin: 0 0 1rem 1.4rem;
+      max-width: 72ch;
+    }
+
+    section[id] li {
+      margin-bottom: 0.45rem;
+    }
+
+    code {
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 0.92em;
+      background: var(--panel);
+      border-radius: 3px;
+      padding: 0.1em 0.35em;
+    }
+
+    .spec {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0 1.5rem;
+      font-size: 1rem;
+    }
+
+    .spec th,
+    .spec td {
+      text-align: left;
+      padding: 0.55rem 0.9rem;
+      border: var(--panel-edge) 2px solid;
+      vertical-align: top;
+    }
+
+    .spec th {
+      background: var(--panel);
+      white-space: nowrap;
+      width: 1%;
+    }
+
+    .tableScroll {
+      overflow-x: auto;
+    }
+
+    .todo {
+      border-left: 4px solid var(--accent);
+      background: var(--panel);
+      padding: 0.85rem 1.1rem;
+      color: var(--muted);
+      font-style: italic;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .toTop {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .toTop:hover,
+    .toTop:focus-visible {
+      color: var(--accent);
+    }
+
+    :focus-visible {
+      outline: 3px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    #themeToggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 50;
+      background: var(--panel);
+      color: var(--text);
+      border: var(--panel-edge) 2px solid;
+      border-radius: 50%;
+      width: 2.75rem;
+      height: 2.75rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) {
+        t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" title="Switch theme" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <header class="masthead">
+      <a class="backLink" href="/">&larr; Back to the main site</a>
+      <h1><span class="colored">T</span>echnical <span class="colored">D</span>etail</h1>
+      <p class="standfirst">
+        Longer write-ups of the research and projects listed on the main site &mdash; the parts that do not
+        fit on a card. Each entry covers what the problem was, what I built, and what came out of it.
+      </p>
+
+      <nav class="contents" aria-label="Contents">
+        <h2>Contents</h2>
+        <ol>
+          <li><a href="#research-haptics">Magnetically Actuated Haptic Displays</a></li>
+          <li><a href="#research-edemaflex">EdemaFlex</a></li>
+          <li><a href="#research-fibercircuits">FiberCircuits</a></li>
+          <li><a href="#research-materials-ml">Machine Learning on Limited Materials Datasets</a></li>
+          <li><a href="#research-photonic">Inverse Design of Photonic Devices</a></li>
+          <li><a href="#research-airvolt">AirVolt</a></li>
+          <li><a href="#research-battery">Wireless Battery State of Charge</a></li>
+          <li><a href="#research-lpcvc">Low Power Computer Vision Challenge</a></li>
+          <li><a href="#research-hvps">High Voltage Power Supply</a></li>
+          <li><a href="#project-mp3">StereoBoy &mdash; Modular MP3 Player</a></li>
+        </ol>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ============================================================= -->
+      <section id="research-haptics">
+        <h2>Magnetically Actuated Haptic Displays</h2>
+        <p class="meta">
+          Versatile Electronic Systems Lab, Cornell University
+          <span class="sep">&middot;</span> Advisor: Prof. Amal El-Ghazaly
+          <span class="sep">&middot;</span> September 2026 &ndash; Present
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          A haptic display has to hold a shape long enough for a finger to read it. Most soft actuators hold
+          their shape only while current keeps flowing, which sets the power budget by how long the display
+          stays up rather than by how often it changes.
+        </p>
+
+        <h3>The approach</h3>
+        <p>
+          Electro-permanent magnets switch between two stable magnetic states with a current pulse and then
+          hold that state with no standing current. Built into a soft actuator, that decouples holding a
+          shape from powering the display.
+        </p>
+        <p>
+          My work is on the actuator's form factor &mdash; the geometries and material stacks that turn the
+          magnetic switching into useful displacement at a scale a fingertip can resolve.
+        </p>
+
+        <p class="todo">To expand: actuator geometries under test, materials, drive electronics, and
+          displacement and force measurements.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-edemaflex">
+        <h2>EdemaFlex &mdash; Hand Edema Treatment Glove</h2>
+        <p class="meta">
+          Hybrid Body Lab, Cornell University
+          <span class="sep">&middot;</span> Advisor: Prof. Cindy Hsin-Liu Kao
+          <span class="sep">&middot;</span> August 2026 &ndash; Present
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          Compression therapy for hand edema generally means a garment fitted and applied by someone else.
+          A patient with reduced hand function is exactly the person least able to put on a tight glove
+          unaided.
+        </p>
+
+        <h3>The approach</h3>
+        <p>
+          EdemaFlex is a knit glove with shape memory alloy springs worked into the structure. The springs
+          contract on heating, so the garment applies its own compression rather than relying on a tight
+          fit, and can be put on slack.
+        </p>
+
+        <h3>My work</h3>
+        <ul>
+          <li>Manufacturing the knit gloves and integrating the shape memory alloy springs.</li>
+          <li>
+            Updating the interface that generates the design files, so a glove's pattern can be produced
+            for a given hand and treatment profile rather than hand-authored each time.
+          </li>
+        </ul>
+
+        <p class="todo">To expand: knit structure and spring routing, actuation and thermal control,
+          pressure measurements, and the design-file generation pipeline.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-fibercircuits">
+        <h2>FiberCircuits &mdash; System-on-Fiber</h2>
+        <p class="meta">
+          Responsive Environments, MIT Media Lab
+          <span class="sep">&middot;</span> Advisor: Prof. Joseph A. Paradiso
+          <span class="sep">&middot;</span> May 2026 &ndash; Present
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          Electronics woven into a textile stop reading as textile once the fiber is thick enough to feel.
+          Width is the constraint that decides whether a sensing fiber can be worn all night without being
+          noticed &mdash; which is the whole point for sleep applications.
+        </p>
+
+        <h3>The approach</h3>
+        <p>
+          I am building the next version of the FiberCircuits topology, taking the fiber from
+          <strong>1.4&nbsp;mm down to under 1&nbsp;mm</strong> while keeping it a complete system rather
+          than a passive thread: components and interconnect topologies that support sleep detection and
+          electrostimulation.
+        </p>
+
+        <p class="todo">To expand: the topology itself, component selection and packaging at sub-millimetre
+          width, the fabrication process, and what the fiber measures.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-materials-ml">
+        <h2>Machine Learning on Limited Materials Datasets</h2>
+        <p class="meta">
+          Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de Morelos
+          <span class="sep">&middot;</span> Advisor: Prof. Vivechana Agarwal
+          <span class="sep">&middot;</span> May 2026 &ndash; August 2026
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          Materials science datasets are small, expensive to collect, and sampled at whatever times the
+          experiment allowed. Most models assume neither of those things: they want many samples on a
+          regular grid. Applying standard methods to this data either overfits or forces the lab to
+          collect data it cannot afford.
+        </p>
+
+        <h3>The approach</h3>
+        <p>
+          A <strong>time-agnostic</strong> model &mdash; one whose predictions do not depend on the
+          measurements arriving at fixed intervals &mdash; trained for the small-sample regime.
+        </p>
+
+        <h3>Results</h3>
+        <div class="tableScroll">
+          <table class="spec">
+            <tr>
+              <th>Contaminant classification</th>
+              <td>97% accuracy</td>
+            </tr>
+            <tr>
+              <th>Concentration prediction</th>
+              <td>0.061 mean absolute error</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>Manuscript in progress &mdash; Kumar Agarwal, Avalos, et al.</td>
+            </tr>
+          </table>
+        </div>
+
+        <p class="todo">To expand: dataset size and provenance, model architecture, how time-agnosticism is
+          achieved, and the baselines compared against.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-photonic">
+        <h2>Inverse Design of Photonic Devices</h2>
+        <p class="meta">
+          QuMETA NanoML Group, Purdue University
+          <span class="sep">&middot;</span> Advisors: Prof. Alexander V. Kildishev, Prof. Alexandra
+          Boltasseva, Prof. Vladimir Shalaev
+          <span class="sep">&middot;</span> March 2025 &ndash; Present
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          Inverse design searches a space of candidate structures for one that meets an optical target.
+          Scoring a candidate normally means running an electromagnetic solver, and that cost is what sets
+          how much of the space can be explored. The field also lacks shared datasets, so results are hard
+          to compare between groups.
+        </p>
+
+        <h3>What I built</h3>
+        <ul>
+          <li>
+            A curated and validated <strong>metagrating dataset of 10,000+ device structures</strong>,
+            intended for open source release so other groups can benchmark against the same data.
+          </li>
+          <li>
+            A <strong>VGGNet-based network</strong> that predicts device efficiency directly, removing the
+            solver from the inner loop.
+          </li>
+          <li>
+            Performance benchmarks for a new inverse-design ML framework, by training
+            <strong>four distinct baseline models</strong> across two custom datasets.
+          </li>
+        </ul>
+
+        <h3>Results</h3>
+        <div class="tableScroll">
+          <table class="spec">
+            <tr>
+              <th>Efficiency evaluation</th>
+              <td>Over 100&times; faster than the solver, with minimal loss in accuracy</td>
+            </tr>
+            <tr>
+              <th>Dataset</th>
+              <td>10,000+ metagrating structures, curated and validated</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>Manuscript in progress &mdash; Kumar Agarwal, Iyer, et al.</td>
+            </tr>
+          </table>
+        </div>
+
+        <p class="todo">To expand: dataset generation and validation procedure, network architecture and
+          training setup, the four baselines, and accuracy against solver ground truth.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-airvolt">
+        <h2>AirVolt &mdash; Wireless Voltage Sensing</h2>
+        <p class="meta">
+          Wireless Sensing Circuits and Systems Lab, Purdue University
+          <span class="sep">&middot;</span> Advisor: Prof. Byunghoo Jung
+          <span class="sep">&middot;</span> August 2025 &ndash; May 2026
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          Measuring voltage on high-voltage AC equipment in a power plant, or on a power rail during
+          installation and maintenance, normally requires contact. Contact requires the line to be
+          de-energised, which means a shutdown just to take a reading.
+        </p>
+
+        <h3>My work</h3>
+        <ul>
+          <li>Leading early-stage development of the wireless sensing system.</li>
+          <li>Outlining the circuit architecture.</li>
+          <li>Designing the initial PCB prototypes in Altium Designer for proof-of-concept testing.</li>
+        </ul>
+
+        <p class="todo">To expand: sensing principle, front-end architecture, board revisions, and
+          proof-of-concept measurements.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-battery">
+        <h2>Wireless Battery State of Charge Estimation</h2>
+        <p class="meta">
+          Wireless Sensing Circuits and Systems Lab, Purdue University
+          <span class="sep">&middot;</span> Advisor: Prof. Byunghoo Jung
+          <span class="sep">&middot;</span> April 2023 &ndash; August 2025
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          State of charge cannot be measured directly. Online estimators infer it from terminal behaviour,
+          which drifts while a cell relaxes after load &mdash; so a reading taken shortly after use is the
+          least trustworthy one, and that is exactly when it is usually wanted.
+        </p>
+
+        <h3>What I built</h3>
+        <ul>
+          <li>
+            A method for wireless online LiPo charge detection, measured non-invasively rather than through
+            the terminals.
+          </li>
+          <li>
+            An <strong>STM32-based frequency counter</strong> covering a 30&nbsp;MHz range at
+            <strong>&plusmn;3&nbsp;Hz</strong> error, with a Python GUI for real-time sensor data
+            visualisation and logging.
+          </li>
+          <li>
+            Acquisition pipelines for multi-instrument battery datasets &mdash; filtering, noise removal,
+            and synchronisation &mdash; to extract reliable parameters and validate sensor and device
+            performance.
+          </li>
+        </ul>
+
+        <h3>Results</h3>
+        <div class="tableScroll">
+          <table class="spec">
+            <tr>
+              <th>Relaxation-induced error</th>
+              <td>Under &plusmn;1%, superior to existing state-of-the-art online sensing methods</td>
+            </tr>
+            <tr>
+              <th>Frequency counter</th>
+              <td>30&nbsp;MHz range, &plusmn;3&nbsp;Hz error</td>
+            </tr>
+          </table>
+        </div>
+
+        <p class="todo">To expand: the sensing mechanism, board design, the characterisation setup shown on
+          the main site, and the comparison against other online estimators.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-lpcvc">
+        <h2>Low Power Computer Vision Challenge 2024</h2>
+        <p class="meta">
+          Vertically Integrated Projects &mdash; Computer Vision for Embedded Systems, Purdue University
+          <span class="sep">&middot;</span> Advisor: Prof. Yung-Hsiang Lu
+          <span class="sep">&middot;</span> August 2023 &ndash; May 2024
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          An international challenge needs to rank submissions from many teams on both accuracy and power,
+          fairly and reproducibly. Without a shared baseline, entrants cannot tell whether a submission is
+          worth making.
+        </p>
+
+        <h3>What I built</h3>
+        <ul>
+          <li>The 3D reconstruction evaluation pipeline for the 2024 challenge.</li>
+          <li>
+            Benchmarks of open-source models, defining the power and accuracy baselines that competitor
+            submissions were measured against.
+          </li>
+        </ul>
+
+        <p class="todo">To expand: pipeline architecture, the metrics and how power was measured, the
+          hardware submissions ran on, and which models formed the baseline.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="research-hvps">
+        <h2>High Voltage Power Supply from Recycled Parts</h2>
+        <p class="meta">
+          Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de Morelos
+          <span class="sep">&middot;</span> Advisor: Prof. Vivechana Agarwal
+          <span class="sep">&middot;</span> July &ndash; September 2021
+        </p>
+        <div class="rule"></div>
+
+        <h3>The problem</h3>
+        <p>
+          Electrospinning needs a high-voltage supply and a dip-coating stage. Commercial equipment for
+          both is expensive enough to be the limiting factor on whether a lab can run the process at all.
+        </p>
+
+        <h3>What I built</h3>
+        <p>
+          A high voltage power supply and a dip coating device, both assembled from recycled electronic
+          spare parts. The supply drives an electrospinning device that is still in use at the lab.
+        </p>
+
+        <h3>Output</h3>
+        <ul>
+          <li>
+            Kumar Agarwal, S. S., Mendoza Enr&iacute;quez, B. U., &amp; Hern&aacute;ndez Rivera, D. (2022).
+            <em>Device Fabrication from Recycled Electronic Spare Parts: Dip Coating Device and High
+              Voltage Power Supply Adapted for Electrospinning Device.</em>
+            Journal of Physics: Conference Series, 2261, 012001.
+            <a href="https://doi.org/10.1088/1742-6596/2261/1/012001" target="_blank"
+              rel="noopener noreferrer">DOI</a>
+          </li>
+          <li>Best Presenter, 2022 International Conference on Information and Electronics Engineering.</li>
+        </ul>
+
+        <p class="todo">To expand: supply topology, output voltage and regulation, which parts were
+          recovered and from what, and the electrospinning results it enabled.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+
+      <!-- ============================================================= -->
+      <section id="project-mp3">
+        <h2>StereoBoy &mdash; Modular Expandable MP3 Player</h2>
+        <p class="meta">
+          Senior Design, Purdue University
+          <span class="sep">&middot;</span> Best Electrical and Computer Engineering Senior Design Project,
+          2026 Purdue Spark Challenge
+        </p>
+        <div class="rule"></div>
+
+        <p>
+          <em>Hear. There. Everywhere.</em> StereoBoy is a pocket-sized, battery-powered lossless audio
+          player built around a cartridge system. It is the same size as a GameBoy Pocket, runs for about
+          five hours on two AAA alkaline cells, and is designed to be opened up and changed &mdash; the
+          cartridge interface carries storage, firmware and expansion hardware, so a user can extend the
+          device rather than replace it.
+        </p>
+
+        <h3>Quick specs</h3>
+        <div class="tableScroll">
+          <table class="spec">
+            <tr>
+              <th>MCU</th>
+              <td>RP2350B dual-core ARM Cortex-M33F @ 150&nbsp;MHz</td>
+            </tr>
+            <tr>
+              <th>Audio</th>
+              <td>24-bit 192&nbsp;kHz lossless stereo codec, DAC and headphone amp; FLAC support</td>
+            </tr>
+            <tr>
+              <th>Display</th>
+              <td>1.54" 240&times;240 TFT LCD, 16-bit colour, plus twin high-brightness LED VU meters</td>
+            </tr>
+            <tr>
+              <th>Storage</th>
+              <td>micro-SD for music, QSPI flash for firmware, 8&nbsp;KB FRAM for fast nonvolatile state</td>
+            </tr>
+            <tr>
+              <th>Power</th>
+              <td>2&times; AAA alkaline, ~5 hour battery life; USB-C with priority mux</td>
+            </tr>
+            <tr>
+              <th>Output</th>
+              <td>3.5&nbsp;mm TRRS and mono speaker</td>
+            </tr>
+            <tr>
+              <th>Features</th>
+              <td>
+                Automatic metadata management, real-time 6-band equaliser, real-time reactive audio
+                visualisers
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <h3>Audio pipeline</h3>
+        <p>
+          Music is read from the micro-SD card by the RP2350, which handles playback control and transfers
+          the stream to the audio codec while rendering visualisers in parallel. The codec decodes and
+          passes audio to the DAC and amplifier stage, which applies equalisation and volume control before
+          amplification.
+        </p>
+        <p>
+          Measured on a 1&nbsp;kHz sine wave played back as a 320&nbsp;kbps 44.1&nbsp;kHz MP3, with the
+          rail characterised at 2.0&nbsp;V battery input:
+        </p>
+        <div class="tableScroll">
+          <table class="spec">
+            <tr>
+              <th>3.3&nbsp;V rail at playback</th>
+              <td>3.3347&nbsp;V average, 42&nbsp;mV peak-to-peak</td>
+            </tr>
+            <tr>
+              <th>Regulation</th>
+              <td>0.91% accuracy, &plusmn;0.38% precision</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3>Power supply</h3>
+        <p>
+          A "double-decker" supply runs the entire system from two AAA cells without compromising noise or
+          efficiency: a 5&nbsp;V boost from the battery, feeding 3.3&nbsp;V and 1.8&nbsp;V bucks, with a
+          priority mux that hands over to USB-C when it is connected.
+        </p>
+
+        <h3>StereoMag cartridge interface</h3>
+        <p>
+          StereoMag is the physical storage medium for music, software and additional hardware. It is
+          designed to let users share music and custom software with each other, and to let power users
+          augment the device to fit their needs.
+        </p>
+        <div class="tableScroll">
+          <table class="spec">
+            <tr>
+              <th>Flash memory</th>
+              <td>micro-SD music storage, QSPI firmware storage, optional 16&nbsp;MB PSRAM expansion</td>
+            </tr>
+            <tr>
+              <th>HSTX</th>
+              <td>
+                8-bit DDR GPIO, 2.4&nbsp;Gbps total throughput, reconfigurable as SPI / I2C / UART / I2S /
+                HDMI
+              </td>
+            </tr>
+            <tr>
+              <th>Misc. I/O</th>
+              <td>SPI, I2C, I2S</td>
+            </tr>
+            <tr>
+              <th>Power</th>
+              <td>5.0&nbsp;V and 3.3&nbsp;V rails</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3>Cartridges</h3>
+        <ul>
+          <li>
+            <strong>RadioMag</strong> &mdash; FM receiver with an integrated PCB antenna and headset
+            antenna, frequency seeking and presets. Retains the StereoBoy firmware.
+          </li>
+          <li>
+            <strong>SensorMag</strong> &mdash; temperature, humidity and pressure sensing, real-time clock,
+            6-DoF IMU and a visible light colour sensor, driving sensor-based playlist generation and
+            shake-to-shuffle.
+          </li>
+          <li>
+            <strong>PhotoMag</strong> &mdash; CVBS video camera with an ADV7180 video decoder ASIC,
+            interfaced over GPIO, capturing images to the micro-SD card.
+          </li>
+          <li>
+            <strong>Afterburner</strong> &mdash; &plusmn;10&nbsp;V split-rail supply, 32-bit
+            384&nbsp;kHz lossless DAC and amplifier, line-level stereo out, precision RTC, 8&nbsp;KB FRAM
+            and 16&nbsp;MB PSRAM.
+          </li>
+          <li>
+            <strong>StereoMag Developer Kit</strong> &mdash; exposed pin header for prototyping, plus
+            16&nbsp;MB PSRAM and 8&nbsp;KB FRAM.
+          </li>
+        </ul>
+
+        <h3>Firmware</h3>
+        <p>
+          The StereoBoy Modular Machine Firmware splits the two cores by concern. Core&nbsp;0 handles
+          user I/O, filesystem I/O and device I/O, and runs <code>jukebox.c</code>. Core&nbsp;1 runs the
+          visualisers, user interface and 2D graphics rendering. They meet at 520&nbsp;KB of shared SRAM
+          plus a QSPI XIP cache holding the framebuffer, audio and metadata, status registers and ADC
+          samples.
+        </p>
+        <p>
+          Built on the Pico SDK 2.2.0 and ARM CMSIS over the ARMv8-M instruction set, with FatFs for the
+          filesystem and a device driver layer beneath <code>sb_util.c</code> and
+          <code>filehelper.c</code>.
+        </p>
+
+        <h3>More</h3>
+        <ul>
+          <li>
+            <a href="pdf/Spark Poster.pdf" target="_blank" rel="noopener noreferrer">
+              Spark Challenge poster (PDF)
+            </a>
+          </li>
+        </ul>
+
+        <p class="todo">To expand: my own role on the team, the schematic and layout work, the firmware
+          modules I owned, and what the design review turned up.</p>
+
+        <a class="toTop" href="#">Back to top</a>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById("themeToggle");
+      function paint() {
+        var light = root.getAttribute("data-theme") === "light";
+        btn.innerHTML = light ? "&#9789;" : "&#9788;";
+        btn.setAttribute("aria-pressed", light ? "true" : "false");
+      }
+      paint();
+      btn.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("ska-theme", next); } catch (e) { }
+        paint();
+      });
+    })();
+  </script>
+</body>
+
+</html>
