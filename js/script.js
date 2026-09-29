@@ -547,33 +547,29 @@ const skill_descriptions = {
   Onshape:
     "Like in Fusion360, I made a few Onshape designs, the relevant skillset is similar, but there are some differences in tool utilization.",
   SysVerilog:
-    "Experience writing modules and testbenches. Made a USB 1.0 communication protocol. Now taking a course to develop a Multicore Processor.",
+    "Experience writing modules and testbenches. Made a multicore processor, as well as replicated the USB 1.0 communication protocol.",
   Virtuoso:
     "Design, Simulation, Layout, Verification of transistor level circuits. Made, simulated, and created the layout for a Manchester Carry Adder and a Wallace Tree Multiplier.",
-  STM32:
-    "Used an STM32 to accurately count frequency (3Hz resolution), perform ADC and DAC, and communicate and synchronize with a Python script.",
   Embedded:
-    "Learned to code microcontrollers without built-in libraries, like HAL or Arduino. Made a 2-player (2 microcontroller) game of snake with display control, alongside a team of three other people.",
+    "Comfortable using microcontrollers in general. Have experience with Arduino, ESP32, Raspberry-Pi, STM32, and TI MCUs.",
   MATLAB:
     "Scripts for data processing, aligning, filtering, and plotting. Some scripting for simulations, and some scripting for instrument data acquisition.",
   HTML: "I designed this webpage from scratch. Learned from Youtube tutorials and LLMs. I can now read and understand how HTML files behave, as well as use this knowledge to help design GUIs.",
   CSS: "Learned it alongside HTML. You get the idea, I was trying to learn the stack of front-end development.",
   KiCad:
-    "Been using this for PCB design instead of Eagle, since it was more user friendly. I have also taught several people who came to BIDC how to use it.",
+    "Been using this for PCB design instead of Eagle, since it was more user friendly. I have also taught several people who came to BIDC how to use it. Now using it for FiberCircuits.",
   Simulink:
     "Learned it for circuit simulations. That is, I simulated a 5kVDC, 2km transmission line and its subcomponents. I also designed a PLL inverter in Simulink, with hopes of expanding it into a hybrid inverter simulation.",
   Javascript:
     "Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaining a few websites in one of my research teams.",
   Arduino:
-    "My first embedded language. Can use it's in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
+    "My first embedded language. Can use its in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
   Altium:
     "Outlined the circuit architecture and designed the initial PCB prototypes for AirVolt, the wireless voltage-sensing project at the Wireless Sensing Lab.",
   SQL:
     "Pulled and joined data from production SQL databases at Micron to build lifespan and life-expectancy analyses for DRAM components.",
   RISCV:
     "Coursework and project work on multicore processor design, writing and verifying modules against the RISC-V ISA.",
-  PyTorch:
-    "Trained and evaluated models in both: baseline benchmarks and a VGGNet-based efficiency predictor for photonic inverse design, and a time-agnostic classifier for small materials datasets.",
   LTSpice:
     "Once again, I have used this for circuit simulations. These circuits have been mostly composed of linear components. Used it in some of my classes, as well as to help understand what I am doing in my research projects.",
   Kotlin:
