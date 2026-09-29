@@ -562,8 +562,6 @@ const skill_descriptions = {
     "Learned it for circuit simulations. That is, I simulated a 5kVDC, 2km transmission line and its subcomponents. I also designed a PLL inverter in Simulink, with hopes of expanding it into a hybrid inverter simulation.",
   Javascript:
     "Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaining a few websites in one of my research teams.",
-  Arduino:
-    "My first embedded language. Can use its in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
   Altium:
     "Outlined the circuit architecture and designed the initial PCB prototypes for AirVolt, the wireless voltage-sensing project at the Wireless Sensing Lab.",
   SQL:
