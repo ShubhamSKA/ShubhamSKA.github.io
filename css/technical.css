@@ -29,6 +29,10 @@
 }
 
 html {
+  /* These pages are long-form reading in a wide column, so the base size is
+     bumped and everything measured in rem follows. A percentage rather than a
+     px value so a reader's own browser setting still counts. */
+  font-size: 115%;
   scroll-behavior: smooth;
 }
 
@@ -49,8 +53,8 @@ a {
 }
 
 .wrap {
-  width: 75%;
-  max-width: 1500px;
+  width: 60%;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 0 5rem;
 }

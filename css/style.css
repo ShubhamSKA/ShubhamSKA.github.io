@@ -933,21 +933,13 @@ section[id] {
   padding-bottom: 2px;
 }
 
-/* Every seam between two subsections of the same level looks the same:
+/* Every seam between two subsections of the same level gets the same space:
    Research to Jobs, one project group to the next, one skills table to the
-   next. */
+   next. Space only, no rule. */
 .workResearchAll + .jobAll,
 .projectDisplay > .projectAll + .projectAll,
 .skillsDisplay > .subSkillAll + .subSkillAll {
   margin-top: 5rem;
-  padding-top: 2.5rem;
-  border-top: #343434 3px solid;
-}
-
-:root[data-theme="light"] .workResearchAll + .jobAll,
-:root[data-theme="light"] .projectDisplay > .projectAll + .projectAll,
-:root[data-theme="light"] .skillsDisplay > .subSkillAll + .subSkillAll {
-  border-top-color: rgb(190, 190, 190);
 }
 
 /* Breathing room between project cards. Marquee rows are spaced by their own
@@ -975,4 +967,53 @@ section[id] {
 .awardList {
   padding-right: 4%;
   padding-left: calc(4% + 2.5rem);
+}
+
+/* Research entries that sit further from the HCI work are folded away behind
+   a native <details>, so they stay one click from view without adding length
+   to the page. Works with JavaScript off. */
+.moreResearch {
+  margin-top: 5rem;
+}
+
+.moreResearch > summary {
+  cursor: pointer;
+  list-style: none;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: bolder;
+  background-color: #232323;
+  padding: 1rem;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.moreResearch > summary::-webkit-details-marker {
+  display: none;
+}
+
+.moreResearch > summary::after {
+  content: "  +";
+}
+
+.moreResearch[open] > summary::after {
+  content: "  2";
+}
+
+.moreResearch > summary:hover,
+.moreResearch > summary:focus-visible {
+  background-color: #2e2e2e;
+}
+
+:root[data-theme="light"] .moreResearch > summary {
+  background-color: rgb(210, 210, 210);
+}
+
+:root[data-theme="light"] .moreResearch > summary:hover,
+:root[data-theme="light"] .moreResearch > summary:focus-visible {
+  background-color: rgb(198, 198, 198);
+}
+
+.moreResearch > .researchDisplay {
+  margin-top: 2rem;
 }
