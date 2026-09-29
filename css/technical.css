@@ -323,3 +323,20 @@ code {
     scroll-behavior: auto;
   }
 }
+
+/* Same rule on the detail pages: links inside a paragraph or list item are
+   underlined. The index cards wrap their own contents, so they are untouched. */
+main p a,
+main li a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+main p a:hover,
+main p a:focus-visible,
+main li a:hover,
+main li a:focus-visible {
+  color: var(--accent);
+  text-decoration-thickness: 2px;
+}

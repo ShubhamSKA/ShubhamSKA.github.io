@@ -918,11 +918,11 @@ section[id] {
 }
 
 .moreResearch > summary::after {
-  content: "  +";
+  content: "  \25B8";
 }
 
 .moreResearch[open] > summary::after {
-  content: "  2";
+  content: "  \25BE";
 }
 
 .moreResearch > summary:hover,
@@ -941,4 +941,23 @@ section[id] {
 
 .moreResearch > .researchDisplay {
   margin-top: 2rem;
+}
+
+/* A link inside running text has to look like one. The whole-card links (job
+   entries, project tiles, the logo) are deliberately left undecorated. */
+.researchDescription a,
+.aboutMe a,
+.skill a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.researchDescription a:hover,
+.researchDescription a:focus-visible,
+.aboutMe a:hover,
+.aboutMe a:focus-visible,
+.skill a:hover,
+.skill a:focus-visible {
+  text-decoration-thickness: 2px;
 }
