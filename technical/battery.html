@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Wireless Battery State of Charge Estimation &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="Non-invasive online LiPo state-of-charge sensing with relaxation-induced error under 1%, better than existing online methods." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/battery.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Wireless Battery State of Charge Estimation &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="Non-invasive online LiPo state-of-charge sensing with relaxation-induced error under 1%, better than existing online methods." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/battery.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>Wireless Battery State of Charge Estimation</h1>
+      <p class="meta">
+        Wireless Sensing Circuits and Systems Lab, Purdue University
+        <span class="sep">&middot;</span> Advisor: Prof. Byunghoo Jung
+        <span class="sep">&middot;</span> April 2023 &ndash; August 2025
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <h2>The problem</h2>
+    <p>
+      State of charge cannot be measured directly. Online estimators infer it from terminal behaviour,
+      which drifts while a cell relaxes after load &mdash; so a reading taken shortly after use is the
+      least trustworthy one, and that is exactly when it is usually wanted.
+    </p>
+
+    <h2>What I built</h2>
+    <ul>
+      <li>
+        A method for wireless online LiPo charge detection, measured non-invasively rather than through the
+        terminals.
+      </li>
+      <li>
+        An <strong>STM32-based frequency counter</strong> covering a 30&nbsp;MHz range at
+        <strong>&plusmn;3&nbsp;Hz</strong> error, with a Python GUI for real-time sensor data visualisation
+        and logging.
+      </li>
+      <li>
+        Acquisition pipelines for multi-instrument battery datasets &mdash; filtering, noise removal, and
+        synchronisation &mdash; to extract reliable parameters and validate sensor and device performance.
+      </li>
+    </ul>
+
+    <h2>Results</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Relaxation-induced error</th>
+          <td>Under &plusmn;1%, superior to existing state-of-the-art online sensing methods</td>
+        </tr>
+        <tr>
+          <th>Frequency counter</th>
+          <td>30&nbsp;MHz range, &plusmn;3&nbsp;Hz error</td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="todo">To expand &mdash; the sensing mechanism, board design, the characterisation setup shown on the main site, and the comparison against other online estimators.</p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/airvolt.html"><span class="label">&larr; Previous</span>AirVolt &mdash; Wireless Voltage Sensing</a>
+      <a class="next" href="/technical/lpcvc.html"><span class="label">Next &rarr;</span>Low Power Computer Vision Challenge 2024</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

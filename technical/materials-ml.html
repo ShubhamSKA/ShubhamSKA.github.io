@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Machine Learning on Limited Materials Datasets &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="A time-agnostic model for small, irregularly sampled materials datasets: 97% contaminant classification accuracy." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/materials-ml.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Machine Learning on Limited Materials Datasets &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="A time-agnostic model for small, irregularly sampled materials datasets: 97% contaminant classification accuracy." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/materials-ml.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>Machine Learning on Limited Materials Datasets</h1>
+      <p class="meta">
+        Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de Morelos
+        <span class="sep">&middot;</span> Advisor: Prof. Vivechana Agarwal
+        <span class="sep">&middot;</span> May 2026 &ndash; August 2026
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <h2>The problem</h2>
+    <p>
+      Materials science datasets are small, expensive to collect, and sampled at whatever times the
+      experiment allowed. Most models assume neither of those things: they want many samples on a regular
+      grid. Applying standard methods to this data either overfits or forces the lab to collect data it
+      cannot afford.
+    </p>
+
+    <h2>The approach</h2>
+    <p>
+      A <strong>time-agnostic</strong> model &mdash; one whose predictions do not depend on the
+      measurements arriving at fixed intervals &mdash; trained for the small-sample regime.
+    </p>
+
+    <h2>Results</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Contaminant classification</th>
+          <td>97% accuracy</td>
+        </tr>
+        <tr>
+          <th>Concentration prediction</th>
+          <td>0.061 mean absolute error</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>Manuscript in progress &mdash; Kumar Agarwal, Avalos, et al.</td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="todo">To expand &mdash; dataset size and provenance, model architecture, how time-agnosticism is achieved, and the baselines compared against.</p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/fibercircuits.html"><span class="label">&larr; Previous</span>FiberCircuits &mdash; System-on-Fiber</a>
+      <a class="next" href="/technical/photonic.html"><span class="label">Next &rarr;</span>Inverse Design of Photonic Devices</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

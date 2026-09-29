@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Technical Detail &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="Longer technical write-ups of Shubham Saluja Kumar Agarwal's research projects and the StereoBoy modular audio system." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Technical Detail &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="Longer technical write-ups of Shubham Saluja Kumar Agarwal's research projects and the StereoBoy modular audio system." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>Technical Detail
+    </nav>
+
+    <header>
+      <h1><span class="colored">T</span>echnical <span class="colored">D</span>etail</h1>
+      <p class="standfirst">
+        Longer write-ups of the research and projects listed on the main site &mdash; the parts that do not
+        fit on a card. Each one covers what the problem was, what I built, and what came out of it.
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+      <ul class="entryGrid">
+      <li class="entryCard">
+        <a href="/technical/haptics.html">
+          <h2>Magnetically Actuated Haptic Displays</h2>
+          <p class="where">Versatile Electronic Systems Lab, Cornell University<span class="sep">&middot;</span>September 2026 &ndash; Present</p>
+          <p class="blurb">Soft actuators driven by electro-permanent magnets, so a display can hold its shape without holding a current.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/edemaflex.html">
+          <h2>EdemaFlex &mdash; Hand Edema Treatment Glove</h2>
+          <p class="where">Hybrid Body Lab, Cornell University<span class="sep">&middot;</span>August 2026 &ndash; Present</p>
+          <p class="blurb">A knit glove with shape memory alloy springs that applies its own compression, so it can be put on slack.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/fibercircuits.html">
+          <h2>FiberCircuits &mdash; System-on-Fiber</h2>
+          <p class="where">Responsive Environments, MIT Media Lab<span class="sep">&middot;</span>May 2026 &ndash; Present</p>
+          <p class="blurb">Taking a system-on-fiber platform from 1.4&nbsp;mm to under 1&nbsp;mm, thin enough to wear all night.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/materials-ml.html">
+          <h2>Machine Learning on Limited Materials Datasets</h2>
+          <p class="where">Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de Morelos<span class="sep">&middot;</span>May 2026 &ndash; August 2026</p>
+          <p class="blurb">A time-agnostic model for the small, irregularly sampled datasets materials science actually produces.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/photonic.html">
+          <h2>Inverse Design of Photonic Devices</h2>
+          <p class="where">QuMETA NanoML Group, Purdue University<span class="sep">&middot;</span>March 2025 &ndash; Present</p>
+          <p class="blurb">A network that predicts device efficiency directly, taking the electromagnetic solver out of the inner loop.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/airvolt.html">
+          <h2>AirVolt &mdash; Wireless Voltage Sensing</h2>
+          <p class="where">Wireless Sensing Circuits and Systems Lab, Purdue University<span class="sep">&middot;</span>August 2025 &ndash; May 2026</p>
+          <p class="blurb">Sensing high voltage without contact, so a line does not have to be de-energised just to take a reading.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/battery.html">
+          <h2>Wireless Battery State of Charge Estimation</h2>
+          <p class="where">Wireless Sensing Circuits and Systems Lab, Purdue University<span class="sep">&middot;</span>April 2023 &ndash; August 2025</p>
+          <p class="blurb">Non-invasive online state-of-charge sensing that stays accurate while a cell relaxes after load.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/lpcvc.html">
+          <h2>Low Power Computer Vision Challenge 2024</h2>
+          <p class="where">Vertically Integrated Projects &mdash; CVES, Purdue University<span class="sep">&middot;</span>August 2023 &ndash; May 2024</p>
+          <p class="blurb">The 3D reconstruction evaluation pipeline, and the open-source baselines entrants were measured against.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/hvps.html">
+          <h2>High Voltage Power Supply from Recycled Parts</h2>
+          <p class="where">Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de Morelos<span class="sep">&middot;</span>July &ndash; September 2021</p>
+          <p class="blurb">A high voltage supply and dip coating device built from recycled parts, still powering the lab's electrospinning rig.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      <li class="entryCard">
+        <a href="/technical/stereoboy.html">
+          <h2>StereoBoy &mdash; Modular Expandable MP3 Player</h2>
+          <p class="where">Senior Design, Purdue University<span class="sep">&middot;</span>2026</p>
+          <p class="blurb">A pocket-sized lossless audio player built around a cartridge system, running five hours on two AAA cells.</p>
+          <span class="go">Read &rarr;</span>
+        </a>
+      </li>
+      </ul>
+    </main>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

@@ -849,3 +849,14 @@ section[id] {
 :root[data-theme="light"] .learnMore:focus-visible {
   background-color: rgba(0, 0, 0, 0.09);
 }
+
+.techLine {
+  text-align: center;
+  font-size: 1.05rem;
+  margin: 0.75rem 0 0;
+}
+
+.techLine a {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+}

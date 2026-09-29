@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Magnetically Actuated Haptic Displays &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="Soft actuators driven by electro-permanent magnets, for haptic displays that hold a shape without holding a current." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/haptics.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Magnetically Actuated Haptic Displays &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="Soft actuators driven by electro-permanent magnets, for haptic displays that hold a shape without holding a current." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/haptics.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>Magnetically Actuated Haptic Displays</h1>
+      <p class="meta">
+        Versatile Electronic Systems Lab, Cornell University
+        <span class="sep">&middot;</span> Advisor: Prof. Amal El-Ghazaly
+        <span class="sep">&middot;</span> September 2026 &ndash; Present
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <h2>The problem</h2>
+    <p>
+      A haptic display has to hold a shape long enough for a finger to read it. Most soft actuators hold
+      their shape only while current keeps flowing, which sets the power budget by how long the display
+      stays up rather than by how often it changes.
+    </p>
+
+    <h2>The approach</h2>
+    <p>
+      Electro-permanent magnets switch between two stable magnetic states with a current pulse and then
+      hold that state with no standing current. Built into a soft actuator, that decouples holding a shape
+      from powering the display.
+    </p>
+    <p>
+      My work is on the actuator's form factor &mdash; the geometries and material stacks that turn the
+      magnetic switching into useful displacement at a scale a fingertip can resolve.
+    </p>
+
+    <p class="todo">To expand &mdash; actuator geometries under test, materials, drive electronics, and displacement and force measurements.</p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="next" href="/technical/edemaflex.html"><span class="label">Next &rarr;</span>EdemaFlex &mdash; Hand Edema Treatment Glove</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>EdemaFlex &mdash; Hand Edema Treatment Glove &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="A knit glove with shape memory alloy springs that applies its own compression for hand edema treatment." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/edemaflex.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="EdemaFlex &mdash; Hand Edema Treatment Glove &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="A knit glove with shape memory alloy springs that applies its own compression for hand edema treatment." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/edemaflex.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>EdemaFlex &mdash; Hand Edema Treatment Glove</h1>
+      <p class="meta">
+        Hybrid Body Lab, Cornell University
+        <span class="sep">&middot;</span> Advisor: Prof. Cindy Hsin-Liu Kao
+        <span class="sep">&middot;</span> August 2026 &ndash; Present
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <h2>The problem</h2>
+    <p>
+      Compression therapy for hand edema generally means a garment fitted and applied by someone else. A
+      patient with reduced hand function is exactly the person least able to put on a tight glove unaided.
+    </p>
+
+    <h2>The approach</h2>
+    <p>
+      EdemaFlex is a knit glove with shape memory alloy springs worked into the structure. The springs
+      contract on heating, so the garment applies its own compression rather than relying on a tight fit,
+      and can be put on slack.
+    </p>
+
+    <h2>My work</h2>
+    <ul>
+      <li>Manufacturing the knit gloves and integrating the shape memory alloy springs.</li>
+      <li>
+        Updating the interface that generates the design files, so a glove's pattern can be produced for a
+        given hand and treatment profile rather than hand-authored each time.
+      </li>
+    </ul>
+
+    <p class="todo">To expand &mdash; knit structure and spring routing, actuation and thermal control, pressure measurements, and the design-file generation pipeline.</p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/haptics.html"><span class="label">&larr; Previous</span>Magnetically Actuated Haptic Displays</a>
+      <a class="next" href="/technical/fibercircuits.html"><span class="label">Next &rarr;</span>FiberCircuits &mdash; System-on-Fiber</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

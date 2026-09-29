@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>StereoBoy &mdash; Modular Expandable MP3 Player &mdash; Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="A pocket-sized lossless audio player built around the StereoMag cartridge system, on an RP2350B running from two AAA cells." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/stereoboy.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="StereoBoy &mdash; Modular Expandable MP3 Player &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="A pocket-sized lossless audio player built around the StereoMag cartridge system, on an RP2350B running from two AAA cells." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/stereoboy.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>StereoBoy &mdash; Modular Expandable MP3 Player</h1>
+      <p class="meta">
+        Senior Design, Purdue University
+        <span class="sep">&middot;</span> Best Electrical and Computer Engineering Senior Design Project, 2026 Purdue Spark Challenge
+        <span class="sep">&middot;</span> 2026
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <p>
+      <em>Hear. There. Everywhere.</em> StereoBoy is a pocket-sized, battery-powered lossless audio player
+      built around a cartridge system. It is the same size as a GameBoy Pocket, runs for about five hours
+      on two AAA alkaline cells, and is designed to be opened up and changed &mdash; the cartridge
+      interface carries storage, firmware and expansion hardware, so a user can extend the device rather
+      than replace it.
+    </p>
+
+    <h2>Quick specs</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>MCU</th>
+          <td>RP2350B dual-core ARM Cortex-M33F @ 150&nbsp;MHz</td>
+        </tr>
+        <tr>
+          <th>Audio</th>
+          <td>24-bit 192&nbsp;kHz lossless stereo codec, DAC and headphone amp; FLAC support</td>
+        </tr>
+        <tr>
+          <th>Display</th>
+          <td>1.54" 240&times;240 TFT LCD, 16-bit colour, plus twin high-brightness LED VU meters</td>
+        </tr>
+        <tr>
+          <th>Storage</th>
+          <td>micro-SD for music, QSPI flash for firmware, 8&nbsp;KB FRAM for fast nonvolatile state</td>
+        </tr>
+        <tr>
+          <th>Power</th>
+          <td>2&times; AAA alkaline, ~5 hour battery life; USB-C with priority mux</td>
+        </tr>
+        <tr>
+          <th>Output</th>
+          <td>3.5&nbsp;mm TRRS and mono speaker</td>
+        </tr>
+        <tr>
+          <th>Features</th>
+          <td>
+            Automatic metadata management, real-time 6-band equaliser, real-time reactive audio visualisers
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Audio pipeline</h2>
+    <p>
+      Music is read from the micro-SD card by the RP2350, which handles playback control and transfers the
+      stream to the audio codec while rendering visualisers in parallel. The codec decodes and passes audio
+      to the DAC and amplifier stage, which applies equalisation and volume control before amplification.
+    </p>
+    <p>
+      Measured on a 1&nbsp;kHz sine wave played back as a 320&nbsp;kbps 44.1&nbsp;kHz MP3, with the rail
+      characterised at 2.0&nbsp;V battery input:
+    </p>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>3.3&nbsp;V rail at playback</th>
+          <td>3.3347&nbsp;V average, 42&nbsp;mV peak-to-peak</td>
+        </tr>
+        <tr>
+          <th>Regulation</th>
+          <td>0.91% accuracy, &plusmn;0.38% precision</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Power supply</h2>
+    <p>
+      A "double-decker" supply runs the entire system from two AAA cells without compromising noise or
+      efficiency: a 5&nbsp;V boost from the battery, feeding 3.3&nbsp;V and 1.8&nbsp;V bucks, with a
+      priority mux that hands over to USB-C when it is connected.
+    </p>
+
+    <h2>StereoMag cartridge interface</h2>
+    <p>
+      StereoMag is the physical storage medium for music, software and additional hardware. It is designed
+      to let users share music and custom software with each other, and to let power users augment the
+      device to fit their needs.
+    </p>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Flash memory</th>
+          <td>micro-SD music storage, QSPI firmware storage, optional 16&nbsp;MB PSRAM expansion</td>
+        </tr>
+        <tr>
+          <th>HSTX</th>
+          <td>
+            8-bit DDR GPIO, 2.4&nbsp;Gbps total throughput, reconfigurable as SPI / I2C / UART / I2S / HDMI
+          </td>
+        </tr>
+        <tr>
+          <th>Misc. I/O</th>
+          <td>SPI, I2C, I2S</td>
+        </tr>
+        <tr>
+          <th>Power</th>
+          <td>5.0&nbsp;V and 3.3&nbsp;V rails</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Cartridges</h2>
+    <ul>
+      <li>
+        <strong>RadioMag</strong> &mdash; FM receiver with an integrated PCB antenna and headset antenna,
+        frequency seeking and presets. Retains the StereoBoy firmware.
+      </li>
+      <li>
+        <strong>SensorMag</strong> &mdash; temperature, humidity and pressure sensing, real-time clock,
+        6-DoF IMU and a visible light colour sensor, driving sensor-based playlist generation and
+        shake-to-shuffle.
+      </li>
+      <li>
+        <strong>PhotoMag</strong> &mdash; CVBS video camera with an ADV7180 video decoder ASIC, interfaced
+        over GPIO, capturing images to the micro-SD card.
+      </li>
+      <li>
+        <strong>Afterburner</strong> &mdash; &plusmn;10&nbsp;V split-rail supply, 32-bit 384&nbsp;kHz
+        lossless DAC and amplifier, line-level stereo out, precision RTC, 8&nbsp;KB FRAM and 16&nbsp;MB
+        PSRAM.
+      </li>
+      <li>
+        <strong>StereoMag Developer Kit</strong> &mdash; exposed pin header for prototyping, plus
+        16&nbsp;MB PSRAM and 8&nbsp;KB FRAM.
+      </li>
+    </ul>
+
+    <h2>Firmware</h2>
+    <p>
+      The StereoBoy Modular Machine Firmware splits the two cores by concern. Core&nbsp;0 handles user I/O,
+      filesystem I/O and device I/O, and runs <code>jukebox.c</code>. Core&nbsp;1 runs the visualisers,
+      user interface and 2D graphics rendering. They meet at 520&nbsp;KB of shared SRAM plus a QSPI XIP
+      cache holding the framebuffer, audio and metadata, status registers and ADC samples.
+    </p>
+    <p>
+      Built on the Pico SDK 2.2.0 and ARM CMSIS over the ARMv8-M instruction set, with FatFs for the
+      filesystem and a device driver layer beneath <code>sb_util.c</code> and <code>filehelper.c</code>.
+    </p>
+
+    <h2>More</h2>
+    <ul>
+      <li>
+        <a href="/pdf/Spark Poster.pdf" target="_blank" rel="noopener noreferrer">
+          Spark Challenge poster (PDF)
+        </a>
+      </li>
+    </ul>
+
+    <p class="todo">To expand &mdash; my own role on the team, the schematic and layout work, the firmware modules I owned, and what the design review turned up.</p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/hvps.html"><span class="label">&larr; Previous</span>High Voltage Power Supply from Recycled Parts</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>
