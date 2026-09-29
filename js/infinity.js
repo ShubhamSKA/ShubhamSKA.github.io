@@ -12,6 +12,15 @@ const prefersReducedMotion = window.matchMedia(
 
 let introDone = false;
 
+function cameFromThisSite() {
+  if (!document.referrer) return false;
+  try {
+    return new URL(document.referrer).origin === window.location.origin;
+  } catch (e) {
+    return false;
+  }
+}
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let currentCenterX = window.innerWidth / 2;
@@ -55,7 +64,7 @@ function settleIntoBackground() {
   root.classList.remove("intro-active");
 }
 
-if (prefersReducedMotion || window.location.hash) {
+if (prefersReducedMotion || window.location.hash || cameFromThisSite()) {
   settleIntoBackground();
 } else {
   root.classList.add("intro-active");

@@ -5,12 +5,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Inverse Design of Photonic Devices &mdash; Shubham Saluja Kumar Agarwal</title>
+  <title>Inverse Design of Photonic Devices | Shubham Saluja Kumar Agarwal</title>
   <meta name="description" content="A VGGNet-based efficiency predictor that removes the electromagnetic solver from the inverse design loop, over 100x faster." />
   <link rel="canonical" href="https://shubhamska.github.io/technical/photonic.html" />
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Inverse Design of Photonic Devices &mdash; Shubham Saluja Kumar Agarwal" />
+  <meta property="og:title" content="Inverse Design of Photonic Devices | Shubham Saluja Kumar Agarwal" />
   <meta property="og:description" content="A VGGNet-based efficiency predictor that removes the electromagnetic solver from the inverse design loop, over 100x faster." />
   <meta property="og:url" content="https://shubhamska.github.io/technical/photonic.html" />
   <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
@@ -61,16 +61,18 @@
     <h2>What I built</h2>
     <ul>
       <li>
-        A curated and validated <strong>metagrating dataset of 10,000+ device structures</strong>, intended
+        A curated and validated <strong>diffractive metagrating dataset of 10,000+ device structures</strong>, intended
         for open source release so other groups can benchmark against the same data.
       </li>
       <li>
-        A <strong>VGGNet-based network</strong> that predicts device efficiency directly, removing the
-        solver from the inner loop.
+        Two <strong>VGGNet-based networks</strong> that attempt to predict device efficiency directly, removing the
+        solver from the inner loop. One of the models is trained to predict efficiencies for the diffractive metagrating cells, while the other is for a pre-existing thermophotovoltaic dataset.
       </li>
       <li>
-        Performance benchmarks for a new inverse-design ML framework, by training
-        <strong>four distinct baseline models</strong> across two custom datasets.
+        I recreated four models, namely, an Adversarial Auto-Encoder, a Wasserstein Generative Adversarial Network, and their conditional counterparts. I created two versions of each, one for each dataset, and trained them all.  
+      </li>
+      <li>
+        An extensive comparison of models for inverse design in photonics, soon to be published.
       </li>
     </ul>
 
@@ -87,17 +89,16 @@
         </tr>
         <tr>
           <th>Status</th>
-          <td>Manuscript in progress &mdash; Kumar Agarwal, Iyer, et al.</td>
+          <td>Manuscript in progress: Kumar Agarwal, Iyer, et al.</td>
         </tr>
       </table>
     </div>
 
-    <p class="todo">To expand &mdash; dataset generation and validation procedure, network architecture and training setup, the four baselines, and accuracy against solver ground truth.</p>
     </main>
 
     <nav class="pager" aria-label="Other entries">
       <a class="prev" href="/technical/materials-ml.html"><span class="label">&larr; Previous</span>Machine Learning on Limited Materials Datasets</a>
-      <a class="next" href="/technical/airvolt.html"><span class="label">Next &rarr;</span>AirVolt &mdash; Wireless Voltage Sensing</a>
+      <a class="next" href="/technical/airvolt.html"><span class="label">Next &rarr;</span>AirVolt: Wireless Voltage Sensing</a>
     </nav>
   </div>
 

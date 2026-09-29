@@ -860,3 +860,20 @@ section[id] {
   border-bottom: 2px solid currentColor;
   padding-bottom: 2px;
 }
+
+/* Research and Jobs are separate stories; give the seam room to read as one. */
+.jobAll {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: #343434 3px solid;
+}
+
+:root[data-theme="light"] .jobAll {
+  border-top-color: rgb(190, 190, 190);
+}
+
+/* Breathing room between project cards. Marquee rows are spaced by their own
+   margin and are scrolled by transform, so they stay out of this. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) {
+  gap: 1rem;
+}

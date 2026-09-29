@@ -5,13 +5,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>FiberCircuits &mdash; System-on-Fiber &mdash; Shubham Saluja Kumar Agarwal</title>
-  <meta name="description" content="Taking a system-on-fiber platform from 1.4 mm to under 1 mm, with components for sleep detection and electrostimulation." />
+  <title>FiberCircuits: System-on-Fiber | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="Taking a system-on-fiber platform from 1.4 mm to under 1 mm, with components for sleep detection and electrostimulation." />
   <link rel="canonical" href="https://shubhamska.github.io/technical/fibercircuits.html" />
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="FiberCircuits &mdash; System-on-Fiber &mdash; Shubham Saluja Kumar Agarwal" />
-  <meta property="og:description" content="Taking a system-on-fiber platform from 1.4 mm to under 1 mm, with components for sleep detection and electrostimulation." />
+  <meta property="og:title" content="FiberCircuits: System-on-Fiber | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="Taking a system-on-fiber platform from 1.4 mm to under 1 mm, with components for sleep detection and electrostimulation." />
   <meta property="og:url" content="https://shubhamska.github.io/technical/fibercircuits.html" />
   <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -40,7 +42,7 @@
     </nav>
 
     <header>
-      <h1>FiberCircuits &mdash; System-on-Fiber</h1>
+      <h1>FiberCircuits: System-on-Fiber</h1>
       <p class="meta">
         Responsive Environments, MIT Media Lab
         <span class="sep">&middot;</span> Advisor: Prof. Joseph A. Paradiso
@@ -50,28 +52,40 @@
     </header>
 
     <main>
-    <h2>The problem</h2>
-    <p>
-      Electronics woven into a textile stop reading as textile once the fiber is thick enough to feel.
-      Width is the constraint that decides whether a sensing fiber can be worn all night without being
-      noticed &mdash; which is the whole point for sleep applications.
-    </p>
+      <h2>The problem</h2>
+      <p>
+        Back in 2025, Cedric Honnet and a few other people published the first version of FiberCircuits, which was a
+        1.4mm fiber with a variety of sensors. Now, in 2026, I am colaborating with Cedric to create the next version of
+        this. A sub-mm version of Fibercircuits, using the smallest existing microntroller, the MSPM0C1104 in its
+        WLCSP-8 package.
+      </p>
 
-    <h2>The approach</h2>
-    <p>
-      I am building the next version of the FiberCircuits topology, taking the fiber from
-      <strong>1.4&nbsp;mm down to under 1&nbsp;mm</strong> while keeping it a complete system rather than a
-      passive thread: components and interconnect topologies that support sleep detection and
-      electrostimulation.
-    </p>
-
-    <p class="todo">To expand &mdash; the topology itself, component selection and packaging at sub-millimetre width, the fabrication process, and what the fiber measures.</p>
-    </main>
-
-    <nav class="pager" aria-label="Other entries">
-      <a class="prev" href="/technical/edemaflex.html"><span class="label">&larr; Previous</span>EdemaFlex &mdash; Hand Edema Treatment Glove</a>
-      <a class="next" href="/technical/materials-ml.html"><span class="label">Next &rarr;</span>Machine Learning on Limited Materials Datasets</a>
-    </nav>
+      <h2>The approach</h2>
+      <p>
+        This has entailed a variety of explorations:
+      <ul>
+        <li>
+          The original FiberCircuits was coated in silicone to increase it's durability. However, this came with the
+          tradeoff of inaccesbility to the PCB itself, restricting certain direct-contact interactions. So, for a couple
+          of months, I explored different combinations of low cost materials that could serve as a replacement
+          electrode. While I did not reach a satisfactory result, I did end up finding a piezoresistive composite, that
+          could be used in future sensing applications.
+        </li>
+        <li>
+          Moving from 1.4mm to 1mm, brings in a surprising number of challenges, the first of which is component
+          selection. I now have an extensive list of sub-mm sensors that I can refer to when attempting to explore new capabilities to append to the design.
+        </li>
+        <li>
+          I have also been exploring a variety of circuit topologies and applications, ranging from sleep sensing to electrostimulation, all on a fiber form factor.
+        </li>
+      </ul>
+        <nav class="pager" aria-label="Other entries">
+          <a class="prev" href="/technical/edemaflex.html"><span class="label">Previous &rarr;</span>EdemaFlex: Hand
+            Edema Treatment Glove</a>
+          <a class="next" href="/technical/materials-ml.html"><span class="label">Next &rarr;</span>Machine Learning on
+            Limited Materials Datasets</a>
+        </nav>
+        </nav>
   </div>
 
   <script src="/js/technical.js"></script>
