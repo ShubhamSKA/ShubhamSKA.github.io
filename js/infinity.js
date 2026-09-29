@@ -162,12 +162,10 @@ const graphFunctions = [
   astroid,
 ];
 
-// The two numbers that decide the shape: which curve, and the parameter fed
-// into it. Both used to be derived once from the load time; the same arithmetic
-// now lives in a function so a new set can be drawn on demand.
-function patternFrom(ms, sec) {
-  const index =
-    (sec * (graphFunctions.length + 1) * (ms % 761)) % graphFunctions.length;
+// The parameter fed into a given curve. Several of the curves take only one
+// value, so this is mostly a lookup; the second entry is the one with a real
+// choice in it.
+function parameterFor(index, ms) {
   const options = [
     [ms / 1000 + 1],
     [(ms % 9) / 2 + 1.5],
@@ -178,29 +176,20 @@ function patternFrom(ms, sec) {
     [(ms % 50) / 25 + 0.01],
     [(ms % 80) / 10 + 3],
   ][index];
-  return { index: index, par: options[(ms % 997) % options.length] };
+  return options[(ms % 997) % options.length];
 }
 
-const firstPattern = patternFrom(
-  loadTime.getMilliseconds(),
-  loadTime.getSeconds()
-);
-let functionNum = firstPattern.index;
-let extraPar = firstPattern.par;
+// The curve the page opens on is still picked at random.
+let functionNum = Math.floor(Math.random() * graphFunctions.length);
+let extraPar = parameterFor(functionNum, loadTime.getMilliseconds());
 
-// Draw a fresh set of numbers. The curve is forced to change so that pressing
-// the button always does something you can see.
+// After that, step through the curves in order. Drawing the index from the
+// clock the way the first one used to be skewed heavily towards a few values,
+// because the arithmetic ran modulo a power of two and browsers round their
+// timers differently. Walking the list visits all eight evenly.
 function regeneratePattern() {
-  let next = null;
-  for (let tries = 0; tries < 24; tries++) {
-    next = patternFrom(
-      Math.floor(Math.random() * 1000),
-      Math.floor(Math.random() * 60)
-    );
-    if (next.index !== functionNum) break;
-  }
-  functionNum = next.index;
-  extraPar = next.par;
+  functionNum = (functionNum + 1) % graphFunctions.length;
+  extraPar = parameterFor(functionNum, Math.floor(Math.random() * 1000));
   color = Math.floor(Math.random() * 360);
   t = 0;
 }

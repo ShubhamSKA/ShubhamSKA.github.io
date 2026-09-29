@@ -1056,7 +1056,7 @@ section[id] {
 
 #playBackground {
   position: fixed;
-  left: 1.5rem;
+  right: 1.5rem;
   bottom: 1.5rem;
   z-index: 310;
   opacity: 0.55;
