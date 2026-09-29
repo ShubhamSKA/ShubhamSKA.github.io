@@ -57,18 +57,25 @@ window.addEventListener("resize", handleResize);
 window.addEventListener("load", handleResize); 
 
 
+const playButton = document.getElementById("playBackground");
+const bgControls = document.getElementById("backgroundControls");
+
+// Set here rather than inside the intro branch so bringing the canvas back to
+// the front later fades as well.
+canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
+
 function settleIntoBackground() {
   if (introDone) return;
   introDone = true;
   canvas.classList.add("canvas--settled");
   root.classList.remove("intro-active");
+  if (playButton) playButton.hidden = false;
 }
 
 if (prefersReducedMotion || window.location.hash || cameFromThisSite()) {
   settleIntoBackground();
 } else {
   root.classList.add("intro-active");
-  canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
   setTimeout(settleIntoBackground, INTRO_HOLD_MS);
   setTimeout(function () {
     root.classList.remove("intro-active");
@@ -155,25 +162,48 @@ const graphFunctions = [
   astroid,
 ];
 
-let functionNum =
-  (loadTime.getSeconds() * (graphFunctions.length + 1)*(loadTime.getMilliseconds() % 761)) % graphFunctions.length;
-let extraPar = 1;
+// The two numbers that decide the shape: which curve, and the parameter fed
+// into it. Both used to be derived once from the load time; the same arithmetic
+// now lives in a function so a new set can be drawn on demand.
+function patternFrom(ms, sec) {
+  const index =
+    (sec * (graphFunctions.length + 1) * (ms % 761)) % graphFunctions.length;
+  const options = [
+    [ms / 1000 + 1],
+    [(ms % 9) / 2 + 1.5],
+    [0, Math.PI / 2],
+    [1],
+    [(ms % 80) / 10 + 3],
+    [(ms % 99) / 100 + 0.01],
+    [(ms % 50) / 25 + 0.01],
+    [(ms % 80) / 10 + 3],
+  ][index];
+  return { index: index, par: options[(ms % 997) % options.length] };
+}
 
-const extraParValues = [
-  [loadTime.getMilliseconds() / 1000 + 1],
-  [(loadTime.getMilliseconds() % 9) / 2 + 1.5],
-  [0, Math.PI / 2],
-  [1],
-  [(loadTime.getMilliseconds() % 80) / 10 + 3],
-  [(loadTime.getMilliseconds() % 99) / 100 + 0.01],
-  [(loadTime.getMilliseconds() % 50) / 25 + 0.01],
-  [(loadTime.getMilliseconds() % 80) / 10 + 3],
-];
+const firstPattern = patternFrom(
+  loadTime.getMilliseconds(),
+  loadTime.getSeconds()
+);
+let functionNum = firstPattern.index;
+let extraPar = firstPattern.par;
 
-extraPar =
-  extraParValues[functionNum][
-    (loadTime.getMilliseconds()%997) % [extraParValues[functionNum].length]
-  ];
+// Draw a fresh set of numbers. The curve is forced to change so that pressing
+// the button always does something you can see.
+function regeneratePattern() {
+  let next = null;
+  for (let tries = 0; tries < 24; tries++) {
+    next = patternFrom(
+      Math.floor(Math.random() * 1000),
+      Math.floor(Math.random() * 60)
+    );
+    if (next.index !== functionNum) break;
+  }
+  functionNum = next.index;
+  extraPar = next.par;
+  color = Math.floor(Math.random() * 360);
+  t = 0;
+}
 
 function circle(t) {
   const radius = Math.sin(t);
@@ -271,7 +301,7 @@ function moveWhiteElements() {
       ctx.fillRect(whiteElement.x, whiteElement.y, 1, 1);
     }
 
-    if (!prefersReducedMotion && !document.hidden) {
+    if (loopShouldRun()) {
       requestAnimationFrame(moveWhiteElements);
     } else {
       rafPending = false;
@@ -280,12 +310,81 @@ function moveWhiteElements() {
 }
 
 let rafPending = true;
-moveWhiteElements();
+let userPlaying = false;
 
-// Stop burning frames on a backgrounded tab; pick back up on return.
-document.addEventListener("visibilitychange", function () {
-  if (!document.hidden && !prefersReducedMotion && !rafPending) {
+// Reduced motion stops the idle background animation, but not a visitor who has
+// deliberately asked to play with it.
+function loopShouldRun() {
+  return (!prefersReducedMotion || userPlaying) && !document.hidden;
+}
+
+function ensureLoopRunning() {
+  if (!rafPending && loopShouldRun()) {
     rafPending = true;
     moveWhiteElements();
   }
-});
+}
+
+moveWhiteElements();
+
+// Stop burning frames on a backgrounded tab; pick back up on return.
+document.addEventListener("visibilitychange", ensureLoopRunning);
+
+// ---- Playing with the background -------------------------------------------
+let cycleTimer = null;
+
+function stopCycle() {
+  if (!cycleTimer) return;
+  clearInterval(cycleTimer);
+  cycleTimer = null;
+  const cycle = document.getElementById("bgCycle");
+  if (cycle) {
+    cycle.setAttribute("aria-pressed", "false");
+    cycle.classList.remove("isOn");
+  }
+}
+
+function startCycle() {
+  if (cycleTimer) return;
+  regeneratePattern();
+  cycleTimer = setInterval(regeneratePattern, 4000);
+  const cycle = document.getElementById("bgCycle");
+  if (cycle) {
+    cycle.setAttribute("aria-pressed", "true");
+    cycle.classList.add("isOn");
+  }
+}
+
+function bringToFront() {
+  userPlaying = true;
+  canvas.classList.remove("canvas--settled");
+  root.classList.add("intro-active"); // holds the page still underneath
+  if (playButton) playButton.hidden = true;
+  if (bgControls) bgControls.hidden = false;
+  ensureLoopRunning();
+}
+
+function returnToPage() {
+  userPlaying = false;
+  stopCycle();
+  canvas.classList.add("canvas--settled");
+  root.classList.remove("intro-active");
+  if (bgControls) bgControls.hidden = true;
+  if (playButton) playButton.hidden = false;
+}
+
+if (playButton && bgControls) {
+  playButton.addEventListener("click", bringToFront);
+  document.getElementById("bgBack").addEventListener("click", returnToPage);
+  document.getElementById("bgNew").addEventListener("click", regeneratePattern);
+  document.getElementById("bgCycle").addEventListener("click", function () {
+    if (cycleTimer) {
+      stopCycle();
+    } else {
+      startCycle();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && userPlaying) returnToPage();
+  });
+}

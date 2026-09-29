@@ -1036,3 +1036,68 @@ section[id] {
 .skill a:focus-visible {
   text-decoration-thickness: 2px;
 }
+
+/* ---- Playing with the background ----
+   The canvas overlay is black in both themes, so the three controls that sit
+   on top of it are always light. The button that summons it sits over the
+   page, so that one follows the theme. */
+.bgButton {
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: inherit;
+  background: none;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+}
+
+#playBackground {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 310;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+#playBackground:hover,
+#playBackground:focus-visible {
+  opacity: 1;
+}
+
+/* display:flex on the class outranks the browser's own [hidden] rule, so the
+   hidden state has to be spelled out. */
+.bgControls[hidden] {
+  display: none;
+}
+
+.bgControls {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 400;
+}
+
+.bgControls .bgButton {
+  color: #fff;
+  border-color: #fff;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.bgControls .bgButton:hover,
+.bgControls .bgButton:focus-visible {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.bgControls .bgButton.isOn {
+  background-color: #fff;
+  color: #000;
+}
