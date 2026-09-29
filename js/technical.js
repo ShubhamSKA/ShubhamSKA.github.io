@@ -40,9 +40,18 @@
   // ---- theme toggle --------------------------------------------------------
   if (!btn) return;
 
+  // Same two images the landing page uses, so the control reads identically
+  // across the site rather than being a unicode glyph here and an icon there.
   function paintButton() {
     var light = root.getAttribute("data-theme") === "light";
-    btn.innerHTML = light ? "&#9789;" : "&#9788;";
+    var icon = btn.querySelector("img");
+    if (!icon) {
+      icon = document.createElement("img");
+      icon.alt = "";
+      btn.innerHTML = "";
+      btn.appendChild(icon);
+    }
+    icon.src = light ? "/img/dark_mode.png" : "/img/sun_white.png";
     btn.setAttribute("aria-pressed", light ? "true" : "false");
     btn.title = light ? "Switch to dark mode" : "Switch to light mode";
   }

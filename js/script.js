@@ -587,11 +587,15 @@ const skill_descriptions = {
   TroubleShooting:
     "I can troubleshoot PCBs with basic techniques like continuity checking and parameter measurements.",
   Design:
-    "I can design basic circuits, both linear and logical. Planning to learn more with my senior design project.",
+    "Learned a lot of digital circuit design with my senior design project. Learning more with FiberCircuits",
+  Sensor:
+    "I am taking a course on sensor design, goal is to go from raw materials to digital signals.",
   Milling:
     "Milled up to two layer PCBs on an AccurateCNC PCB Mill, using their proprietary software.",
   EPlating:
     "I know how this works, I have made the solute for it, and I have electroplated (albeit unevenly) some 3D printed objects.",
+  Haptics:
+    "Taking a course on Haptic Systems. Also, developing haptic taxels at VESL, and exploring electrostimulation with FiberCircuits.",
   English:
     "My most proficient language. I can read upwards of 400WPM while still maintaining a general understanding of what I am reading.",
   Spanish:

@@ -56,49 +56,42 @@
       <h2>The problem</h2>
       <p>
         State of charge cannot be measured directly. Online estimators infer it from terminal behaviour,
-        which drifts while a cell relaxes after load. Thus readings taken shortly after use are
-        not trustworthy.
+        which drifts while a cell relaxes after load, so a reading taken shortly after use is the least
+        trustworthy one. That is usually exactly when you want it.
       </p>
 
       <h2>What I built</h2>
+      <p>
+        I helped design and test a method for detecting LiPo state of charge wirelessly, measuring the cell
+        non-invasively rather than through its terminals. The circuit itself was not mine, but most of the
+        measurement digitisation and interpretation was.
+      </p>
+      <p>
+        That circuit outputs a sinusoid whose amplitude and frequency shift with state of charge, so
+        reading it precisely enough is the whole problem. My side of it:
+      </p>
       <ul>
         <li>
-          I helped design and test a method for wireless online LiPo state-of-charge detection, measured non-invasively
-          rather than through the
-          terminals. The circuit itself was not designed by me, but a large majority of it's measurement digitization
-          and interpretation fell under my purview.
-        </li>
-        <li>
-          The output of the circuit is a sinusoid, and it's amplitude and frequency change based on the state of charge.
-          So, I designed an <strong>STM32-based frequency counter</strong> covering a 30&nbsp;MHz range at
+          An <strong>STM32-based frequency counter</strong> covering a 30&nbsp;MHz range at
           <strong>&plusmn;3&nbsp;Hz</strong> error.
         </li>
+        <li>A Python GUI for visualising and logging the sensor data in real time.</li>
         <li>
-          I also developed a Python GUI for real-time sensor data visualisation
-          and logging.
-        </li>
-        <li>
-          Acquisition pipelines for multi-instrument battery datasets (filtering, noise removal, and
-          synchronisation) to extract reliable parameters and validate sensor and device performance.
-        </li>
-        <li>
-          I also developed all the denoising and data analysis algorithms.
-        </li>
-        <li>
-          I also assembled over 20 PCBs across several vesrsions of the cricuit, each with over 100 SMD components.
+          The acquisition pipeline behind the multi-instrument datasets: filtering, denoising and
+          synchronisation, plus the analysis that turns the raw captures into parameters we could trust.
         </li>
       </ul>
+      <p>
+        I also assembled over 20 boards across several versions of the circuit, each carrying more than 100
+        SMD components.
+      </p>
 
       <h2>Results</h2>
       <div class="tableScroll">
         <table class="spec">
           <tr>
             <th>Relaxation-induced error</th>
-            <td>Under &plusmn;1%, superior to existing state-of-the-art online sensing methods</td>
-          </tr>
-          <tr>
-            <th>Frequency counter</th>
-            <td>30&nbsp;MHz range, &plusmn;3&nbsp;Hz error</td>
+            <td>Under &plusmn;1%, better than existing state-of-the-art online sensing methods</td>
           </tr>
         </table>
       </div>

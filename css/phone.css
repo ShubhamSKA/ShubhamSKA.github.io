@@ -760,10 +760,7 @@ div .sendButton {
 }
 
 /* ---- Publications and awards ---- */
-.pubsAll,
-.awardsAll {
-  padding: 0 4%;
-}
+
 
 .pubList,
 .awardList {
@@ -861,14 +858,20 @@ section[id] {
   padding-bottom: 2px;
 }
 
-/* Research and Jobs are separate stories; give the seam room to read as one. */
-.jobAll {
-  margin-top: 4rem;
-  padding-top: 2rem;
+/* Every seam between two subsections of the same level looks the same:
+   Research to Jobs, one project group to the next, one skills table to the
+   next. */
+.workResearchAll + .jobAll,
+.projectDisplay > .projectAll + .projectAll,
+.skillsDisplay > .subSkillAll + .subSkillAll {
+  margin-top: 3rem;
+  padding-top: 1.75rem;
   border-top: #343434 3px solid;
 }
 
-:root[data-theme="light"] .jobAll {
+:root[data-theme="light"] .workResearchAll + .jobAll,
+:root[data-theme="light"] .projectDisplay > .projectAll + .projectAll,
+:root[data-theme="light"] .skillsDisplay > .subSkillAll + .subSkillAll {
   border-top-color: rgb(190, 190, 190);
 }
 
@@ -876,4 +879,25 @@ section[id] {
    margin and are scrolled by transform, so they stay out of this. */
 .projectType:not(.marqueeSlider):not(.marqueeSliderArt) {
   gap: 1rem;
+}
+
+/* These icons have different native ratios (LinkedIn 635x540, GitHub 230x225,
+   the moon 534x595). Pin the height and let the width follow so none of them
+   get stretched, whichever source the theme swaps in. */
+.linksToMe img {
+  height: 50px;
+  width: auto;
+}
+
+#modeImage {
+  height: 40px;
+  width: auto;
+}
+
+/* Publications and Awards hold a single list; keep it off the edges without
+   padding the section, which would inset the title band. */
+.pubList,
+.awardList {
+  padding-right: 4%;
+  padding-left: calc(4% + 2.5rem);
 }
