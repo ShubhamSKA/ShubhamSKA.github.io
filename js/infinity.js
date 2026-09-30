@@ -106,8 +106,15 @@ function moveTowardsTarget(currentX, currentY, targetX, targetY, speed) {
   const distance = calculateDistance(currentX, currentY, targetX, targetY);
   const dx = (targetX - currentX) / distance;
   const dy = (targetY - currentY) / distance;
-  let newX = currentX + dx * speed;
-  let newY = currentY + dy * speed;
+  // A flat 3.5px a frame cannot keep up with the busier curves: their targets
+  // sweep along the shape faster than that, so the cloud lagged into a knot
+  // near the centre no matter how well formed the curve was. Particles that
+  // have fallen behind now close the gap in proportion to it; once they are
+  // near their target the original constant step takes over unchanged, so the
+  // curves that already tracked well look exactly as they did.
+  const step = Math.max(speed, distance * 0.22);
+  let newX = currentX + dx * step;
+  let newY = currentY + dy * step;
   const distanceToCursor = calculateDistance(
     newX,
     newY,
@@ -164,6 +171,10 @@ const graphFunctions = [
   hypocicloid,
   venusian,
   astroid,
+  butterfly,
+  farris,
+  gielis,
+  harmonograph,
 ];
 
 // What extraPar means differs per curve, so each one gets its own range. These
@@ -179,10 +190,17 @@ const parameterRanges = [
   { min: 0.02, max: 0.98, label: "Radius ratio" }, // hypocicloid
   { min: 0.12, max: 2.0, label: "Ratio" }, // venusian
   { min: 2.5, max: 11, label: "Cusps" }, // astroid
+  { min: 2, max: 7, step: 1, label: "Wings" }, // butterfly
+  { min: 2, max: 8, step: 1, label: "Turns" }, // farris
+  { min: 2, max: 9, step: 1, label: "Petals" }, // gielis
+  { min: 1, max: 6, step: 1, label: "Ratio" }, // harmonograph
 ];
 
 function parameterFor(index) {
   const range = parameterRanges[index];
+  if (range.step === 1) {
+    return range.min + Math.floor(Math.random() * (range.max - range.min + 1));
+  }
   return range.min + Math.random() * (range.max - range.min);
 }
 
@@ -257,6 +275,41 @@ function astroid(t) {
   const y =
     ((extraPar - 1) * Math.sin(t) - Math.sin((extraPar - 1) * t)) /
     (1.5 * extraPar);
+  return { x, y };
+}
+function butterfly(t) {
+  const wings = Math.round(extraPar);
+  const r =
+    Math.exp(Math.sin(t)) -
+    2 * Math.cos(wings * t) +
+    Math.pow(Math.sin(t / 2), 5);
+  // The theoretical bound on |r| is e + 3, but the extremes never line up,
+  // so normalising by it drew the butterfly at about half the size of every
+  // other curve. 3.6 is measured: it puts the span alongside the rest.
+  const k = 3.6;
+  const x = (Math.sin(t) * r) / k;
+  const y = (Math.cos(t) * r) / k;
+  return { x, y };
+}
+function farris(t) {
+  const n = Math.round(extraPar);
+  const k = 1 + 1 / 2 + 1 / 3;                // |z| ≤ 11/6 for every n
+  const x = (Math.cos(t) + Math.cos((n + 1) * t) / 2 + Math.sin((3 * n - 1) * t) / 3) / k;
+  const y = (Math.sin(t) + Math.sin((n + 1) * t) / 2 + Math.cos((3 * n - 1) * t) / 3) / k;
+  return { x, y };
+}
+function gielis(t) {
+  const a = Math.round(extraPar) * t / 4;
+  const r = 1 / (Math.pow(Math.abs(Math.cos(a)), 7) + Math.pow(Math.abs(Math.sin(a)), 8));
+  const k = 6.68;                              // max r (independent of m)
+  const x = (r * Math.cos(t)) / k;
+  const y = (r * Math.sin(t)) / k;
+  return { x, y };
+}
+function harmonograph(t) {
+  const a = Math.round(extraPar);
+  const x = (Math.sin(a * t) + Math.sin((a + 3) * t + 1.2) / 2) / 1.5;
+  const y = (Math.cos(2 * t) + Math.cos((a + 1) * t + 0.5) / 2) / 1.5;
   return { x, y };
 }
 
@@ -354,7 +407,10 @@ function startCycle() {
 }
 
 function showParameterValue() {
-  if (paramValue) paramValue.textContent = Number(extraPar).toFixed(2);
+  if (!paramValue) return;
+  const range = parameterRanges[functionNum];
+  paramValue.textContent =
+    range.step === 1 ? String(Math.round(extraPar)) : Number(extraPar).toFixed(2);
 }
 
 // Each curve reads extraPar differently, so the slider is re-scaled to that
@@ -364,7 +420,7 @@ function syncParameterSlider() {
   const range = parameterRanges[functionNum];
   paramSlider.min = range.min;
   paramSlider.max = range.max;
-  paramSlider.step = (range.max - range.min) / 500;
+  paramSlider.step = range.step || (range.max - range.min) / 500;
   paramSlider.value = extraPar;
   paramSlider.setAttribute("aria-label", range.label);
   if (paramLabel) paramLabel.textContent = range.label;
