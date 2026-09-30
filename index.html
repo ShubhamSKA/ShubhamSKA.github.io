@@ -48,6 +48,11 @@
 <body>
   <canvas aria-hidden="true"></canvas>
   <button type="button" id="playBackground" class="bgButton" hidden>Play with background</button>
+  <div class="bgParam" id="backgroundParam" hidden>
+    <span class="bgParamLabel" id="bgParamLabel">Width</span>
+    <input type="range" class="bgParamSlider" id="bgParamSlider" min="0" max="1" step="0.002" value="0.5" />
+    <span class="bgParamValue" id="bgParamValue">1.00</span>
+  </div>
   <div class="bgControls" id="backgroundControls" hidden>
     <button type="button" class="bgButton" id="bgBack">Back to Page</button>
     <button type="button" class="bgButton" id="bgNew">New Pattern</button>

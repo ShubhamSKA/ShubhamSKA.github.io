@@ -1026,3 +1026,41 @@ section[id] {
   background-color: #fff;
   color: #000;
 }
+
+/* Vertical slider for the current curve's parameter. Sits on the black
+   overlay, so it is light in both themes like the other play controls. */
+.bgParam[hidden] {
+  display: none;
+}
+
+.bgParam {
+  position: fixed;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bgParamSlider {
+  -webkit-appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 1.6rem;
+  height: 32vh;
+  accent-color: #fff;
+  cursor: ns-resize;
+}
+
+.bgParamValue {
+  font-variant-numeric: tabular-nums;
+  min-width: 4ch;
+  text-align: center;
+}

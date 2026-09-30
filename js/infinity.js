@@ -59,6 +59,10 @@ window.addEventListener("load", handleResize);
 
 const playButton = document.getElementById("playBackground");
 const bgControls = document.getElementById("backgroundControls");
+const paramPanel = document.getElementById("backgroundParam");
+const paramSlider = document.getElementById("bgParamSlider");
+const paramLabel = document.getElementById("bgParamLabel");
+const paramValue = document.getElementById("bgParamValue");
 
 // Set here rather than inside the intro branch so bringing the canvas back to
 // the front later fades as well.
@@ -162,26 +166,29 @@ const graphFunctions = [
   astroid,
 ];
 
-// The parameter fed into a given curve. Several of the curves take only one
-// value, so this is mostly a lookup; the second entry is the one with a real
-// choice in it.
-function parameterFor(index, ms) {
-  const options = [
-    [ms / 1000 + 1],
-    [(ms % 9) / 2 + 1.5],
-    [0, Math.PI / 2],
-    [1],
-    [(ms % 80) / 10 + 3],
-    [(ms % 99) / 100 + 0.01],
-    [(ms % 50) / 25 + 0.01],
-    [(ms % 80) / 10 + 3],
-  ][index];
-  return options[(ms % 997) % options.length];
+// What extraPar means differs per curve, so each one gets its own range. These
+// are continuous now: the old version quantised them to whatever the clock
+// happened to read, which left eight() with only two angles and heart() with
+// no parameter at all.
+const parameterRanges = [
+  { min: 0.55, max: 2.0, label: "Width" }, // circle: horizontal stretch
+  { min: 1.5, max: 5.5, label: "Frequency" }, // dunno: lobe count
+  { min: 0, max: Math.PI * 2, label: "Angle" }, // eight: rotation
+  { min: 0.55, max: 1.7, label: "Size" }, // heart: scale
+  { min: 2, max: 11, label: "Petals" }, // boomerang
+  { min: 0.02, max: 0.98, label: "Radius ratio" }, // hypocicloid
+  { min: 0.12, max: 2.0, label: "Ratio" }, // venusian
+  { min: 2.5, max: 11, label: "Cusps" }, // astroid
+];
+
+function parameterFor(index) {
+  const range = parameterRanges[index];
+  return range.min + Math.random() * (range.max - range.min);
 }
 
 // The curve the page opens on is still picked at random.
 let functionNum = Math.floor(Math.random() * graphFunctions.length);
-let extraPar = parameterFor(functionNum, loadTime.getMilliseconds());
+let extraPar = parameterFor(functionNum);
 
 // After that, step through the curves in order. Drawing the index from the
 // clock the way the first one used to be skewed heavily towards a few values,
@@ -189,9 +196,10 @@ let extraPar = parameterFor(functionNum, loadTime.getMilliseconds());
 // timers differently. Walking the list visits all eight evenly.
 function regeneratePattern() {
   functionNum = (functionNum + 1) % graphFunctions.length;
-  extraPar = parameterFor(functionNum, Math.floor(Math.random() * 1000));
+  extraPar = parameterFor(functionNum);
   color = Math.floor(Math.random() * 360);
   t = 0;
+  syncParameterSlider();
 }
 
 function circle(t) {
@@ -214,13 +222,14 @@ function eight(t) {
   return { x, y };
 }
 function heart(t) {
-  const x = (16 * Math.sin(t) * Math.sin(t) * Math.sin(t)) / 20;
+  const x = (extraPar * 16 * Math.sin(t) * Math.sin(t) * Math.sin(t)) / 20;
   const y =
     -(
-      13 * Math.cos(t) -
-      5 * Math.cos(2 * t) -
-      2 * Math.cos(3 * t) -
-      1 * Math.cos(4 * t)
+      extraPar *
+      (13 * Math.cos(t) -
+        5 * Math.cos(2 * t) -
+        2 * Math.cos(3 * t) -
+        1 * Math.cos(4 * t))
     ) / 20;
   return { x, y };
 }
@@ -344,12 +353,32 @@ function startCycle() {
   }
 }
 
+function showParameterValue() {
+  if (paramValue) paramValue.textContent = Number(extraPar).toFixed(2);
+}
+
+// Each curve reads extraPar differently, so the slider is re-scaled to that
+// curve's range whenever the shape changes.
+function syncParameterSlider() {
+  if (!paramSlider) return;
+  const range = parameterRanges[functionNum];
+  paramSlider.min = range.min;
+  paramSlider.max = range.max;
+  paramSlider.step = (range.max - range.min) / 500;
+  paramSlider.value = extraPar;
+  paramSlider.setAttribute("aria-label", range.label);
+  if (paramLabel) paramLabel.textContent = range.label;
+  showParameterValue();
+}
+
 function bringToFront() {
   userPlaying = true;
   canvas.classList.remove("canvas--settled");
   root.classList.add("intro-active"); // holds the page still underneath
   if (playButton) playButton.hidden = true;
   if (bgControls) bgControls.hidden = false;
+  if (paramPanel) paramPanel.hidden = false;
+  syncParameterSlider();
   ensureLoopRunning();
 }
 
@@ -359,6 +388,7 @@ function returnToPage() {
   canvas.classList.add("canvas--settled");
   root.classList.remove("intro-active");
   if (bgControls) bgControls.hidden = true;
+  if (paramPanel) paramPanel.hidden = true;
   if (playButton) playButton.hidden = false;
 }
 
@@ -376,4 +406,11 @@ if (playButton && bgControls) {
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && userPlaying) returnToPage();
   });
+  if (paramSlider) {
+    // No t reset here: dragging should morph the shape rather than restart it.
+    paramSlider.addEventListener("input", function () {
+      extraPar = Number(paramSlider.value);
+      showParameterValue();
+    });
+  }
 }
