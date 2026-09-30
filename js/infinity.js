@@ -180,29 +180,43 @@ const parameterRanges = [
   { min: 0, max: Math.PI * 2, label: "Angle" }, // eight: rotation
   { min: 0.55, max: 1.7, label: "Size" }, // heart: scale
   { min: 2, max: 11, label: "Petals" }, // boomerang
-  { min: 0.02, max: 0.98, label: "Radius ratio" }, // hypocicloid
+  { min: 0.02, max: 0.98, label: "Ratio" }, // hypocicloid
   { min: 0.12, max: 2.0, label: "Ratio" }, // venusian
   { min: 2.5, max: 11, label: "Cusps" }, // astroid
-  { min: 2, max: 7, step: 1, label: "Wings" }, // butterfly
-  { min: 2, max: 8, step: 1, label: "Turns" }, // farris
-  { min: 2, max: 9, step: 1, label: "Petals" }, // gielis
-  // A smaller figure means slower-moving targets, so the particles keep up
-  // at their usual speed. 6 is dropped: even shrunk it stays a smear.
-  { min: 1, max: 5, step: 1, scale: 0.65, label: "Ratio" }, // harmonograph
+  { min: 2, max: 7, step: 0.1, label: "Wings" }, // butterfly
+  { min: 2, max: 8, step: 0.25, label: "Turns" }, // farris
+  { min: 2, max: 9, step: 0.25, label: "Petals" }, // gielis
+  // Drawn a little smaller so the particles can hold the weave: the targets
+  // sweep at speed * |f'|, and a smaller figure slows them without touching
+  // the particle speed. Above ratio 4 it smears whatever the scale.
+  { min: 1, max: 4, step: 0.05, sampleStep: 0.02, scale: 0.6, label: "Ratio" }, // harmonograph
 ];
 
 function parameterFor(index) {
   const range = parameterRanges[index];
-  if (range.step === 1) {
-    return range.min + Math.floor(Math.random() * (range.max - range.min + 1));
+  if (!range.step) {
+    return range.min + Math.random() * (range.max - range.min);
   }
-  return range.min + Math.random() * (range.max - range.min);
+  // Land on one of the notches the slider can actually stop at, whatever the
+  // step is. Picking a free-running value put the thumb between notches and
+  // made the readout disagree with the slider.
+  const notches = Math.round((range.max - range.min) / range.step);
+  return range.min + range.step * Math.floor(Math.random() * (notches + 1));
+}
+
+// Enough decimals to show the step, and no more.
+function decimalsFor(step) {
+  if (!step) return 2;
+  const text = String(step);
+  const dot = text.indexOf(".");
+  return dot < 0 ? 0 : text.length - dot - 1;
 }
 
 // The curve the page opens on is still picked at random.
 let functionNum = Math.floor(Math.random() * graphFunctions.length);
 let extraPar = parameterFor(functionNum);
 let patternScale = parameterRanges[functionNum].scale || 1;
+let patternSampleStep = parameterRanges[functionNum].sampleStep || 1;
 
 // After that, step through the curves in order. Drawing the index from the
 // clock the way the first one used to be skewed heavily towards a few values,
@@ -212,6 +226,7 @@ function regeneratePattern() {
   functionNum = (functionNum + 1) % graphFunctions.length;
   extraPar = parameterFor(functionNum);
   patternScale = parameterRanges[functionNum].scale || 1;
+  patternSampleStep = parameterRanges[functionNum].sampleStep || 1;
   color = Math.floor(Math.random() * 360);
   t = 0;
   syncParameterSlider();
@@ -275,7 +290,7 @@ function astroid(t) {
   return { x, y };
 }
 function butterfly(t) {
-  const wings = Math.round(extraPar);
+  const wings = extraPar;
   const r =
     Math.exp(Math.sin(t)) -
     2 * Math.cos(wings * t) +
@@ -283,30 +298,36 @@ function butterfly(t) {
   // The theoretical bound on |r| is e + 3, but the extremes never line up,
   // so normalising by it drew the butterfly at about half the size of every
   // other curve. 3.6 is measured: it puts the span alongside the rest.
-  const k = 3.6;
+  const k = 5;//3.6;
   const x = (Math.sin(t) * r) / k;
   const y = (Math.cos(t) * r) / k;
   return { x, y };
 }
 function farris(t) {
-  const n = Math.round(extraPar);
+  const n = extraPar;
   const k = 1 + 1 / 2 + 1 / 3;                // |z| ≤ 11/6 for every n
   const x = (Math.cos(t) + Math.cos((n + 1) * t) / 2 + Math.sin((3 * n - 1) * t) / 3) / k;
   const y = (Math.sin(t) + Math.sin((n + 1) * t) / 2 + Math.cos((3 * n - 1) * t) / 3) / k;
   return { x, y };
 }
 function gielis(t) {
-  const a = Math.round(extraPar) * t / 4;
+  const a = extraPar * t / 4;
   const r = 1 / (Math.pow(Math.abs(Math.cos(a)), 7) + Math.pow(Math.abs(Math.sin(a)), 8));
   const k = 6.68;                              // max r (independent of m)
   const x = (r * Math.cos(t)) / k;
   const y = (r * Math.sin(t)) / k;
   return { x, y };
 }
+// A harmonograph is two pendulums very slightly out of tune, so each loop lands
+// a little rotated from the last and the trace weaves a ribbon. That only reads
+// if consecutive particles sit next to each other along the path, which is what
+// this curve's sampleStep is for: every other curve steps 1 per particle and
+// scatters over the whole orbit, this one steps 0.02 and follows it.
 function harmonograph(t) {
-  const a = Math.round(extraPar);
-  const x = (Math.sin(a * t) + Math.sin((a + 3) * t + 1.2) / 2) / 1.5;
-  const y = (Math.cos(2 * t) + Math.cos((a + 1) * t + 0.5) / 2) / 1.5;
+  const a = extraPar;
+  const detune = 0.012;
+  const x = (Math.sin(a * t) + Math.sin((a + detune) * t + 1.2) / 2) / 1.5;
+  const y = (Math.cos(2 * t) + Math.cos((a + detune) * t + 0.5) / 2) / 1.5;
   return { x, y };
 }
 
@@ -325,7 +346,7 @@ function moveWhiteElements() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < whiteElements.length; i++) {
       let whiteElement = whiteElements[i];
-      let angle = t + i;
+      let angle = t + i * patternSampleStep;
 
       const shape = graphFunctions[functionNum](angle);
       const reach = speed * (1 / increment) * patternScale;
@@ -404,8 +425,7 @@ function startCycle() {
 function showParameterValue() {
   if (!paramValue) return;
   const range = parameterRanges[functionNum];
-  paramValue.textContent =
-    range.step === 1 ? String(Math.round(extraPar)) : Number(extraPar).toFixed(2);
+  paramValue.textContent = Number(extraPar).toFixed(decimalsFor(range.step));
 }
 
 // Each curve reads extraPar differently, so the slider is re-scaled to that
