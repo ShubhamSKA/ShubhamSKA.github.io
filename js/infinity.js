@@ -106,15 +106,8 @@ function moveTowardsTarget(currentX, currentY, targetX, targetY, speed) {
   const distance = calculateDistance(currentX, currentY, targetX, targetY);
   const dx = (targetX - currentX) / distance;
   const dy = (targetY - currentY) / distance;
-  // A flat 3.5px a frame cannot keep up with the busier curves: their targets
-  // sweep along the shape faster than that, so the cloud lagged into a knot
-  // near the centre no matter how well formed the curve was. Particles that
-  // have fallen behind now close the gap in proportion to it; once they are
-  // near their target the original constant step takes over unchanged, so the
-  // curves that already tracked well look exactly as they did.
-  const step = Math.max(speed, distance * 0.22);
-  let newX = currentX + dx * step;
-  let newY = currentY + dy * step;
+  let newX = currentX + dx * speed;
+  let newY = currentY + dy * speed;
   const distanceToCursor = calculateDistance(
     newX,
     newY,
@@ -193,7 +186,9 @@ const parameterRanges = [
   { min: 2, max: 7, step: 1, label: "Wings" }, // butterfly
   { min: 2, max: 8, step: 1, label: "Turns" }, // farris
   { min: 2, max: 9, step: 1, label: "Petals" }, // gielis
-  { min: 1, max: 6, step: 1, label: "Ratio" }, // harmonograph
+  // A smaller figure means slower-moving targets, so the particles keep up
+  // at their usual speed. 6 is dropped: even shrunk it stays a smear.
+  { min: 1, max: 5, step: 1, scale: 0.65, label: "Ratio" }, // harmonograph
 ];
 
 function parameterFor(index) {
@@ -207,6 +202,7 @@ function parameterFor(index) {
 // The curve the page opens on is still picked at random.
 let functionNum = Math.floor(Math.random() * graphFunctions.length);
 let extraPar = parameterFor(functionNum);
+let patternScale = parameterRanges[functionNum].scale || 1;
 
 // After that, step through the curves in order. Drawing the index from the
 // clock the way the first one used to be skewed heavily towards a few values,
@@ -215,6 +211,7 @@ let extraPar = parameterFor(functionNum);
 function regeneratePattern() {
   functionNum = (functionNum + 1) % graphFunctions.length;
   extraPar = parameterFor(functionNum);
+  patternScale = parameterRanges[functionNum].scale || 1;
   color = Math.floor(Math.random() * 360);
   t = 0;
   syncParameterSlider();
@@ -330,12 +327,10 @@ function moveWhiteElements() {
       let whiteElement = whiteElements[i];
       let angle = t + i;
 
-      whiteElement.targetX =
-        speed * (1 / increment) * graphFunctions[functionNum](angle).x +
-        canvas.width / 2;
-      whiteElement.targetY =
-        speed * (1 / increment) * graphFunctions[functionNum](angle).y +
-        canvas.height / 2;
+      const shape = graphFunctions[functionNum](angle);
+      const reach = speed * (1 / increment) * patternScale;
+      whiteElement.targetX = reach * shape.x + canvas.width / 2;
+      whiteElement.targetY = reach * shape.y + canvas.height / 2;
 
       let updatedWhiteElement = moveTowardsTarget(
         whiteElement.x,
