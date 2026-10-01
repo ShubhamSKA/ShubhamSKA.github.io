@@ -468,31 +468,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-if (isMobileDevice()) {
-  const menuButton = document.querySelector(".menuButton");
-  const menuItems = document.querySelectorAll(".menu-item");
-  const menuWhole = document.querySelector(".menu");
-  menuWhole.style.backgroundColor = "black";
-  menuButton.addEventListener("click", function () {
-    menuButton.classList.toggle("displaying");
-    menuItems.forEach(function (element) {
-      if (menuButton.classList.contains("displaying")) {
-        element.style.display = "block";
-      } else {
-        element.style.display = "none";
-      }
-    });
+// Whether the menu is collapsed is now a question of width, not user agent, so
+// a narrowed desktop window gets the same button a phone does. The open state
+// lives in a class rather than inline display values: widening the window then
+// brings the full bar back on its own, instead of leaving items stuck hidden
+// because they were closed while narrow.
+const navMenu = document.querySelector(".menu");
+const navToggle = document.querySelector(".menuButton");
+
+if (navMenu && navToggle) {
+  navToggle.setAttribute("aria-expanded", "false");
+  navToggle.setAttribute("aria-label", "Toggle section navigation");
+
+  function setMenuOpen(open) {
+    navMenu.classList.toggle("menu--open", open);
+    navToggle.classList.toggle("displaying", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  navToggle.addEventListener("click", function () {
+    setMenuOpen(!navMenu.classList.contains("menu--open"));
   });
-  menuItems.forEach(function (element) {
-    element.addEventListener("click", function () {
-      menuButton.classList.toggle("displaying");
-      menuItems.forEach(function (element) {
-        if (menuButton.classList.contains("displaying")) {
-          element.style.display = "block";
-        } else {
-          element.style.display = "none";
-        }
-      });
+
+  navMenu.querySelectorAll(".menu-item").forEach(function (item) {
+    item.addEventListener("click", function () {
+      setMenuOpen(false);
     });
   });
 }

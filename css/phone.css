@@ -1064,3 +1064,14 @@ section[id] {
   min-width: 4ch;
   text-align: center;
 }
+
+/* Matches the desktop stylesheet: the open state is a class, not an inline
+   display value written by script. */
+.menu.menu--open .menu-item {
+  display: block;
+}
+
+#playBackground {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
