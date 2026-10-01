@@ -19,6 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
@@ -72,6 +73,18 @@
         Currently, I am working on modifying the original circular form factor, that was used for Braille Displays, into
         an elongated form factor that can be used as a seven segment display.
       </p>
+
+      <figure class="demo" id="demo-sevenseg">
+        <div class="demoStage"></div>
+        <figcaption>
+          <span>
+            Each segment is its own taxel: a pair of AlNiCo magnets, two ferrite cores and a strip of composite
+            elastomer. Click a segment, or type a digit, to pulse its coil. The coiled magnet flips, the flux that was
+            looping inside the frame is pushed across the aperture, and the elastomer rises and stays up with the
+            current off.
+          </span>
+        </figcaption>
+      </figure>
       <h2>Existing Work</h2>
       <a href="https://ieeexplore.ieee.org/document/11109554" target="_blank">Magnetic Soft Actuator Using Composite
         Elastomer and Electropermanent Magnet for Haptic Displays</a>
@@ -85,6 +98,7 @@
   </div>
 
   <script src="/js/technical.js"></script>
+  <script src="/js/demo-haptics.js"></script>
 </body>
 
 </html>

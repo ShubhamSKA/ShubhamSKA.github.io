@@ -17,6 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
@@ -57,6 +58,36 @@
       interface carries storage, firmware and expansion hardware, so a user can extend the device rather
       than replace it.
     </p>
+
+    <figure class="photo">
+      <img src="/img/stereoboy_hero.jpg" width="900" height="1092" loading="lazy"
+        alt="StereoBoy in a translucent green Game Boy Pocket shell, showing album art on its screen with the VU meter LEDs lit beside it." />
+      <figcaption>From the <a href="https://hackaday.io/project/205771-stereoboy" target="_blank">StereoBoy project page on
+          Hackaday</a>.</figcaption>
+    </figure>
+
+    <!-- The track is set by the data attributes below. If the file at data-src is missing, the screen shows
+         "NO STEREOMAG". -->
+    <figure class="demo" id="demo-stereoboy"
+      data-src="/audio/holizna-lighter-than-air.mp3"
+      data-title="Lighter Than Air"
+      data-artist="HoliznaCC0"
+      data-art="/img/holizna_lofi_and_chill.jpg">
+      <p class="demoNotice">Turning it on plays music, so check your volume first.</p>
+      <div class="demoStage"></div>
+      <figcaption>
+        <span>
+          Music: &ldquo;Lighter Than Air&rdquo; by HoliznaCC0, from
+          <a href="https://holiznacc0.bandcamp.com/album/lofi-and-chill" target="_blank">Lofi And Chill</a>
+          (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>).
+        </span>
+        <span>
+          The real StereoBoy does a lot more than this: menus for artists, albums and tracks, an equaliser, more
+          visualisers, and whatever the cartridges add. I left those out on purpose, since rebuilding all of it here
+          would take something away from the original.
+        </span>
+      </figcaption>
+    </figure>
 
     <h2>Quick specs</h2>
     <div class="tableScroll">
@@ -203,6 +234,7 @@
   </div>
 
   <script src="/js/technical.js"></script>
+  <script src="/js/demo-stereoboy.js"></script>
 </body>
 
 </html>

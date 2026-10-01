@@ -340,3 +340,23 @@ main li a:focus-visible {
   color: var(--accent);
   text-decoration-thickness: 2px;
 }
+
+/* A photograph in the body copy, with a credit line under it. */
+figure.photo {
+  margin: 2rem auto;
+  max-width: 30rem;
+}
+
+figure.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+figure.photo figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}

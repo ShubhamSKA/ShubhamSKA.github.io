@@ -17,6 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
@@ -76,6 +77,19 @@
       </li>
     </ul>
 
+    <figure class="demo" id="demo-photonic">
+      <div class="demoStage"></div>
+      <figcaption>
+        <span>
+          Real designs from both datasets, alternating with new ones. First an autoencoder squeezes a real design into
+          a latent vector and rebuilds it, and the match rate is measured straight from these images. Then a
+          generator starts from random noise and makes a design that is in neither dataset. Everything, real or new,
+          is scored by a VGG surrogate instead of the full solver. The originals and reconstructions are real; the new
+          designs are stand-ins blended from the real ones, and the latent bars and lane timing are illustrations.
+        </span>
+      </figcaption>
+    </figure>
+
     <h2>Results</h2>
     <div class="tableScroll">
       <table class="spec">
@@ -103,6 +117,7 @@
   </div>
 
   <script src="/js/technical.js"></script>
+  <script src="/js/demo-photonic.js"></script>
 </body>
 
 </html>
