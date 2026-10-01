@@ -173,7 +173,7 @@
       n === 0
         ? "All seven segments flat."
         : n + " of 7 raised" + (digit >= 0 ? ", reading " + digit : "") + ".";
-    statusEl.textContent = first + " Holding them takes no power; only switching does.";
+    statusEl.textContent = first;
   }
 
   // Write a whole digit one segment at a time, the way the display is rastered.
