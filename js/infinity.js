@@ -185,7 +185,7 @@ const parameterRanges = [
   { min: 2.5, max: 11, label: "Cusps" }, // astroid
   { min: 2, max: 7, step: 0.1, label: "Wings" }, // butterfly
   { min: 2, max: 8, step: 0.25, label: "Turns" }, // farris
-  { min: 2, max: 9, step: 0.25, label: "Petals" }, // gielis
+  { min: 2.25, max: 9, step: 0.25, label: "Petals" }, // gielis
   // Drawn a little smaller so the particles can hold the weave: the targets
   // sweep at speed * |f'|, and a smaller figure slows them without touching
   // the particle speed. Above ratio 4 it smears whatever the scale.
