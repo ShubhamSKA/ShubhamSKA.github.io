@@ -1247,3 +1247,16 @@ section[id] {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
 }
+
+/* ---- Play me ----
+   The Python games run in the browser at /play/, but they need a keyboard and
+   a mouse, so the button only shows where the main pointer can hover. */
+.playMe {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cardActions.playMe {
+    display: flex;
+  }
+}

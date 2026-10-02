@@ -1075,3 +1075,9 @@ section[id] {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
 }
+
+/* The Python games need a keyboard and a mouse; phones and tablets never get
+   the Play Me button. */
+.playMe {
+  display: none;
+}

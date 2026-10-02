@@ -1,0 +1,233 @@
+/* The playable Python pages under /play/. Loaded after technical.css, whose
+   colours and type these reuse. */
+
+.pyStage {
+  margin: 1.5rem 0 1rem;
+}
+
+.pyControls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.pyControls button {
+  font: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.3rem;
+  color: var(--text);
+  background: transparent;
+  border: 2px solid var(--text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pyControls button:hover,
+.pyControls button:focus-visible {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .pyControls button:hover,
+:root[data-theme="light"] .pyControls button:focus-visible {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+.pyControls .pyRun {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.pyStatus {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.pyScreen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ---- turtle window, styled like a plain desktop window ---- */
+.pyWindow {
+  max-width: 100%;
+  border: 2px solid #5a5a5a;
+  border-radius: 6px 6px 2px 2px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.pyWindowBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f3f3f3;
+  color: #1a1a1a;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0 0 0 0.75rem;
+  height: 2rem;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.pyWindowClose {
+  width: 2.75rem;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.pyWindowClose:hover,
+.pyWindowClose:focus-visible {
+  background: #c42b1c;
+  color: #fff;
+}
+
+.pyCanvas {
+  display: block;
+  cursor: default;
+}
+
+.pyCanvas:focus {
+  outline: none;
+}
+
+.pyWindow:focus-within {
+  border-color: var(--accent);
+}
+
+/* After the program destroys its window the last frame stays, dimmed. */
+.pyWindow.isClosed .pyCanvas {
+  opacity: 0.35;
+}
+
+/* ---- consoles ---- */
+.pyTerminal {
+  width: 100%;
+  padding: 10px;
+  background: #0c0c0c;
+  border: 2px solid #5a5a5a;
+  border-radius: 4px;
+}
+
+.pyTerminal .xterm-viewport {
+  scrollbar-color: #4a4a4a #0c0c0c;
+}
+
+.pyConsole {
+  width: 100%;
+  max-height: 12rem;
+  overflow: auto;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: #0c0c0c;
+  color: #cccccc;
+  border: 2px solid #5a5a5a;
+  border-radius: 4px;
+  font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+}
+
+/* ---- simpledialog ---- */
+.pyDialogShade {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 5;
+}
+
+.pyDialog {
+  min-width: 18rem;
+  background: #f0f0f0;
+  color: #000;
+  border: 1px solid #8a8a8a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.85rem;
+}
+
+.pyDialogTitle {
+  background: #fff;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.pyDialogPrompt {
+  display: block;
+  padding: 0.9rem 0.9rem 0.5rem;
+}
+
+.pyDialogPrompt input {
+  display: block;
+  width: 100%;
+  margin-top: 0.45rem;
+  padding: 0.2rem 0.3rem;
+  font: inherit;
+  color: #000;
+  background: #fff;
+  border: 1px solid #7a7a7a;
+}
+
+.pyDialogButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem 0.9rem;
+}
+
+.pyDialogButtons button {
+  min-width: 5rem;
+  padding: 0.25rem 0.75rem;
+  font: inherit;
+  color: #000;
+  background: #e1e1e1;
+  border: 1px solid #adadad;
+  cursor: pointer;
+}
+
+.pyDialogButtons button[type="submit"] {
+  border-color: #0078d7;
+}
+
+.pyNeedsLaptop {
+  border-left: 4px solid var(--accent);
+  background: var(--panel);
+  padding: 0.85rem 1.1rem;
+  color: var(--muted);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1rem;
+}
+
+/* ---- laptops and desktops only ----
+   The games need a keyboard and a mouse, so the player only appears where the
+   main pointer is a fine one that can hover. Everywhere else gets a note. */
+.pyStage {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pyStage {
+    display: block;
+  }
+
+  .pyNeedsLaptop {
+    display: none;
+  }
+}

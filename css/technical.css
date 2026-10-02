@@ -182,6 +182,38 @@ code {
   width: 1%;
 }
 
+/* On a phone two columns leave the value, which carries most of the text,
+   squeezed beside an unbreakable label. Each row stacks instead: the label
+   becomes a strip across the top and the value gets the full width under it. */
+@media (max-width: 640px) {
+  .spec,
+  .spec tbody,
+  .spec tr,
+  .spec th,
+  .spec td {
+    display: block;
+  }
+
+  .spec {
+    border: var(--panel-edge) 2px solid;
+  }
+
+  .spec th,
+  .spec td {
+    border: 0;
+    width: auto;
+  }
+
+  .spec th {
+    white-space: normal;
+    padding: 0.35rem 0.9rem;
+  }
+
+  .spec tr + tr {
+    border-top: var(--panel-edge) 2px solid;
+  }
+}
+
 /* Marks a section still to be written up. Delete the element once the real
    content lands. */
 .todo {
