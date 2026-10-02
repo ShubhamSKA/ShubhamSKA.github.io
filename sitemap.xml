@@ -67,19 +67,43 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://shubhamska.github.io/technical/stereoboy.html</loc>
+    <loc>https://shubhamska.github.io/projects/</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://shubhamska.github.io/projects/stereoboy.html</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://shubhamska.github.io/play/snake.html</loc>
+    <loc>https://shubhamska.github.io/projects/wallace-tree.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://shubhamska.github.io/projects/manchester-adder.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://shubhamska.github.io/projects/flash-adc.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://shubhamska.github.io/projects/python/snake.html</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://shubhamska.github.io/play/minesweeper.html</loc>
+    <loc>https://shubhamska.github.io/projects/python/minesweeper.html</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>

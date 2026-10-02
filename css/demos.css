@@ -1053,3 +1053,325 @@
     grid-row: 2;
   }
 }
+
+/* ---- logic figures: Manchester adder, Wallace tree, flash ADC ----
+   Shared look for the three Cadence projects. A bar of inputs sits above the
+   drawing; in the drawing a logic 1 takes the page accent, a logic 0 stays
+   dim, and anything not yet evaluated is a faint dash. */
+.logicStage {
+  --d-one: var(--accent);
+  --d-zero: rgba(255, 255, 255, 0.42);
+  --d-wire: rgba(255, 255, 255, 0.2);
+  --d-red: #ff5b4d;
+  --d-blue: #4c9bff;
+  --d-green: #3fd16f;
+  --d-purple: #c07ae6;
+  padding: 0 0 1rem;
+}
+
+:root[data-theme="light"] .logicStage {
+  --d-zero: rgba(0, 0, 0, 0.45);
+  --d-wire: rgba(0, 0, 0, 0.22);
+  --d-red: #e0321f;
+  --d-blue: #1f6fe0;
+  --d-green: #1f9e48;
+  --d-purple: #9446bf;
+}
+
+.logicBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1.1rem;
+  padding: 1rem 1.1rem 0.9rem;
+  border-bottom: var(--panel-edge) 2px solid;
+  background: var(--panel);
+}
+
+.logicBar label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.logicBar input[type="text"],
+.logicBar input[type="number"] {
+  width: 5.5rem;
+  font: inherit;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--bg);
+  border: var(--panel-edge) 2px solid;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+}
+
+.logicBar input[type="range"] {
+  width: 11rem;
+  accent-color: var(--accent);
+}
+
+.logicBar input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.logicBar input[aria-invalid="true"] {
+  border-color: var(--d-red);
+}
+
+.logicBar .check {
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 0.45rem;
+}
+
+.logicBar .check input {
+  accent-color: var(--accent);
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.logicBar .buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.logicReadout {
+  margin: 0;
+  padding: 0.75rem 1.1rem 0;
+  min-height: 2.4em;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.95rem;
+  color: var(--d-ink);
+}
+
+.logicReadout .ok {
+  color: var(--d-green);
+}
+
+.logicStage svg {
+  margin: 0.5rem auto 0;
+  font-family: "Roboto", sans-serif;
+  overflow: visible;
+}
+
+.logicStage .tall {
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+}
+
+.logicStage text {
+  fill: var(--d-muted);
+  font-size: 12.5px;
+}
+
+.logicStage .lab {
+  fill: var(--d-ink);
+  font-size: 13.5px;
+}
+
+.logicStage .mono {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.logicStage .wire {
+  fill: none;
+  stroke: var(--d-wire);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke 0.25s ease;
+}
+
+.logicStage .wire.v1 {
+  stroke: var(--d-one);
+}
+
+.logicStage .wire.v0 {
+  stroke: var(--d-zero);
+}
+
+.logicStage .rail1 {
+  stroke: var(--d-one);
+  opacity: 0.55;
+}
+
+.logicStage .rail0 {
+  stroke: var(--d-zero);
+}
+
+/* a bit cell: a box with its value in it */
+.logicStage .cell rect {
+  fill: var(--d-bg);
+  stroke: var(--d-wire);
+  stroke-width: 1.5;
+  transition: fill 0.25s ease, stroke 0.25s ease;
+}
+
+.logicStage .cell text {
+  fill: var(--d-muted);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 14px;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.logicStage .cell.v1 rect {
+  fill: var(--d-one);
+  stroke: var(--d-one);
+}
+
+.logicStage .cell.v1 text {
+  fill: var(--d-bg);
+  font-weight: 700;
+}
+
+.logicStage .cell.v0 rect {
+  stroke: var(--d-zero);
+}
+
+.logicStage .cell.v0 text {
+  fill: var(--d-ink);
+}
+
+/* a dot in the Wallace diagram: coloured by the block it feeds */
+.logicStage .dot circle {
+  stroke-width: 2;
+  fill: transparent;
+  stroke: var(--d-wire);
+  transition: fill 0.25s ease, stroke 0.25s ease, opacity 0.25s ease;
+}
+
+.logicStage .dot text {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  text-anchor: middle;
+  dominant-baseline: central;
+  fill: transparent;
+}
+
+.logicStage .dot.known text {
+  fill: var(--d-ink);
+}
+
+.logicStage .dot.known.v1 text {
+  fill: var(--d-bg);
+  font-weight: 700;
+}
+
+.logicStage .dot.c0.known circle { stroke: var(--d-ink); }
+.logicStage .dot.c0.known.v1 circle { fill: var(--d-ink); }
+.logicStage .dot.cr.known circle { stroke: var(--d-red); }
+.logicStage .dot.cr.known.v1 circle { fill: var(--d-red); }
+.logicStage .dot.cb.known circle { stroke: var(--d-blue); }
+.logicStage .dot.cb.known.v1 circle { fill: var(--d-blue); }
+.logicStage .dot.cg.known circle { stroke: var(--d-green); }
+.logicStage .dot.cg.known.v1 circle { fill: var(--d-green); }
+.logicStage .dot.cp.known circle { stroke: var(--d-purple); }
+.logicStage .dot.cp.known.v1 circle { fill: var(--d-purple); }
+
+.logicStage .block {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.logicStage .block.show {
+  opacity: 0.9;
+}
+
+.logicStage .block.cr { stroke: var(--d-red); }
+.logicStage .block.cb { stroke: var(--d-blue); }
+.logicStage .block.cg { stroke: var(--d-green); }
+
+.logicStage .rule {
+  stroke: var(--d-faint);
+  stroke-width: 1.5;
+}
+
+/* the packets that carry a value from one place to the next */
+.logicStage .token {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logicStage .token circle {
+  stroke: var(--d-bg);
+  stroke-width: 1.5;
+}
+
+.logicStage .token.v1 circle {
+  fill: var(--d-one);
+}
+
+.logicStage .token.v0 circle {
+  fill: var(--d-zero);
+}
+
+/* switches: a blade that swings shut */
+.logicStage .blade {
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke: var(--d-zero);
+  transition: transform 0.35s ease, stroke 0.25s ease;
+}
+
+.logicStage .switch.on .blade {
+  stroke: var(--d-ink);
+}
+
+.logicStage .term {
+  fill: var(--d-bg);
+  stroke: var(--d-zero);
+  stroke-width: 1.5;
+}
+
+.logicStage .mode {
+  font-size: 12.5px;
+  text-anchor: middle;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.logicStage .mode.show {
+  opacity: 1;
+  fill: var(--d-ink);
+}
+
+.logicStage .hl {
+  fill: none;
+  stroke: var(--d-one);
+  stroke-width: 2;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.logicStage .hl.show {
+  opacity: 1;
+}
+
+.logicStage .faint {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logicStage .token,
+  .logicStage .blade,
+  .logicStage .wire,
+  .logicStage .dot circle,
+  .logicStage .cell rect,
+  .logicStage .block,
+  .logicStage .mode,
+  .logicStage .hl {
+    transition: none;
+  }
+}

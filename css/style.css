@@ -1249,7 +1249,7 @@ section[id] {
 }
 
 /* ---- Play me ----
-   The Python games run in the browser at /play/, but they need a keyboard and
+   The Python games run in the browser at /projects/python/, but they need a keyboard and
    a mouse, so the button only shows where the main pointer can hover. */
 .playMe {
   display: none;

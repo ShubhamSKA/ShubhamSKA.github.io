@@ -392,3 +392,26 @@ figure.photo figcaption {
   color: var(--muted);
   text-align: center;
 }
+
+/* A link inside an index page's standfirst reads like the body-copy links. */
+.standfirst a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.standfirst a:hover,
+.standfirst a:focus-visible {
+  color: var(--accent);
+}
+
+/* The projects index groups its cards under headings; a grid right after a
+   heading sits close to it. */
+main h2 + .entryGrid {
+  margin-top: 1rem;
+}
+
+/* Card grids are lists, but they line up with the text, not like a bulleted list. */
+main .entryGrid {
+  margin-left: 0;
+}
