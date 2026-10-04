@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>8-bit Manchester Carry Adder | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="An 8-bit Manchester carry adder in static CMOS, designed and laid out in Cadence Virtuoso, with its carry chain shown in an interactive figure." />
+  <link rel="canonical" href="https://shubhamska.github.io/projects/manchester-adder.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="8-bit Manchester Carry Adder | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="An 8-bit Manchester carry adder in static CMOS, designed and laid out in Cadence Virtuoso, with its carry chain shown in an interactive figure." />
+  <meta property="og:url" content="https://shubhamska.github.io/projects/manchester-adder.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/projects/">Projects</a>
+    </nav>
+
+    <header>
+      <h1>8-bit Manchester Carry Adder</h1>
+      <p class="meta">
+        ECE 45600, Purdue University
+        <span class="sep">&middot;</span> Cadence Virtuoso
+        <span class="sep">&middot;</span> April 2025
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <p>
+      An adder is only as fast as its carry. A Manchester carry adder makes the carry chain as quick as possible:
+      each bit works out whether it generates, propagates or deletes a carry, and those three signals drive the
+      switches of a carry cell, so the carry itself only passes through one transmission gate per bit. This one is
+      built in static logic, from the inverter, NAND, NOR and XOR gates up to the full 8-bit layout, DRC and LVS
+      clean.
+    </p>
+
+    <figure class="demo" id="demo-manchester">
+      <div class="demoStage"></div>
+      <figcaption>
+        <span>
+          Type two bytes in hex. Each slice makes p (XOR), g (from a NAND) and d (NOR), and only one is ever high. It
+          closes one switch: the transmission gate passes the incoming carry, the PMOS ties the carry to VDD, the NMOS
+          ties it to ground. Generate and delete slices settle at once; only propagate slices wait for the carry
+          coming in from the right. Each sum is then p&nbsp;&oplus;&nbsp;carry-in.
+        </span>
+      </figcaption>
+    </figure>
+
+    <h2>Results</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Before layout</th>
+          <td>Correct sums at 1&nbsp;GHz; 16.85&nbsp;&micro;W (I&times;V) or 18.17&nbsp;&micro;W (device power)</td>
+        </tr>
+        <tr>
+          <th>After layout</th>
+          <td>One transition too slow at 1&nbsp;GHz, correct at 500&nbsp;MHz; 80.26&nbsp;&micro;W or 83.05&nbsp;&micro;W</td>
+        </tr>
+        <tr>
+          <th>Verification</th>
+          <td>DRC and LVS clean for the 1-bit cell and the full 8-bit adder</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Report</h2>
+    <iframe src="/pdf/ECE45600Project1.pdf" width="100%" height="600px" style="border: none;" title="8-bit Manchester Carry Adder: report">
+      <p>Your browser does not support PDFs. <a href="/pdf/ECE45600Project1.pdf">Download the PDF</a>.</p>
+    </iframe>
+
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/projects/wallace-tree.html"><span class="label">&larr; Previous</span>8-bit Wallace Tree Multiplier</a>
+      <a class="next" href="/projects/flash-adc.html"><span class="label">Next &rarr;</span>Low Power Dynamic Flash ADC</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/js/logic-kit.js"></script>
+  <script src="/js/demo-manchester.js"></script>
+</body>
+
+</html>

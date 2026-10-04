@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>8-bit Wallace Tree Multiplier | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="An 8 by 8 Wallace tree multiplier in 45 nm CMOS, designed in Cadence Virtuoso: 2474 transistors, about 680 ps worst-case delay and 186.2 uW average power." />
+  <link rel="canonical" href="https://shubhamska.github.io/projects/wallace-tree.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="8-bit Wallace Tree Multiplier | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="An 8 by 8 Wallace tree multiplier in 45 nm CMOS, designed in Cadence Virtuoso: 2474 transistors, about 680 ps worst-case delay and 186.2 uW average power." />
+  <meta property="og:url" content="https://shubhamska.github.io/projects/wallace-tree.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/projects/">Projects</a>
+    </nav>
+
+    <header>
+      <h1>8-bit Wallace Tree Multiplier</h1>
+      <p class="meta">
+        ECE 45600, Purdue University
+        <span class="sep">&middot;</span> Cadence Virtuoso, 45&nbsp;nm CMOS
+        <span class="sep">&middot;</span> April 2025
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <p>
+      An 8&nbsp;&times;&nbsp;8 multiplier that forms all 64 partial products with AND gates at once, then squeezes
+      them down with full adders (3:2 compressors), half adders (2:2) and buffers (1:1) across four sum layers, until
+      every column holds at most two bits. A ripple-carry adder finishes the job. Fewer sequential addition stages
+      means a shorter path from input to product.
+    </p>
+
+    <figure class="demo" id="demo-wallace">
+      <div class="demoStage"></div>
+      <figcaption>
+        <span>
+          Fig.&nbsp;1 of the report, running. Type two bytes in hex and watch the 64 partial products pass through the
+          four sum layers. In each layer, dots of one colour in a column go into one block: three into a full adder,
+          two into a half adder, one through a buffer. Each block's sum stays in its column and its carry moves one
+          column left. The last two rows go through the ripple-carry adder to give the product.
+        </span>
+      </figcaption>
+    </figure>
+
+    <h2>Results</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Transistors</th>
+          <td>2474, all minimum sized</td>
+        </tr>
+        <tr>
+          <th>Worst-case delay</th>
+          <td>About 680&nbsp;ps simulated, against 587.5&nbsp;ps estimated</td>
+        </tr>
+        <tr>
+          <th>Average power</th>
+          <td>186.2&nbsp;&micro;W simulated, against 175.68&nbsp;&micro;W estimated</td>
+        </tr>
+        <tr>
+          <th>Structure</th>
+          <td>Partial products, four sum layers, ripple-carry adder</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Report</h2>
+    <iframe src="/pdf/ECE45600Project2.pdf" width="100%" height="600px" style="border: none;" title="8-bit Wallace Tree Multiplier: report">
+      <p>Your browser does not support PDFs. <a href="/pdf/ECE45600Project2.pdf">Download the PDF</a>.</p>
+    </iframe>
+    <h2>Presentation</h2>
+    <iframe src="/pdf/8-bit Wallace Tree Multiplier.pdf" width="100%" height="600px" style="border: none;" title="8-bit Wallace Tree Multiplier: report">
+      <p>Your browser does not support PDFs. <a href="/pdf/8-bit Wallace Tree Multiplier.pdf">Download the PDF</a>.</p>
+    </iframe>
+
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/projects/stereoboy.html"><span class="label">&larr; Previous</span>StereoBoy: Modular Expandable MP3 Player</a>
+      <a class="next" href="/projects/manchester-adder.html"><span class="label">Next &rarr;</span>8-bit Manchester Carry Adder</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/js/logic-kit.js"></script>
+  <script src="/js/demo-wallace.js"></script>
+</body>
+
+</html>

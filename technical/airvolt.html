@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AirVolt: Wireless Voltage Sensing | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="A wireless high-voltage sensing system for power plants and power rails, removing the need to de-energise a line to read it." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/airvolt.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AirVolt: Wireless Voltage Sensing | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="A wireless high-voltage sensing system for power plants and power rails, removing the need to de-energise a line to read it." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/airvolt.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>AirVolt: Wireless Voltage Sensing</h1>
+      <p class="meta">
+        Wireless Sensing Circuits and Systems Lab, Purdue University
+        <span class="sep">&middot;</span> Advisor: Prof. Byunghoo Jung
+        <span class="sep">&middot;</span> August 2025 &ndash; May 2026
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+      <h2>The problem</h2>
+      <p>
+        Measuring voltage on high-voltage AC equipment in a power plant, or on a power rail during
+        installation and maintenance, normally requires contact. Contact often requires the line to be
+        de-energised, which means a shutdown just to take a reading. Other methodologies entail very high danger
+        situations for the technician in question.
+      </p>
+
+      <h2>My work</h2>
+      <ul>
+        <li>I lead early-stage development of the Airvolt system, until I graduated.</li>
+        <li>Designed first two versions of the PCB, as well as the potential casings for the same.</li>
+        <li>Ran initial tests on the system.</li>
+      </ul>
+
+      <p class="todo">Since this is a work in progress, I cannot describe this in further detail. However, the bulk of
+        my contribution in this was keeping the team on track and supporting both the firmware and hardware design
+        sub-teams.</p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/photonic.html"><span class="label">&larr; Previous</span>Inverse Design of
+        Photonic Devices</a>
+      <a class="next" href="/technical/battery.html"><span class="label">Next &rarr;</span>Wireless Battery State of
+        Charge Estimation</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

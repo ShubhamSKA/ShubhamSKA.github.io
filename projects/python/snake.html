@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Python needs a SharedArrayBuffer, which needs cross-origin isolation. GitHub Pages cannot send the
+       headers for that, so this service worker adds them, for /projects/python/ only. Phones never get the player,
+       so they skip it. -->
+  <script>
+    window.coi = {
+      shouldRegister: () => window.matchMedia("(hover: hover) and (pointer: fine)").matches,
+      // require-corp everywhere: Safari has no "credentialless", and every file these pages load allows it.
+      coepCredentialless: () => false,
+    };
+  </script>
+  <script src="/projects/python/coi-serviceworker.js"></script>
+
+  <title>Snake | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="Play my Snake game, the original Python and turtle source running in the browser." />
+  <link rel="canonical" href="https://shubhamska.github.io/projects/python/snake.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Snake | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="Play my Snake game, the original Python and turtle source running in the browser." />
+  <meta property="og:url" content="https://shubhamska.github.io/projects/python/snake.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/play.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/projects/">Projects</a>
+    </nav>
+
+    <header>
+      <h1>Snake</h1>
+      <p class="meta">
+        Python, turtle graphics
+        <span class="sep">&middot;</span> 2023
+        <span class="sep">&middot;</span> <a href="https://github.com/ShubhamSKA/Games/blob/main/Snake/Snake_v8.py"
+          target="_blank">Source on GitHub</a>
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+      <p class="pyNeedsLaptop">
+        This game needs a keyboard and a mouse, so it only runs on a laptop or desktop.
+      </p>
+
+      <div class="pyStage" id="snakeStage">
+        <div class="pyControls">
+          <button type="button" class="pyRun" hidden>Start</button>
+          <button type="button" class="pyStop" hidden>Stop</button>
+          <p class="pyStatus" role="status" aria-live="polite">Loading.</p>
+        </div>
+        <div class="pyScreen"></div>
+      </div>
+
+      <h2>Playing</h2>
+      <ul>
+        <li>Steer with <code>W</code> <code>A</code> <code>S</code> <code>D</code> or the arrow keys.</li>
+        <li>
+          To pick a mode, click <em>Normal</em>, <em>Mines</em> or <em>Walls</em> during the countdown. The
+          hint on the board about typing it in a terminal is older than the buttons.
+        </li>
+        <li>High scores are kept in this browser, in the same text files the game writes on a desktop.</li>
+      </ul>
+
+      <h2>How it runs</h2>
+      <p>
+        This is <code>Snake_v8.py</code> exactly as it is on GitHub, run by CPython 3.11 compiled to
+        WebAssembly (<a href="https://pyodide.org" target="_blank">Pyodide</a>), with the standard library's own
+        <code>turtle.py</code>. It is 3.11 because that was current when I wrote it, and the game passes floats
+        to <code>random.randint</code>, which Python stopped accepting in 3.12. The browser has no Tk, so a small
+        stand-in for <code>tkinter</code> draws the
+        canvas on this page. The game asks that canvas what lies under the snake's head, and the stand-in
+        answers with the same overlap tests Tk uses, ported from Tk's C source.
+      </p>
+      <p class="todo">
+        Note: an LLM wrote the backend required for this to be playable online. I don't have the time nor the skillset
+        to do something like that. I did, however write the code for the game myself.
+      </p>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/projects/flash-adc.html"><span class="label">&larr; Previous</span>Low Power Dynamic Flash ADC</a>
+      <a class="next" href="/projects/python/minesweeper.html"><span class="label">Next &rarr;</span>Minesweeper</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/projects/python/runtime/host.js"></script>
+  <script>
+    PlayHost.mount(document.getElementById("snakeStage"), {
+      mode: "turtle",
+      files: { "snake/Snake_v8.py": "games/snake/Snake_v8.py" },
+      main: "snake/Snake_v8.py",
+      cwd: "snake",
+      key: "ska-play-snake-files",
+      readyText: "Ready. The game starts as soon as you press Start.",
+      runningText: "Running. Click the window if the keys stop working.",
+      endedText: "Game over.",
+    });
+  </script>
+</body>
+
+</html>

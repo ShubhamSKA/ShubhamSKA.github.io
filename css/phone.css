@@ -330,18 +330,6 @@ html {
   order:1;
 }
 
-#HVPSDiv {
-  grid-template-areas:
-    "pic"
-    "description";
-}
-#HVPSDiv div {
-  grid-area: description;
-}
-#HVPSDiv img {
-  grid-area: pic;
-}
-
 .researchDescription,
 .jobDescription {
   font-size: 1rem;
@@ -763,4 +751,333 @@ div .sendButton {
   font-size: 0.9rem;
   opacity: 0.6;
   margin: 0.5rem 0 2rem;
+}
+
+.advisor {
+  font-style: italic;
+  opacity: 0.75;
+  font-size: 0.85em;
+}
+
+/* ---- Publications and awards ---- */
+
+
+.pubList,
+.awardList {
+  margin: 1rem auto 2rem;
+  padding-left: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.pubItem,
+.awardItem {
+  margin-bottom: 1.1rem;
+  padding-left: 0.4rem;
+}
+
+.pubItem::marker,
+.awardItem::marker {
+  font-weight: 700;
+}
+
+.selfName {
+  font-weight: 700;
+}
+
+.pubTitle {
+  font-style: italic;
+}
+
+.pubVenue {
+  opacity: 0.75;
+}
+
+.pubLink {
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
+}
+
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* .formDiv is a two-column grid: form on the left, send button on the right.
+   The status line spans both so it cannot displace the button. */
+.formDiv {
+  align-items: center;
+}
+
+.formStatus {
+  grid-column: 1 / -1;
+}
+
+.pubLink + .pubLink,
+.pubVenue + .pubLink {
+  margin-left: 0.6rem;
+}
+
+/* ---- Learn more ---- */
+.cardActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.learnMore {
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.3rem;
+  border: 2px solid;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.learnMore:hover,
+.learnMore:focus-visible {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .learnMore:hover,
+:root[data-theme="light"] .learnMore:focus-visible {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+.techLine {
+  text-align: center;
+  font-size: 1.05rem;
+  margin: 0.75rem 0 0;
+}
+
+.techLine a {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+}
+
+/* Every seam between two subsections of the same level gets the same space:
+   Research to Jobs, one project group to the next, one skills table to the
+   next. Space only, no rule. */
+.workResearchAll + .jobAll,
+.projectDisplay > .projectAll + .projectAll,
+.skillsDisplay > .subSkillAll + .subSkillAll {
+  margin-top: 3rem;
+}
+
+/* Breathing room between project cards. Marquee rows are spaced by their own
+   margin and are scrolled by transform, so they stay out of this. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) {
+  gap: 1rem;
+}
+
+/* These icons have different native ratios (LinkedIn 635x540, GitHub 230x225,
+   the moon 534x595). Pin the height and let the width follow so none of them
+   get stretched, whichever source the theme swaps in. */
+.linksToMe img {
+  height: 50px;
+  width: auto;
+}
+
+#modeImage {
+  height: 40px;
+  width: auto;
+}
+
+/* Publications and Awards hold a single list; keep it off the edges without
+   padding the section, which would inset the title band. */
+.pubList,
+.awardList {
+  padding-right: 4%;
+  padding-left: calc(4% + 2.5rem);
+}
+
+/* Research entries that sit further from the HCI work are folded away behind
+   a native <details>, so they stay one click from view without adding length
+   to the page. Works with JavaScript off. */
+.moreResearch {
+  margin-top: 5rem;
+}
+
+.moreResearch > summary {
+  cursor: pointer;
+  list-style: none;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bolder;
+  background-color: #232323;
+  padding: 0.8rem;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.moreResearch > summary::-webkit-details-marker {
+  display: none;
+}
+
+.moreResearch > summary::after {
+  content: "  \25B8";
+}
+
+.moreResearch[open] > summary::after {
+  content: "  \25BE";
+}
+
+.moreResearch > summary:hover,
+.moreResearch > summary:focus-visible {
+  background-color: #2e2e2e;
+}
+
+:root[data-theme="light"] .moreResearch > summary {
+  background-color: rgb(210, 210, 210);
+}
+
+:root[data-theme="light"] .moreResearch > summary:hover,
+:root[data-theme="light"] .moreResearch > summary:focus-visible {
+  background-color: rgb(198, 198, 198);
+}
+
+.moreResearch > .researchDisplay {
+  margin-top: 2rem;
+}
+
+/* A link inside running text has to look like one. The whole-card links (job
+   entries, project tiles, the logo) are deliberately left undecorated. */
+.researchDescription a,
+.aboutMe a,
+.skill a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.researchDescription a:hover,
+.researchDescription a:focus-visible,
+.aboutMe a:hover,
+.aboutMe a:focus-visible,
+.skill a:hover,
+.skill a:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+/* ---- Playing with the background ----
+   The canvas overlay is black in both themes, so the three controls that sit
+   on top of it are always light. The button that summons it sits over the
+   page, so that one follows the theme. */
+.bgButton {
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: inherit;
+  background: none;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+
+#playBackground {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 310;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+#playBackground:hover,
+#playBackground:focus-visible {
+  opacity: 1;
+}
+
+/* display:flex on the class outranks the browser's own [hidden] rule, so the
+   hidden state has to be spelled out. */
+.bgControls[hidden] {
+  display: none;
+}
+
+.bgControls {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  z-index: 400;
+}
+
+.bgControls .bgButton {
+  color: #fff;
+  border-color: #fff;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.bgControls .bgButton:hover,
+.bgControls .bgButton:focus-visible {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.bgControls .bgButton.isOn {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Vertical slider for the current curve's parameter. Sits on the black
+   overlay, so it is light in both themes like the other play controls. */
+.bgParam[hidden] {
+  display: none;
+}
+
+.bgParam {
+  position: fixed;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bgParamSlider {
+  -webkit-appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 1.6rem;
+  height: 32vh;
+  accent-color: #fff;
+  cursor: ns-resize;
+}
+
+.bgParamValue {
+  font-variant-numeric: tabular-nums;
+  min-width: 4ch;
+  text-align: center;
+}
+
+/* Matches the desktop stylesheet: the open state is a class, not an inline
+   display value written by script. */
+.menu.menu--open .menu-item {
+  display: block;
+}
+
+#playBackground {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* The Python games need a keyboard and a mouse; phones and tablets never get
+   the Play Me button. */
+.playMe {
+  display: none;
 }

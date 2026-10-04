@@ -1,0 +1,417 @@
+/* Shared styling for the technical detail pages (/technical/). Kept separate
+   from style.css so those pages stay light and do not depend on the landing
+   page's fixed logo, canvas or colour-cycling script. */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+  --bg: #000;
+  --panel: #232323;
+  --panel-edge: #343434;
+  --text: #fff;
+  --muted: rgba(255, 255, 255, 0.62);
+  --accent: hsl(190, 100%, 55%);
+}
+
+:root[data-theme="light"] {
+  --bg: rgb(240, 240, 240);
+  --panel: rgb(210, 210, 210);
+  --panel-edge: rgb(190, 190, 190);
+  --text: #000;
+  --muted: rgba(0, 0, 0, 0.62);
+  --accent: hsl(198, 100%, 32%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* These pages are long-form reading in a wide column, so the base size is
+     bumped and everything measured in rem follows. A percentage rather than a
+     px value so a reader's own browser setting still counts. */
+  font-size: 115%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+.colored {
+  color: var(--accent);
+}
+
+.wrap {
+  width: 60%;
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 0 0 5rem;
+}
+
+/* Below this the percentage leaves too little room to read in, so fall back to
+   near-full width with a small gutter. */
+@media (max-width: 1000px) {
+  .wrap {
+    width: auto;
+    padding: 0 5vw 4rem;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* ---- breadcrumbs ---- */
+.crumbs {
+  padding: 2.5rem 0 2rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.crumbs a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.crumbs a:hover,
+.crumbs a:focus-visible {
+  color: var(--accent);
+}
+
+.crumbs .sep {
+  margin: 0 0.6rem;
+  opacity: 0.55;
+}
+
+/* ---- page head ---- */
+h1 {
+  font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.meta .sep {
+  opacity: 0.5;
+  margin: 0 0.5rem;
+}
+
+.rule {
+  height: 3px;
+  width: 4.5rem;
+  background: var(--accent);
+  margin: 1.5rem 0 2rem;
+}
+
+.standfirst {
+  margin-top: 1.25rem;
+  font-size: 1.2rem;
+  color: var(--muted);
+}
+
+/* ---- body copy ---- */
+main h2 {
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2.25rem 0 0.75rem;
+}
+
+main p {
+  margin-bottom: 1rem;
+}
+
+main ul,
+main ol {
+  margin: 0 0 1rem 1.4rem;
+}
+
+main li {
+  margin-bottom: 0.45rem;
+}
+
+code {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.92em;
+  background: var(--panel);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1rem;
+}
+
+.spec th,
+.spec td {
+  text-align: left;
+  padding: 0.55rem 0.9rem;
+  border: var(--panel-edge) 2px solid;
+  vertical-align: top;
+}
+
+.spec th {
+  background: var(--panel);
+  white-space: nowrap;
+  width: 1%;
+}
+
+/* On a phone two columns leave the value, which carries most of the text,
+   squeezed beside an unbreakable label. Each row stacks instead: the label
+   becomes a strip across the top and the value gets the full width under it. */
+@media (max-width: 640px) {
+  .spec,
+  .spec tbody,
+  .spec tr,
+  .spec th,
+  .spec td {
+    display: block;
+  }
+
+  .spec {
+    border: var(--panel-edge) 2px solid;
+  }
+
+  .spec th,
+  .spec td {
+    border: 0;
+    width: auto;
+  }
+
+  .spec th {
+    white-space: normal;
+    padding: 0.35rem 0.9rem;
+  }
+
+  .spec tr + tr {
+    border-top: var(--panel-edge) 2px solid;
+  }
+}
+
+/* Marks a section still to be written up. Delete the element once the real
+   content lands. */
+.todo {
+  border-left: 4px solid var(--accent);
+  background: var(--panel);
+  padding: 0.85rem 1.1rem;
+  color: var(--muted);
+  font-style: italic;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1rem;
+}
+
+/* ---- index cards ---- */
+.entryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.entryCard {
+  background: var(--panel);
+  border: var(--panel-edge) 4px solid;
+  border-radius: 6px;
+  display: flex;
+}
+
+.entryCard > a {
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem 1.5rem;
+  text-decoration: none;
+  width: 100%;
+}
+
+.entryCard h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  color: inherit;
+}
+
+.entryCard .where {
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.entryCard .where .sep {
+  margin: 0 0.45rem;
+  opacity: 0.55;
+}
+
+.entryCard .blurb {
+  margin-top: 0.9rem;
+  font-size: 1rem;
+  flex: 1 1 auto;
+}
+
+.entryCard .go {
+  margin-top: 1.1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.entryCard:hover,
+.entryCard:focus-within {
+  border-color: var(--accent);
+}
+
+/* ---- pager ---- */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: var(--panel-edge) 2px solid;
+  font-size: 0.95rem;
+}
+
+.pager a {
+  text-decoration: none;
+  max-width: 22ch;
+  color: var(--muted);
+}
+
+.pager a:hover,
+.pager a:focus-visible {
+  color: var(--accent);
+}
+
+.pager .next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.pager .label {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ---- theme toggle ---- */
+#themeToggle img {
+  height: 1.5rem;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+#themeToggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+  background: var(--panel);
+  color: var(--text);
+  border: var(--panel-edge) 2px solid;
+  border-radius: 50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Same rule on the detail pages: links inside a paragraph or list item are
+   underlined. The index cards wrap their own contents, so they are untouched. */
+main p a,
+main li a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+main p a:hover,
+main p a:focus-visible,
+main li a:hover,
+main li a:focus-visible {
+  color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+/* A photograph in the body copy, with a credit line under it. */
+figure.photo {
+  margin: 2rem auto;
+  max-width: 30rem;
+}
+
+figure.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+figure.photo figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* A link inside an index page's standfirst reads like the body-copy links. */
+.standfirst a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.standfirst a:hover,
+.standfirst a:focus-visible {
+  color: var(--accent);
+}
+
+/* The projects index groups its cards under headings; a grid right after a
+   heading sits close to it. */
+main h2 + .entryGrid {
+  margin-top: 1rem;
+}
+
+/* Card grids are lists, but they line up with the text, not like a bulleted list. */
+main .entryGrid {
+  margin-left: 0;
+}

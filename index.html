@@ -5,32 +5,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware</title>
+  <title>Shubham Saluja Kumar Agarwal | Wearable Sensing Hardware &amp; Firmware</title>
   <meta name="description"
-    content="Computer engineer building wearable sensing hardware: non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, and PCB design." />
+    content="Computer engineer building wearable sensing hardware and firmware: haptic actuators, system-on-fiber circuits, wireless battery sensing, inverse design." />
   <meta name="author" content="Shubham Saluja Kumar Agarwal" />
   <link rel="canonical" href="https://shubhamska.github.io/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Shubham Saluja Kumar Agarwal" />
-  <meta property="og:title" content="Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware" />
+  <meta property="og:title" content="Shubham Saluja Kumar Agarwal | Wearable Sensing Hardware &amp; Firmware" />
   <meta property="og:description"
-    content="Non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, PCB design, and ML for photonic inverse design." />
+    content="Magnetically actuated haptics at Cornell, system-on-fiber circuits at MIT, wireless battery sensing and photonic inverse design at Purdue." />
   <meta property="og:url" content="https://shubhamska.github.io/" />
   <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Shubham Saluja Kumar Agarwal — wearable sensing hardware and firmware" />
+  <meta property="og:image:alt" content="Shubham Saluja Kumar Agarwal, wearable sensing hardware and firmware" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Shubham Saluja Kumar Agarwal — Wearable Sensing Hardware &amp; Firmware" />
+  <meta name="twitter:title" content="Shubham Saluja Kumar Agarwal | Wearable Sensing Hardware &amp; Firmware" />
   <meta name="twitter:description"
-    content="Non-invasive battery state-of-charge estimation under 0.1% error, embedded firmware, PCB design, and ML for photonic inverse design." />
+    content="Magnetically actuated haptics at Cornell, system-on-fiber circuits at MIT, wireless battery sensing and photonic inverse design at Purdue." />
   <meta name="twitter:image" content="https://shubhamska.github.io/img/og-card.png" />
 
   <link id="stylesheet" rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
   <script>
@@ -48,6 +47,17 @@
 
 <body>
   <canvas aria-hidden="true"></canvas>
+  <button type="button" id="playBackground" class="bgButton" hidden>Play with background</button>
+  <div class="bgParam" id="backgroundParam" hidden>
+    <span class="bgParamLabel" id="bgParamLabel">Width</span>
+    <input type="range" class="bgParamSlider" id="bgParamSlider" min="0" max="1" step="0.002" value="0.5" />
+    <span class="bgParamValue" id="bgParamValue">1.00</span>
+  </div>
+  <div class="bgControls" id="backgroundControls" hidden>
+    <button type="button" class="bgButton" id="bgBack">Back to Page</button>
+    <button type="button" class="bgButton" id="bgNew">New Pattern</button>
+    <button type="button" class="bgButton" id="bgCycle" aria-pressed="false">Cycle</button>
+  </div>
   <div class="menu-block"></div>
   <h1 class="mainName">
     <div id="Shubham"><span class="colored">S</span>hubham</div>
@@ -90,6 +100,9 @@
         <span class="colored">E</span>xperience</a>
     </div>
     <div class="menu-item">
+      <a href="#publications" id="menuPubs"><span class="colored">P</span>ublications</a>
+    </div>
+    <div class="menu-item">
       <a href="#projects" id="menuProjects"><span class="colored">P</span>rojects</a>
     </div>
     <div class="menu-item">
@@ -110,30 +123,42 @@
         <img src="img/comic_typing.PNG" width="100%" alt="Shubham, typing" class="me-image" />
       </div>
       <p class="aboutMe">
-        I build the <span class="colored">physical sensing layer</span> for interfaces that adapt to
-        people, instead of asking people to adapt to them &mdash; the wearable hardware, the
-        <span class="colored">firmware</span> that runs on it, and the signal processing that makes its
-        measurements worth trusting.
-        <br /><br />
-        In practice that has meant <span class="colored">non-invasive battery state estimation</span> at the
-        Wireless Sensing Circuits and Systems Lab, <span class="colored">machine learning</span> for photonic
-        inverse design with QuMETA, and an evaluation pipeline still in use at the
-        <span class="colored">Low Power Computer Vision Challenge</span>. I hold a
-        <span class="colored">BS in Computer Engineering</span> from Purdue University and am completing a
-        <span class="colored">Master of Engineering</span> at Cornell University.
+        <span class="colored">Hello!</span> My name is Shubham. I'm an
+        <span class="colored">Electrical and Computer Engineer</span> with a degree from Purdue University,
+        now pursuing a Master of Engineering at Cornell University. <br /><br />
+
+        I am intrigued by <span class="colored">constrained</span> systems,
+        <span class="colored">unintuitive</span> form factors, and the idea that technology can interpret far
+        more about the <span class="colored">human body</span> than we have explored to date. That is why
+        <span class="colored">wearable technologies</span> and their untapped potential are the driving force
+        of my work. I want to <span class="colored">transform</span> what we already wear into something that
+        does more. <br /><br />
+
+        What if every button on a <span class="colored">formal shirt</span> had a job? The one at the throat
+        listening for breathing and speech, the one over the heart tracking rate and variability, the one at
+        the stomach assessing digestion. <br />
+        What if the screen in a pair of <span class="colored">smart glasses</span> targeted the
+        <span class="colored">residual vision</span> of someone losing their sight, and gave them back the
+        street in front of them? <br />
+        What if inertial measurement units, pressure sensors and flex sensors in a
+        <span class="colored">running shoe</span> could tell you why your knee hurts? <br /><br />
+
+        Every one of these is a beautiful and intriguing <span class="colored">hardware problem</span> before it is
+        anything else, and that is what I want to build.
       </p>
     </div>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
-        <img src="/img/LI-In-Bug.png" width="50" height="50" loading="lazy" alt="LinkedIn" />
+        <img src="/img/LI-In-Bug.png" width="59" height="50" loading="lazy" alt="LinkedIn" />
       </a>
-      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer" title="Open industry resume (PDF)">
+      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer"
+        title="Open curriculum vitae (PDF)">
         <div class="resumeDiv">
-          <p class="resume">&nbsp;&nbsp;&nbsp;RESUME&nbsp;&nbsp;&nbsp;</p>
+          <p class="resume">&nbsp;&nbsp;&nbsp;CV&nbsp;&nbsp;&nbsp;</p>
         </div>
       </a>
       <a href="https://github.com/ShubhamSKA?tab=repositories" title="GitHub">
-        <img src="/img/github-mark-white.png" width="50" height="50" class="gitImage" loading="lazy" alt="GitHub" />
+        <img src="/img/github-mark-white.png" width="51" height="50" class="gitImage" loading="lazy" alt="GitHub" />
       </a>
     </div>
   </section>
@@ -149,88 +174,197 @@
         <h3 class="subTitle"><span class="colored">R</span>esearch</h3>
       </div>
       <div class="researchDisplay">
-        <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0">
+        <div class="researchProject singleProject">
+          <img src="/img/VersatileElectronicSystems_red.png" alt="Versatile Electronic Systems Lab logo" width="80%"
+            class="researchImage" loading="lazy" />
+          <div class="researchDescriptionDiv">
+            <p class="researchDescription">
+              Research at the
+              <a href="https://vesl.ece.cornell.edu/" target="_blank" rel="noopener noreferrer"><span
+                  class="colored">Versatile Electronic Systems</span> Lab</a>
+              at <span class="colored">Cornell</span>
+              University.
+              <br />
+              Designing, fabricating and testing <span class="colored">magnetic actuators</span> for
+              <span class="colored">haptic</span> interfaces, from simulation through to working prototypes.<br>
+              I will write more about this work once it is published.
+              <br />
+              <br />
+              <span class="date">September 2026-Present</span>
+            </p>
+          </div>
+        </div>
+        <div class="researchProject singleProject researchProject--flip">
+          <img src="/img/coming_soon.webp" alt="Hybrid Body Lab - image coming soon" width="80%"
+            class="researchImage" loading="lazy" />
+          <div class="researchDescriptionDiv">
+            <p class="researchDescription">
+              Research at the
+              <a href="https://www.hybridbody.human.cornell.edu/" target="_blank" rel="noopener noreferrer"><span
+                  class="colored">Hybrid Body</span> Lab</a>
+              at
+              <span class="colored">Cornell</span> University.
+              <br />
+              Fabricating <span class="colored">textile-based</span> wearable devices, and building the
+              <span class="colored">software</span> used to make and test them.<br>
+              I will write more about this work once it is published.
+              <br />
+              <br />
+              <span class="date">August 2026-Present</span>
+            </p>
+          </div>
+        </div>
+        <div class="researchProject singleProject">
+          <img src="/img/logo_resenv_black.svg" alt="Responsive Environments - image coming soon" width="80%"
+            class="researchImage" loading="lazy" />
+          <div class="researchDescriptionDiv">
+            <p class="researchDescription">
+              Research with the
+              <a href="https://www.media.mit.edu/groups/responsive-environments/overview/" target="_blank"
+                rel="noopener noreferrer"><span class="colored">Responsive Environments</span> group</a> at the
+              <span class="colored">MIT</span> Media Lab.
+              <br />
+              Designing <span class="colored">miniaturized</span>, flexible circuits for
+              <span class="colored">electronic textiles</span>, from component selection through to PCB layout.<br>
+              I will write more about this work once it is published.
+              <br />
+              <br />
+              <span class="date">May 2026-Present</span>
+            </p>
+          </div>
+        </div>
+        <div class="researchProject singleProject researchProject--flip">
+          <img src="/img/MSML_confusion_matrix.png" alt="Model Confusion Matrix on limited materials datasets"
+            width="80%" class="researchImage" loading="lazy" />
+          <div class="researchDescriptionDiv">
+            <p class="researchDescription">
+              Research at the
+              <span class="colored">Nanomaterials Lab</span> at the
+              Autonomous University of the State of Morelos,
+              <span class="colored">Mexico</span>.
+              <br />
+              Training <span class="colored">machine learning</span> models that work on the small,
+              irregularly sampled datasets that materials science actually produces, in order to
+              <span class="colored">classify</span> contaminants and predict their
+              <span class="colored">concentration</span>.
+              <br />
+              <br />
+              <span class="date">May 2026-August 2026</span>
+            </p>
+            <div class="cardActions">
+              <a class="learnMore" href="/technical/materials-ml.html">Learn&nbsp;More</a>
+            </div>
+          </div>
+        </div>
+        <div class="researchProject singleProject">
+          <img src="/img/AAE.png" alt="AdversarialAutoEncoder" width="80%" class="researchImage" loading="lazy" />
+          <div class="researchDescriptionDiv">
+            <p class="researchDescription">
+              Research with the
+              <a href="https://engineering.purdue.edu/~shalaev/team.php" target="_blank" rel="noopener noreferrer"><span
+                  class="colored">NanoML</span> team</a> in the <span class="colored">QuMETA</span> group at Purdue
+              University.
+              Working on benchmarking a Thermophotovoltaic Inverse Design <span class="colored">Dataset</span> and
+              <span class="colored"> Machine Learning</span> Models. My
+              current work has been curating a new<span class="colored">
+                dataset</span>, and using it to benchmark generative models.
+              <br />
+              <br />
+              <span class="date">March 2025-Present</span>
+            </p>
+            <div class="cardActions">
+              <a class="learnMore" href="/technical/photonic.html">Learn&nbsp;More</a>
+            </div>
+          </div>
+        </div>
+        <div class="researchProject singleProject researchProject--flip">
+          <img src="/img/charger-discharger.PNG" alt="battery charger discharger setup" width="80%"
+            class="researchImage" loading="lazy" />
+          <div class="researchDescriptionDiv">
+            <p class="researchDescription">
+              Research at
+              <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0"
+                target="_blank" rel="noopener noreferrer"><span class="colored">Wireless Sensing</span> Circuits and
+                Systems Lab</a>
+              at <span class="colored">Purdue</span>
+              University.
+              <br />
+              Creating a method to
+              <span class="colored">non-invasively</span> monitor the
+              <span class="colored">state of charge</span> of a battery with minimal effects of relaxation (<span
+                class="colored">least</span> out of all existing methods). Aiding the process through code for sensor
+              data reading using a microcontroller, soldering boards, data engineering, and setup <span
+                class="colored">design</span>.
+              <br />
+              <br />
+              <span class="date">April 2023-August 2025</span>
+            </p>
+            <div class="cardActions">
+              <a class="learnMore" href="/technical/battery.html">Learn&nbsp;More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <details class="moreResearch">
+        <summary><span class="colored">E</span>arlier and adjacent work</summary>
+        <div class="researchDisplay">
           <div class="researchProject singleProject">
-            <img src="/img/charger-discharger.PNG" alt="battery charger discharger setup" width="80%"
+            <img src="/img/coming_soon.webp" alt="AirVolt wireless voltage sensing - image coming soon" width="80%"
               class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                <span class="colored">Non-invasive battery state-of-charge estimation</span> &mdash; Wireless
-                Sensing Circuits and Systems Lab, Purdue University.
-                <br /><br />
-                <span class="cardLabel">Problem.</span> State of charge cannot be measured directly, and online
-                estimators drift badly while a cell relaxes after load.
+                Research at the
+                <a href="https://sites.google.com/site/jagpurdue/projects/battery-monitoring-and-diagnosis?authuser=0"
+                  target="_blank" rel="noopener noreferrer"><span class="colored">Wireless Sensing</span> Circuits and
+                  Systems Lab</a> in the College of
+                <span class="colored">Electrical and Computer</span>
+                Engineering at <span class="colored">Purdue</span>
+                University.
                 <br />
-                <span class="cardLabel">Built.</span> The sensing chain end to end: acquisition firmware on the
-                microcontroller, the boards it runs on, the measurement setup, and the data pipeline behind it.
-                <br />
-                <span class="cardLabel">Result.</span> Under <span class="colored">0.1% estimation error</span> with
-                roughly <span class="colored">1% relaxation drift</span> &mdash; about
-                <span class="colored">5&times;</span> better than state-of-the-art online estimators.
-                <br />
-                <span class="cardLabel">Artifact.</span> Manuscript in preparation.
+                Leading the early development of <span class="colored">AirVolt</span>, a way to sense high
+                voltage <span class="colored">wirelessly</span>, for use in power plants and in power rail
+                installation and maintenance. Outlining the circuit
+                <span class="colored">architecture</span> and designing the first
+                <span class="colored">PCB</span> prototypes.
                 <br />
                 <br />
-                <span class="date">April 2023-Present</span>
+                <span class="date">August 2025-May 2026</span>
               </p>
+              <div class="cardActions">
+                <a class="learnMore" href="/technical/airvolt.html">Learn&nbsp;More</a>
+              </div>
             </div>
           </div>
-        </a>
-        <a href="https://engineering.purdue.edu/~shalaev/team.php">
-          <div class="researchProject singleProject">
-            <div class="researchDescriptionDiv">
-              <p class="researchDescription">
-                <span class="colored">Benchmarking ML models for thermophotovoltaic inverse design</span> &mdash;
-                NanoML, QuMETA group, Purdue University.
-                <br /><br />
-                <span class="cardLabel">Problem.</span> Inverse-design work needs a dataset and a set of baselines
-                other groups can actually build on, rather than one-off results.
-                <br />
-                <span class="cardLabel">Built.</span> The benchmarking of a thermophotovoltaic inverse-design
-                <span class="colored">dataset</span>, including training and evaluating an
-                <span class="colored">adversarial autoencoder</span> against it.
-                <br />
-                <span class="cardLabel">Status.</span> Ongoing; the benchmark is intended for reuse by later work.
-                <br />
-                <br />
-                <span class="date">March 2025-Present</span>
-              </p>
-            </div>
-            <img src="/img/AAE.png" alt="AdversarialAutoEncoder" width="80%" class="researchImage" loading="lazy" />
-          </div>
-        </a>
-        <a href="https://lpcv.ai/">
-          <div class="researchProject singleProject">
+          <div class="researchProject singleProject researchProject--flip">
             <img src="/img/lpcvc.png" alt="LPCVC" width="80%" class="researchImage" loading="lazy"
               style="padding-top: 15%; padding-bottom: 15%;" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
-                <span class="colored">Evaluation framework for the Low Power Computer Vision Challenge</span>
-                &mdash; Vertically Integrated Program, Purdue University.
-                <br /><br />
-                <span class="cardLabel">Problem.</span> An international challenge needs a submission and scoring
-                pipeline that ranks 3D-reconstruction models fairly under a hard power budget.
+                Research with the
+                <span class="colored">Vertically Integrated Program</span> at Purdue,
+                working with the CVES team, in the
+                <a href="https://lpcv.ai/" target="_blank" rel="noopener noreferrer"><span class="colored">Low Power
+                    Computer Vision</span> Committee</a>
+                with the goal of organizing and researching the Low Power Computer Vision <span
+                  class="colored">Challenge</span>.
                 <br />
-                <span class="cardLabel">Built.</span> The submission pipeline and the evaluation model itself, plus an
-                open-source <span class="colored">reference solution</span> entrants must beat to qualify.
-                <br />
-                <span class="cardLabel">Result.</span> The framework was adopted the year after I left and used to
-                judge <span class="colored">59 teams</span> across
-                <span class="colored">516 submitted solutions</span>.
-                <br />
-                <span class="cardLabel">Artifact.</span> <span class="colored">lpcv.ai</span> &mdash; the challenge runs
-                on it.
+                Using Machine Learning to create an open source
+                <span class="colored">reference solution</span> that participants must surpass to be
+                <span class="colored">qualified</span> in the challenge.
+                Creating a <span class="colored">submission</span> pipeline and <span class="colored"> evaluation
+                </span> model for 3D reconstruction computer vision models.
                 <br />
                 <br />
                 <span class="date">August 2023-May 2024</span>
               </p>
+              <div class="cardActions">
+                <a class="learnMore" href="/technical/lpcvc.html">Learn&nbsp;More</a>
+              </div>
             </div>
-
           </div>
-        </a>
-
-        <a href="https://iopscience.iop.org/issue/1742-6596/2261/1">
-          <div class="researchProject singleProject" id="HVPSDiv">
+          <div class="researchProject singleProject">
+            <img src="/img/high-voltage-power-supply.PNG" alt="High voltage power supply" width="80%"
+              class="researchImage" loading="lazy" />
             <div class="researchDescriptionDiv">
               <p class="researchDescription">
                 Research at the
@@ -243,18 +377,20 @@
                 power an <span class="colored">Electrospinning</span> Device,
                 which is still used for research at the lab.
                 <br />
-                <span class="colored">Published</span> a paper in the
+                <a href="https://iopscience.iop.org/issue/1742-6596/2261/1" target="_blank"
+                  rel="noopener noreferrer"><span class="colored">Published</span> a paper</a> in the
                 <span class="colored">ICIEE</span> 2022.
                 <br />
                 <br />
                 <span class="date">July-September 2021</span>
               </p>
+              <div class="cardActions">
+                <a class="learnMore" href="/technical/hvps.html">Learn&nbsp;More</a>
+              </div>
             </div>
-            <img src="/img/high-voltage-power-supply.PNG" alt="High voltage power supply" width="80%"
-              class="researchImage" loading="lazy" />
           </div>
-        </a>
-      </div>
+        </div>
+      </details>
     </div>
     <div class="jobAll">
       <div class="titleDiv">
@@ -312,19 +448,48 @@
               <span class="colored">Electronics</span> Lab.<br />
               The electronics Lab is one of the several labs at the
               <span class="colored">MakerSpace</span> otherwise known as
-              <span class="colored">BIDC</span>.<br />My job is to aid all
+              <span class="colored">BIDC</span>.<br />My job was to aid all
               students with their electronics
               <span class="colored">projects</span>. With <span class="colored">over 200</span> projects across majors
-              and experience levels, I have acquired great physical intuition on how to <span
+              and experience levels, I acquired great physical intuition on methods to <span
                 class="colored">design</span> and <span class="colored">debug</span> circuits.
               <br />
               <br />
-              <span class="date">November 2022-Present</span>
+              <span class="date">November 2022-May 2026</span>
             </p>
           </div>
         </a>
       </div>
     </div>
+  </section>
+  <section class="pubsAll" id="publications">
+    <div class="titleDiv">
+      <h2 class="pubsTitle titleClass">
+        <span class="colored">P</span>ublications
+      </h2>
+    </div>
+    <ol class="pubList">
+      <li class="pubItem">
+        <span class="selfName">Kumar Agarwal, S. S.</span>, Iyer, V., et al. <span class="pubTitle">Benchmarking of
+          Generative Models for Photonic Device Design.</span> <span class="pubVenue">Manuscript in progress.</span>
+        <a class="pubLink" href="/technical/photonic.html">See the work</a>
+      </li>
+      <li class="pubItem">
+        <span class="selfName">Kumar Agarwal, S. S.</span>, Avalos, F., et al. <span class="pubTitle">Time Agnostic
+          Machine Learning Model for Contaminant Classification and Contaminant Concentration Prediction.</span> <span
+          class="pubVenue">Manuscript in progress.</span>
+        <a class="pubLink" href="/technical/materials-ml.html">See the work</a>
+      </li>
+      <li class="pubItem">
+        <span class="selfName">Kumar Agarwal, S. S.</span>, Mendoza Enr&iacute;quez, B. U., &amp; Hern&aacute;ndez
+        Rivera, D. (2022). <span class="pubTitle">Device Fabrication from Recycled Electronic Spare Parts: Dip Coating
+          Device and High Voltage Power Supply Adapted for Electrospinning Device.</span> <span class="pubVenue">Journal
+          of Physics: Conference Series, 2261, 012001. ICIEE 2022.</span>
+        <a class="pubLink" href="https://doi.org/10.1088/1742-6596/2261/1/012001" target="_blank"
+          rel="noopener noreferrer">DOI</a>
+        <a class="pubLink" href="/technical/hvps.html">See the work</a>
+      </li>
+    </ol>
   </section>
   <section class="projectsAll" id="projects">
     <div class="titleDiv">
@@ -332,35 +497,10 @@
         <span class="colored">P</span>rojects
       </h2>
     </div>
+    <p>Disclaimer: I have worked on other projects with most of the tools below, but decided not to add them because
+      they were either not complex enough, or not aesthetic enough to show on this page</p>
     <div class="projectDisplay">
-      <div class="pythonAll projectAll">
-        <div>
-          <h3 class="subTitle"><span class="colored">P</span>ython</h3>
-        </div>
-        <div class="pythonProjects projectType">
-          <div class="snakeProject singleProject">
-            <a href="https://github.com/ShubhamSKA/Games/blob/main/Snake/Snake_v8.py">
-              <img src="/img/snake.webp" id="snakeGame" alt="gif of snake game" class="projectImage" height="448px"
-                loading="lazy" />
-              <p class="projectSub">
-                <span class="colored">S</span>nake Game using
-                <span class="colored">P</span>ython
-                <span class="colored">T</span>urtle Library
-              </p>
-            </a>
-          </div>
-          <div class="mineProject singleProject">
-            <a href="https://github.com/ShubhamSKA/Games/tree/main/Minesweeper">
-              <img src="/img/minesweeper3.gif" id="mineGame" alt="gif of minesweeper game" class="projectImage"
-                height="448px" width="600px" loading="lazy" />
-              <p class="projectSub">
-                <span class="colored">M</span>inesweeper Game Programmed in
-                <span class="colored">P</span>ython
-              </p>
-            </a>
-          </div>
-        </div>
-      </div>
+
       <div class="embeddedAll projectAll">
         <div>
           <h3 class="subTitle">
@@ -371,8 +511,8 @@
         <div class="embeddedProjects projectType">
           <div class="mcuSnakeProject singleProject">
             <a href="#">
-              <video width="600" height="338" controls preload="none">
-                <source src="img/362_Final_Project_-_Group_32.mp4" type="video/mp4">
+              <video width="600" height="338" controls preload="none" poster="/img/mcu_snake_poster.jpg">
+                <source src="/img/mcu_snake.mp4" type="video/mp4">
               </video>
               <p class="projectSub">
                 <span class="colored">2</span>-player
@@ -383,8 +523,8 @@
           </div>
           <div class="stereoBoy singleProject">
             <a href="pdf/Spark Poster.pdf" target="_blank" rel="noopener noreferrer">
-              <video width="600" height="338" controls preload="none">
-                <source src="img/sb_final.mp4" type="video/mp4">
+              <video width="600" height="338" controls preload="none" poster="/img/stereoboy_poster.jpg">
+                <source src="/img/stereoboy.mp4" type="video/mp4">
               </video>
               <p class="projectSub">
                 <span class="colored">M</span>odular
@@ -393,6 +533,9 @@
                 <span class="colored">P</span>layer
               </p>
             </a>
+            <div class="cardActions">
+              <a class="learnMore" href="/projects/stereoboy.html">Learn&nbsp;More</a>
+            </div>
           </div>
         </div>
       </div>
@@ -405,7 +548,7 @@
         </div>
         <div class="cadenceProjects projectType">
           <div class="wallaceTreeProject singleProject">
-            <a href="pdf/ECE45600Project2.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="/projects/wallace-tree.html">
               <img src="/img/wallace_tree.png" id="wallaceTree"
                 alt="Top-level Diagram and Layout of an 8-bit Wallace-Tree Multiplier" class="projectImage"
                 loading="lazy" />
@@ -416,9 +559,12 @@
                 <span class="colored">M</span>ultiplier
               </p>
             </a>
+            <div class="cardActions">
+              <a class="learnMore" href="/projects/wallace-tree.html">Learn&nbsp;More</a>
+            </div>
           </div>
           <div class="manchesterCarryProject singleProject">
-            <a href="pdf/ECE45600Project1.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="/projects/manchester-adder.html">
               <img src="/img/manchester_adder.png" id="manchesterAdder"
                 alt="Top-level Diagram and Layout of an 8-bit Manchester Carry Adder" class="projectImage"
                 loading="lazy" />
@@ -429,9 +575,12 @@
                 <span class="colored">A</span>dder
               </p>
             </a>
+            <div class="cardActions">
+              <a class="learnMore" href="/projects/manchester-adder.html">Learn&nbsp;More</a>
+            </div>
           </div>
           <div class="flashADCProject singleProject">
-            <a href="pdf/ECE40656Project.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="/projects/flash-adc.html">
               <img src="/img/top_level_flash.png" id="FlashADC" alt="Top-level Diagram of a Low power Dynamic Flash ADC"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
@@ -442,6 +591,9 @@
                 <span class="colored">ADC</span>
               </p>
             </a>
+            <div class="cardActions">
+              <a class="learnMore" href="/projects/flash-adc.html">Learn&nbsp;More</a>
+            </div>
           </div>
         </div>
       </div>
@@ -475,6 +627,40 @@
                 <span class="colored">P</span>rotocol
               </p>
             </a>
+          </div>
+        </div>
+      </div>
+      <div class="pythonAll projectAll">
+        <div>
+          <h3 class="subTitle"><span class="colored">P</span>ython</h3>
+        </div>
+        <div class="pythonProjects projectType">
+          <div class="snakeProject singleProject">
+            <a href="https://github.com/ShubhamSKA/Games/blob/main/Snake/Snake_v8.py">
+              <img src="/img/snake.webp" id="snakeGame" alt="gif of snake game" class="projectImage" height="448px"
+                loading="lazy" />
+              <p class="projectSub">
+                <span class="colored">S</span>nake Game using
+                <span class="colored">P</span>ython
+                <span class="colored">T</span>urtle Library
+              </p>
+            </a>
+            <div class="cardActions playMe">
+              <a class="learnMore" href="/projects/python/snake.html">Play&nbsp;Me</a>
+            </div>
+          </div>
+          <div class="mineProject singleProject">
+            <a href="https://github.com/ShubhamSKA/Games/tree/main/Minesweeper">
+              <img src="/img/minesweeper3.gif" id="mineGame" alt="gif of minesweeper game" class="projectImage"
+                height="448px" width="600px" loading="lazy" />
+              <p class="projectSub">
+                <span class="colored">M</span>inesweeper Game Programmed in
+                <span class="colored">P</span>ython
+              </p>
+            </a>
+            <div class="cardActions playMe">
+              <a class="learnMore" href="/projects/python/minesweeper.html">Play&nbsp;Me</a>
+            </div>
           </div>
         </div>
       </div>
@@ -632,6 +818,7 @@
                 loading="lazy" />
               <p class="projectSub">
                 <span class="colored">P</span>lasticine
+                <span class="colored">P</span>ortraits
               </p>
             </a>
           </div>
@@ -650,8 +837,8 @@
               <img src="img/acrylic.webp" id="acrylicArt" alt="Individually Selectable frames of laser engraved acrylic"
                 class="projectImage" loading="lazy" />
               <p class="projectSub">
-                <span class="colored">L</span>ayered
-                <span class="colored">E</span>ngraved
+                <span class="colored">V</span>ideo
+                <span class="colored">I</span>n
                 <span class="colored">A</span>crylic
               </p>
             </a>
@@ -680,6 +867,21 @@
         </div>
       </div>
     </div>
+  </section>
+  <section class="awardsAll" id="awards">
+    <div class="titleDiv">
+      <h2 class="awardsTitle titleClass">
+        <span class="colored">A</span>wards
+      </h2>
+    </div>
+    <ul class="awardList">
+      <li class="awardItem">Lester B. Knight Scholar, Cornell University, 2026&ndash;2027</li>
+      <li class="awardItem">Best Electrical and Computer Engineering Senior Design Project, 2026 Purdue Spark Challenge
+      </li>
+      <li class="awardItem">J. Bruce Majerus Electrical and Computer Engineering Student Scholar Award, 2025</li>
+      <li class="awardItem">Best Presenter, 2022 International Conference on Information and Electronics Engineering
+      </li>
+    </ul>
   </section>
   <section class="skillsAll" id="skills">
     <div class="titleDiv">
@@ -716,34 +918,36 @@
                   <span class="colored">F</span>usion 360, </span>
                 <span class="skill" data-skill="Onshape"><a
                     href="https://cad.onshape.com/documents/32bc4f20865db83648149377/w/382872df3f6f5f74dbeff142/e/faa30504cea2a16765bc6b82?renderMode=0&uiState=68bc56ea01a5c1a58e12c3b2"
-                    target="_blank" rel="noopener noreferrer" title="Click Me!"><span class="colored">O</span>nshape,</a></span>
+                    target="_blank" rel="noopener noreferrer" title="Click Me!"><span
+                      class="colored">O</span>nshape,</a></span>
                 <span class="skill" data-skill="SysVerilog"><span class="colored">S</span>ystem<span
                     class="colored">V</span>erilog,</span>
                 <span class="skill" data-skill="Virtuoso"><span class="colored">C</span>adence
                   <span class="colored">V</span>irtuoso,</span>
-                <span class="skill" data-skill="STM32"><span class="colored">S</span>TM32,</span>
                 <span class="skill" data-skill="Embedded"><span class="colored">E</span>mbedded
-                  <span class="colored">C</span>,</span>
+                  <span class="colored">S</span>ystems,</span>
                 <span class="skill" data-skill="MATLAB"><span class="colored">M</span>ATLAB,</span>
                 <span class="skill" data-skill="HTML"><span class="colored">H</span>TML,</span>
                 <span class="skill" data-skill="CSS"><span class="colored">C</span>SS,</span>
-                <span class="skill" data-skill="KiCad"><span class="colored">K</span>iCad</span>
+                <span class="skill" data-skill="KiCad"><span class="colored">K</span>iCad,</span>
+                <span class="skill" data-skill="SQL"><span class="colored">S</span>QL,</span>
+                <span class="skill" data-skill="RISCV"><span class="colored">R</span>ISC-<span
+                    class="colored">V</span>,</span>
+                <span class="skill" data-skill="Altium"><span class="colored">A</span>ltium
+                  <span class="colored">D</span>esigner,</span>
+                <span class="skill" data-skill="ML"><span class="colored">M</span>achine
+                  <span class="colored">L</span>earning</span>
               </td>
             </tr>
             <tr class="beginnerLevel">
               <td><span class="colored">B</span>eginner</td>
               <td>
-                <span class="skill" data-skill="Altium"><span class="colored">A</span>ltium <span
-                    class="colored">D</span>esigner, </span>
                 <span class="skill" data-skill="Simulink"><span class="colored">S</span>imulink, </span>
                 <span class="skill" data-skill="Javascript"><span class="colored">J</span>avaScript, </span>
-                <span class="skill" data-skill="Arduino"><span class="colored">A</span>rduino, </span>
                 <span class="skill" data-skill="LTSpice"><span class="colored">L</span>TSpice, </span>
                 <span class="skill" data-skill="Kotlin"><span class="colored">K</span>otlin, </span>
                 <span class="skill" data-skill="AStudio"><span class="colored">A</span>ndroid
-                  <span class="colored">S</span>tudio, </span>
-                <span class="skill" data-skill="ML"><span class="colored">M</span>achine
-                  <span class="colored">L</span>earning </span>
+                  <span class="colored">S</span>tudio</span>
               </td>
             </tr>
           </tbody>
@@ -778,6 +982,8 @@
                   <span class="colored">T</span>roubleshooting</span>,
                 <span class="skill" data-skill="Design"><span class="colored">D</span>igital <span
                     class="colored">C</span>ircuit
+                  <span class="colored">D</span>esign</span>,
+                <span class="skill" data-skill="Sensor"><span class="colored">S</span>ensor
                   <span class="colored">D</span>esign</span>
               </td>
             </tr>
@@ -786,7 +992,9 @@
               <td>
                 <span class="skill" data-skill="Milling"><span class="colored">P</span>CB
                   <span class="colored">M</span>illing, </span>
-                <span class="skill" data-skill="EPlating"><span class="colored">E</span>lectroplating </span>
+                <span class="skill" data-skill="EPlating"><span class="colored">E</span>lectroplating </span>,
+                <span class="skill" data-skill="Haptics"><span class="colored">H</span>aptic </span> <span
+                  class="colored">S</span>ystems
               </td>
             </tr>
           </tbody>
@@ -806,14 +1014,14 @@
           </thead>
           <tbody class="skillsBody">
             <tr class="advancedLevel">
-              <td><span class="colored">A</span>dvanced</td>
+              <td><span class="colored">N</span>ative</td>
               <td>
                 <span class="skill" data-skill="English"><span class="colored">E</span>nglish,</span>
                 <span class="skill" data-skill="Spanish"><span class="colored">S</span>panish</span>
               </td>
             </tr>
             <tr class="intermediateLevel">
-              <td><span class="colored">I</span>ntermediate</td>
+              <td><span class="colored">C</span>onversational</td>
               <td>
                 <span class="skill" data-skill="Hindi"><span class="colored">H</span>indi</span>
               </td>
@@ -891,7 +1099,6 @@
               class="colored">M</span>essage:</label><br />
           <textarea id="message" name="Message" class="contactInput" required></textarea>
         </form>
-        <p class="formStatus" id="formStatus" role="status" aria-live="polite"></p>
         <button form="contact-form" type="submit" class="sendButton" title="Send Message">
           <div class="mailCircle">
             <div class="m-line" id="firstMLine"></div>
@@ -902,6 +1109,7 @@
             <div class="m-line" id="sixthMLine"></div>
           </div>
         </button>
+        <p class="formStatus" id="formStatus" role="status" aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -910,29 +1118,31 @@
 
   <footer>
     <p class="currently">
-      <span class="colored">Currently</span> &mdash; PCB design in Altium for a new project at the Wireless Sensing
-      Circuits and Systems Lab, and benchmarking inverse-design models with NanoML.
+      <span class="colored">Currently</span>: Focusing on <span class="colored">wearable technologies</span> while doing
+      my M.Eng at Cornell, across the Hybrid Body Lab, the Versatile Electronic Systems Lab, and Responsive
+      Environments at the MIT Media Lab.
     </p>
     <div class="linksToMe">
       <a href="https://www.linkedin.com/in/shubham-ska/" title="LinkedIn">
-        <img src="/img/LI-In-Bug.png" width="50" height="50" loading="lazy" alt="LinkedIn" />
+        <img src="/img/LI-In-Bug.png" width="59" height="50" loading="lazy" alt="LinkedIn" />
       </a>
-      <a href="pdf/Resume Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer" title="Open industry resume (PDF)">
+      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer"
+        title="Open curriculum vitae (PDF)">
         <div class="resumeDiv">
-          <p class="resume">&nbsp;&nbsp;&nbsp;RESUME&nbsp;&nbsp;&nbsp;</p>
+          <p class="resume">&nbsp;&nbsp;&nbsp;CV&nbsp;&nbsp;&nbsp;</p>
         </div>
       </a>
       <a href="https://github.com/ShubhamSKA?tab=repositories" title="GitHub">
-        <img src="/img/github-mark-white.png" width="50" height="50" class="gitImage" loading="lazy" alt="GitHub" />
+        <img src="/img/github-mark-white.png" width="51" height="50" class="gitImage" loading="lazy" alt="GitHub" />
       </a>
     </div>
-    <!-- TODO: drop the academic CV at pdf/CV Shubham Saluja Kumar Agarwal.pdf, then
-         uncomment the link below so readers get the CV as well as the resume.
-    <p class="cvLine">
-      <a href="pdf/CV Shubham Saluja Kumar Agarwal.pdf" target="_blank" rel="noopener noreferrer">Academic CV (PDF)</a>
+    <p class="techLine">
+      <a href="/technical/">Technical detail on the research &rarr;</a>
     </p>
-    -->
-    <p class="lastUpdated">Last updated &mdash; September 2026</p>
+    <p class="techLine">
+      <a href="/projects/">More on the projects &rarr;</a>
+    </p>
+    <p class="lastUpdated">Last updated: September 2026</p>
   </footer>
   <button id="modeToggle" title="Switch Dark Mode">
     <img src="/img/sun_white.png" width="40" height="40" id="modeImage" alt="" />

@@ -62,7 +62,7 @@ canvas {
 canvas.canvas--settled {
   z-index: -1;
   background-color: transparent;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 :root[data-theme="light"] canvas.canvas--settled {
@@ -470,7 +470,7 @@ html {
   display: grid;
 }
 
-.pythonAll, .cadenceAll, .verilogAll, .opticAll {
+.projectAll {
   padding-bottom: 2%;
 }
 
@@ -785,4 +785,478 @@ div .sendButton {
   font-size: 0.9rem;
   opacity: 0.6;
   margin: 0.5rem 0 2rem;
+}
+
+/* Alternate which side the image sits on, DOM order stays image-first so the
+   phone stylesheet can order them uniformly. */
+.researchProject--flip .researchImage {
+  order: 2;
+}
+
+.researchProject--flip .researchDescriptionDiv {
+  order: 1;
+}
+
+.advisor {
+  font-style: italic;
+  opacity: 0.75;
+  font-size: 0.85em;
+}
+
+/* ---- Publications and awards ---- */
+
+
+.pubList,
+.awardList {
+  max-width: 105ch;
+  margin: 1.5rem auto 2.5rem;
+  padding-left: 2.5rem;
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.pubItem,
+.awardItem {
+  margin-bottom: 1.1rem;
+  padding-left: 0.4rem;
+}
+
+.pubItem::marker,
+.awardItem::marker {
+  font-weight: 700;
+}
+
+.selfName {
+  font-weight: 700;
+}
+
+.pubTitle {
+  font-style: italic;
+}
+
+.pubVenue {
+  opacity: 0.75;
+}
+
+.pubLink {
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
+}
+
+/* ---- Project cards ----
+   Every card in a row is the same height, the media stays optically centred,
+   and the caption sits on the bottom edge of the card rather than wherever the
+   image happens to end. The marquee rows are excluded: they scroll sideways. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject {
+  align-self: stretch;
+  justify-self: stretch;
+  display: flex;
+  flex-direction: column;
+}
+
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+/* Auto margins absorb the spare vertical space, which centres the media and
+   pushes the caption to the bottom. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a > img,
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a > video {
+  margin: auto;
+}
+
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) > .singleProject > a > .projectSub {
+  margin-bottom: 0;
+}
+
+/* The logo and menu are fixed, so an anchor jump has to stop short of them. */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* .formDiv is a two-column grid: form on the left, send button on the right.
+   The status line spans both so it cannot displace the button. */
+.formDiv {
+  align-items: center;
+}
+
+.formStatus {
+  grid-column: 1 / -1;
+}
+
+.pubLink + .pubLink,
+.pubVenue + .pubLink {
+  margin-left: 0.6rem;
+}
+
+/* ---- Learn more ---- */
+.cardActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.learnMore {
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.3rem;
+  border: 2px solid;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.learnMore:hover,
+.learnMore:focus-visible {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .learnMore:hover,
+:root[data-theme="light"] .learnMore:focus-visible {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+.techLine {
+  text-align: center;
+  font-size: 1.05rem;
+  margin: 0.75rem 0 0;
+}
+
+.techLine a {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+}
+
+/* Every seam between two subsections of the same level gets the same space:
+   Research to Jobs, one project group to the next, one skills table to the
+   next. Space only, no rule. */
+.workResearchAll + .jobAll,
+.projectDisplay > .projectAll + .projectAll,
+.skillsDisplay > .subSkillAll + .subSkillAll {
+  margin-top: 5rem;
+}
+
+/* Breathing room between project cards. Marquee rows are spaced by their own
+   margin and are scrolled by transform, so they stay out of this. */
+.projectType:not(.marqueeSlider):not(.marqueeSliderArt) {
+  gap: 1.5rem;
+}
+
+/* These icons have different native ratios (LinkedIn 635x540, GitHub 230x225,
+   the moon 534x595). Pin the height and let the width follow so none of them
+   get stretched, whichever source the theme swaps in. */
+.linksToMe img {
+  height: 50px;
+  width: auto;
+}
+
+#modeImage {
+  height: 40px;
+  width: auto;
+}
+
+/* Publications and Awards hold a single list; keep it off the edges without
+   padding the section, which would inset the title band. */
+.pubList,
+.awardList {
+  padding-right: 4%;
+  padding-left: calc(4% + 2.5rem);
+}
+
+/* Research entries that sit further from the HCI work are folded away behind
+   a native <details>, so they stay one click from view without adding length
+   to the page. Works with JavaScript off. */
+.moreResearch {
+  margin-top: 5rem;
+}
+
+.moreResearch > summary {
+  cursor: pointer;
+  list-style: none;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: bolder;
+  background-color: #232323;
+  padding: 1rem;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.moreResearch > summary::-webkit-details-marker {
+  display: none;
+}
+
+.moreResearch > summary::after {
+  content: "  \25B8";
+}
+
+.moreResearch[open] > summary::after {
+  content: "  \25BE";
+}
+
+.moreResearch > summary:hover,
+.moreResearch > summary:focus-visible {
+  background-color: #2e2e2e;
+}
+
+:root[data-theme="light"] .moreResearch > summary {
+  background-color: rgb(210, 210, 210);
+}
+
+:root[data-theme="light"] .moreResearch > summary:hover,
+:root[data-theme="light"] .moreResearch > summary:focus-visible {
+  background-color: rgb(198, 198, 198);
+}
+
+.moreResearch > .researchDisplay {
+  margin-top: 2rem;
+}
+
+/* A link inside running text has to look like one. The whole-card links (job
+   entries, project tiles, the logo) are deliberately left undecorated. */
+.researchDescription a,
+.aboutMe a,
+.skill a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.researchDescription a:hover,
+.researchDescription a:focus-visible,
+.aboutMe a:hover,
+.aboutMe a:focus-visible,
+.skill a:hover,
+.skill a:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+/* ---- Playing with the background ----
+   The canvas overlay is black in both themes, so the three controls that sit
+   on top of it are always light. The button that summons it sits over the
+   page, so that one follows the theme. */
+.bgButton {
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: inherit;
+  background: none;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+}
+
+#playBackground {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 310;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+#playBackground:hover,
+#playBackground:focus-visible {
+  opacity: 1;
+}
+
+/* display:flex on the class outranks the browser's own [hidden] rule, so the
+   hidden state has to be spelled out. */
+.bgControls[hidden] {
+  display: none;
+}
+
+.bgControls {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 400;
+}
+
+.bgControls .bgButton {
+  color: #fff;
+  border-color: #fff;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.bgControls .bgButton:hover,
+.bgControls .bgButton:focus-visible {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.bgControls .bgButton.isOn {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Vertical slider for the current curve's parameter. Sits on the black
+   overlay, so it is light in both themes like the other play controls. */
+.bgParam[hidden] {
+  display: none;
+}
+
+.bgParam {
+  position: fixed;
+  right: 1.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bgParamSlider {
+  -webkit-appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 1.6rem;
+  height: 40vh;
+  accent-color: #fff;
+  cursor: ns-resize;
+}
+
+.bgParamValue {
+  font-variant-numeric: tabular-nums;
+  min-width: 4ch;
+  text-align: center;
+}
+
+/* ---- Narrow windows ----
+   The menu bar is a fixed 682px of links sitting at right:15%, so below about
+   1024px it runs into the logo. Past that it folds into the same button the
+   phone layout uses, rather than overlapping or wrapping. */
+@media (max-width: 1100px) {
+  .menu {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    top: 1rem;
+    right: 1.5rem;
+    background-color: black;
+    border-radius: 5px;
+    padding: 4px;
+  }
+
+  .menu-header {
+    display: block;
+    justify-self: end;
+  }
+
+  .menuButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .line {
+    width: 2px;
+    background-color: white;
+    position: absolute;
+  }
+
+  .line:nth-child(1) {
+    height: 17px;
+    top: 10px;
+    left: 8px;
+  }
+
+  .line:nth-child(2) {
+    height: 17px;
+    top: 10px;
+    left: 30px;
+  }
+
+  .line:nth-child(3) {
+    height: 23px;
+    top: -1px;
+    left: 19px;
+    rotate: 90deg;
+  }
+
+  .line:nth-child(4) {
+    height: 8px;
+    top: 10px;
+    left: 19px;
+  }
+
+  /* Hidden by default, shown by the class the button toggles. Nothing is
+     written to element.style, so widening the window restores the bar. */
+  .menu-item {
+    display: none;
+    margin-right: 0;
+    font-size: 1rem;
+    border: 1px #343434 solid;
+    background-color: #232323;
+    border-radius: 3px;
+    text-align: center;
+    padding: 0.4rem 0.9rem;
+  }
+
+  .menu.menu--open .menu-item {
+    display: block;
+  }
+
+  .menu a {
+    justify-content: center;
+  }
+
+  /* The sliding underline reads as clutter once the links are stacked. */
+  .menu-item::after {
+    display: none;
+  }
+
+  :root[data-theme="light"] .menu {
+    background-color: rgb(240, 240, 240);
+  }
+
+  :root[data-theme="light"] .menu-item {
+    border-color: rgb(190, 190, 190);
+    background-color: rgb(210, 210, 210);
+  }
+
+  :root[data-theme="light"] .line {
+    background-color: black;
+  }
+}
+
+/* Vertical, so it sits along the edge rather than across the corner. */
+#playBackground {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* ---- Play me ----
+   The Python games run in the browser at /projects/python/, but they need a keyboard and
+   a mouse, so the button only shows where the main pointer can hover. */
+.playMe {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cardActions.playMe {
+    display: flex;
+  }
 }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Low Power Computer Vision Challenge 2024 | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="The 3D reconstruction evaluation pipeline and open-source baselines for the 2024 Low Power Computer Vision Challenge." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/lpcvc.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Low Power Computer Vision Challenge 2024 | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="The 3D reconstruction evaluation pipeline and open-source baselines for the 2024 Low Power Computer Vision Challenge." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/lpcvc.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>Low Power Computer Vision Challenge 2024</h1>
+      <p class="meta">
+        Vertically Integrated Projects, CVES, Purdue University
+        <span class="sep">&middot;</span> Advisor: Prof. Yung-Hsiang Lu
+        <span class="sep">&middot;</span> August 2023 &ndash; May 2024
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+      <h2>The problem</h2>
+      <p>
+        An international challenge needs to rank submissions from many teams on both accuracy and power,
+        fairly and reproducibly. Without a shared baseline, entrants cannot tell whether a submission is
+        worth making. The competition that I was helping organize had the goal of finding the best model for 3D
+        reconstruction in foggy environments on edge.
+      </p>
+
+      <h2>What I built</h2>
+      <ul>
+        <li>I was on the team from 2023-2024, as mentioned above, where I worked on trying to run open source 3D
+          reconstruction models, and compare their performances. These would then be used for 3D reconstruction
+          evaluation pipeline for the 2024
+          challenge. Unfortunately, the 2024 competition was not held... but, to my understanding, the infrastructure
+          and models I left behind were used in the 2025 competition.</li>
+      </ul>
+
+      <figure class="demo" id="demo-fog3d">
+        <div class="demoStage"></div>
+        <figcaption>
+          <span>
+            The task in miniature: the same street, once clear and once in fog, each turned from a single picture into
+            a depth estimate and then a 3D point cloud. Fog washes out contrast with distance, so the foggy
+            reconstruction comes out noisier, smears its edges and loses the far end of the street. The scene and its
+            errors are made up for illustration, not challenge data.
+          </span>
+        </figcaption>
+      </figure>
+
+      <h2>More</h2>
+      <ul>
+        <li>Helped maintain the website: <a href="https://lpcv.ai/" target="_blank"
+            rel="noopener noreferrer">lpcv.ai</a></li>
+      </ul>
+
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/battery.html"><span class="label">&larr; Previous</span>Wireless Battery State of
+        Charge Estimation</a>
+      <a class="next" href="/technical/hvps.html"><span class="label">Next &rarr;</span>High Voltage Power Supply from
+        Recycled Parts</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/js/demo-lpcvc.js"></script>
+</body>
+
+</html>

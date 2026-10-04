@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Low Power Dynamic Flash ADC | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="A 6-bit flash ADC in 45 nm CMOS: a resistor ladder, dynamic StrongARM comparators and a folding multiplexer encoder, running at 500 MS/s on 809 uW." />
+  <link rel="canonical" href="https://shubhamska.github.io/projects/flash-adc.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Low Power Dynamic Flash ADC | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="A 6-bit flash ADC in 45 nm CMOS: a resistor ladder, dynamic StrongARM comparators and a folding multiplexer encoder, running at 500 MS/s on 809 uW." />
+  <meta property="og:url" content="https://shubhamska.github.io/projects/flash-adc.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/projects/">Projects</a>
+    </nav>
+
+    <header>
+      <h1>Low Power Dynamic Flash ADC</h1>
+      <p class="meta">
+        Purdue University
+        <span class="sep">&middot;</span> Cadence Virtuoso, 45&nbsp;nm CMOS
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <p>
+      A 6-bit flash ADC compares the input against all 63 thresholds at once, which makes it fast and makes power the
+      hard part. This design pairs a resistor ladder with dynamic StrongARM latch comparators, which only draw current
+      while they switch, and a folding multiplexer encoder built from transmission gates and pass-transistor logic. It
+      samples at 500&nbsp;MS/s while averaging under 1&nbsp;mW.
+    </p>
+
+    <figure class="demo" id="demo-flashadc">
+      <div class="demoStage"></div>
+      <figcaption>
+        <span>
+          Type a voltage between 0 and 1&nbsp;V, or drag the slider. The ladder sets 63 thresholds 1/64&nbsp;V apart,
+          and every comparator whose threshold the input clears outputs a 1, giving a thermometer code. The encoder
+          then folds it in half five times: the middle bit of each layer is the next output bit, and it decides whether
+          the upper or the lower half carries on to the next layer. The one bit left at the end is the least
+          significant.
+        </span>
+      </figcaption>
+    </figure>
+
+    <h2>Results</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Resolution</th>
+          <td>6 bits, rail to rail</td>
+        </tr>
+        <tr>
+          <th>Sample rate</th>
+          <td>500&nbsp;MS/s; worst transition 1.07&nbsp;ns, inside the 2&nbsp;ns sample period</td>
+        </tr>
+        <tr>
+          <th>Average power</th>
+          <td>806.9&nbsp;&micro;W at 500&nbsp;MS/s</td>
+        </tr>
+        <tr>
+          <th>Comparators</th>
+          <td>StrongARM latches with SR latches; PMOS-tail below 0.5&nbsp;V, NMOS-tail above</td>
+        </tr>
+        <tr>
+          <th>Ladder</th>
+          <td>30&nbsp;&Omega; resistors, about 529&nbsp;&micro;W static</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Report</h2>
+    <iframe src="/pdf/ECE40656Project.pdf" width="100%" height="600px" style="border: none;" title="Low Power Dynamic Flash ADC: report">
+      <p>Your browser does not support PDFs. <a href="/pdf/ECE40656Project.pdf">Download the PDF</a>.</p>
+    </iframe>
+    <h2>Presentation</h2>
+    <iframe src="/pdf/Project Part 3.pdf" width="100%" height="600px" style="border: none;" title="Low Power Dynamic Flash ADC: report">
+      <p>Your browser does not support PDFs. <a href="/pdf/Project Part 3.pdf">Download the PDF</a>.</p>
+    </iframe>
+
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/projects/manchester-adder.html"><span class="label">&larr; Previous</span>8-bit Manchester Carry Adder</a>
+      <a class="next" href="/projects/python/snake.html"><span class="label">Next &rarr;</span>Snake</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/js/logic-kit.js"></script>
+  <script src="/js/demo-flashadc.js"></script>
+</body>
+
+</html>

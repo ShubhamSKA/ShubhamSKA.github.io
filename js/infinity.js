@@ -12,6 +12,15 @@ const prefersReducedMotion = window.matchMedia(
 
 let introDone = false;
 
+function cameFromThisSite() {
+  if (!document.referrer) return false;
+  try {
+    return new URL(document.referrer).origin === window.location.origin;
+  } catch (e) {
+    return false;
+  }
+}
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let currentCenterX = window.innerWidth / 2;
@@ -47,29 +56,34 @@ function handleResize() {
 window.addEventListener("resize", handleResize);
 window.addEventListener("load", handleResize); 
 
-// Demote the canvas from a full-screen overlay to a faint backdrop. The
-// animation keeps running and keeps reacting to the cursor -- it just stops
-// being the thing you have to get past.
+
+const playButton = document.getElementById("playBackground");
+const bgControls = document.getElementById("backgroundControls");
+const paramPanel = document.getElementById("backgroundParam");
+const paramSlider = document.getElementById("bgParamSlider");
+const paramLabel = document.getElementById("bgParamLabel");
+const paramValue = document.getElementById("bgParamValue");
+
+// Set here rather than inside the intro branch so bringing the canvas back to
+// the front later fades as well.
+canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
+
 function settleIntoBackground() {
   if (introDone) return;
   introDone = true;
   canvas.classList.add("canvas--settled");
   root.classList.remove("intro-active");
+  if (playButton) playButton.hidden = false;
 }
 
-if (prefersReducedMotion || window.location.hash) {
-  // Reduced motion, or a deep link straight to a section: skip the intro
-  // entirely rather than making the visitor wait for it.
+if (prefersReducedMotion || window.location.hash || cameFromThisSite()) {
   settleIntoBackground();
 } else {
   root.classList.add("intro-active");
-  canvas.style.transition = `opacity ${INTRO_FADE_MS}ms ease, background-color ${INTRO_FADE_MS}ms ease`;
   setTimeout(settleIntoBackground, INTRO_HOLD_MS);
-  // Never strand a visitor behind the overlay if anything above throws.
   setTimeout(function () {
     root.classList.remove("intro-active");
   }, INTRO_HOLD_MS + INTRO_FADE_MS + 500);
-  // Any deliberate interaction skips the rest of the intro.
   ["pointerdown", "keydown", "wheel", "touchstart"].forEach(function (evt) {
     window.addEventListener(evt, settleIntoBackground, { once: true, passive: true });
   });
@@ -150,27 +164,73 @@ const graphFunctions = [
   hypocicloid,
   venusian,
   astroid,
+  butterfly,
+  farris,
+  gielis,
+  harmonograph,
 ];
 
-let functionNum =
-  (loadTime.getSeconds() * (graphFunctions.length + 1)*(loadTime.getMilliseconds() % 761)) % graphFunctions.length;
-let extraPar = 1;
-
-const extraParValues = [
-  [loadTime.getMilliseconds() / 1000 + 1],
-  [(loadTime.getMilliseconds() % 9) / 2 + 1.5],
-  [0, Math.PI / 2],
-  [1],
-  [(loadTime.getMilliseconds() % 80) / 10 + 3],
-  [(loadTime.getMilliseconds() % 99) / 100 + 0.01],
-  [(loadTime.getMilliseconds() % 50) / 25 + 0.01],
-  [(loadTime.getMilliseconds() % 80) / 10 + 3],
+// What extraPar means differs per curve, so each one gets its own range. These
+// are continuous now: the old version quantised them to whatever the clock
+// happened to read, which left eight() with only two angles and heart() with
+// no parameter at all.
+const parameterRanges = [
+  { min: 0.55, max: 2.0, label: "Width" }, // circle: horizontal stretch
+  { min: 1.5, max: 5.5, label: "Frequency" }, // dunno: lobe count
+  { min: 0, max: Math.PI * 2, label: "Angle" }, // eight: rotation
+  { min: 0.55, max: 1.7, label: "Size" }, // heart: scale
+  { min: 2, max: 11, label: "Petals" }, // boomerang
+  { min: 0.02, max: 0.98, label: "Ratio" }, // hypocicloid
+  { min: 0.12, max: 2.0, label: "Ratio" }, // venusian
+  { min: 2.5, max: 11, label: "Cusps" }, // astroid
+  { min: 2, max: 7, step: 0.1, label: "Wings" }, // butterfly
+  { min: 2, max: 8, step: 0.25, label: "Turns" }, // farris
+  { min: 2.25, max: 9, step: 0.25, label: "Petals" }, // gielis
+  // Drawn a little smaller so the particles can hold the weave: the targets
+  // sweep at speed * |f'|, and a smaller figure slows them without touching
+  // the particle speed. Above ratio 4 it smears whatever the scale.
+  { min: 1, max: 4, step: 0.05, sampleStep: 0.02, scale: 0.6, label: "Ratio" }, // harmonograph
 ];
 
-extraPar =
-  extraParValues[functionNum][
-    (loadTime.getMilliseconds()%997) % [extraParValues[functionNum].length]
-  ];
+function parameterFor(index) {
+  const range = parameterRanges[index];
+  if (!range.step) {
+    return range.min + Math.random() * (range.max - range.min);
+  }
+  // Land on one of the notches the slider can actually stop at, whatever the
+  // step is. Picking a free-running value put the thumb between notches and
+  // made the readout disagree with the slider.
+  const notches = Math.round((range.max - range.min) / range.step);
+  return range.min + range.step * Math.floor(Math.random() * (notches + 1));
+}
+
+// Enough decimals to show the step, and no more.
+function decimalsFor(step) {
+  if (!step) return 2;
+  const text = String(step);
+  const dot = text.indexOf(".");
+  return dot < 0 ? 0 : text.length - dot - 1;
+}
+
+// The curve the page opens on is still picked at random.
+let functionNum = Math.floor(Math.random() * graphFunctions.length);
+let extraPar = parameterFor(functionNum);
+let patternScale = parameterRanges[functionNum].scale || 1;
+let patternSampleStep = parameterRanges[functionNum].sampleStep || 1;
+
+// After that, step through the curves in order. Drawing the index from the
+// clock the way the first one used to be skewed heavily towards a few values,
+// because the arithmetic ran modulo a power of two and browsers round their
+// timers differently. Walking the list visits all eight evenly.
+function regeneratePattern() {
+  functionNum = (functionNum + 1) % graphFunctions.length;
+  extraPar = parameterFor(functionNum);
+  patternScale = parameterRanges[functionNum].scale || 1;
+  patternSampleStep = parameterRanges[functionNum].sampleStep || 1;
+  color = Math.floor(Math.random() * 360);
+  t = 0;
+  syncParameterSlider();
+}
 
 function circle(t) {
   const radius = Math.sin(t);
@@ -192,13 +252,14 @@ function eight(t) {
   return { x, y };
 }
 function heart(t) {
-  const x = (16 * Math.sin(t) * Math.sin(t) * Math.sin(t)) / 20;
+  const x = (extraPar * 16 * Math.sin(t) * Math.sin(t) * Math.sin(t)) / 20;
   const y =
     -(
-      13 * Math.cos(t) -
-      5 * Math.cos(2 * t) -
-      2 * Math.cos(3 * t) -
-      1 * Math.cos(4 * t)
+      extraPar *
+      (13 * Math.cos(t) -
+        5 * Math.cos(2 * t) -
+        2 * Math.cos(3 * t) -
+        1 * Math.cos(4 * t))
     ) / 20;
   return { x, y };
 }
@@ -228,6 +289,47 @@ function astroid(t) {
     (1.5 * extraPar);
   return { x, y };
 }
+function butterfly(t) {
+  const wings = extraPar;
+  const r =
+    Math.exp(Math.sin(t)) -
+    2 * Math.cos(wings * t) +
+    Math.pow(Math.sin(t / 2), 5);
+  // The theoretical bound on |r| is e + 3, but the extremes never line up,
+  // so normalising by it drew the butterfly at about half the size of every
+  // other curve. 3.6 is measured: it puts the span alongside the rest.
+  const k = 5;//3.6;
+  const x = (Math.sin(t) * r) / k;
+  const y = (Math.cos(t) * r) / k;
+  return { x, y };
+}
+function farris(t) {
+  const n = extraPar;
+  const k = 1 + 1 / 2 + 1 / 3;                // |z| ≤ 11/6 for every n
+  const x = (Math.cos(t) + Math.cos((n + 1) * t) / 2 + Math.sin((3 * n - 1) * t) / 3) / k;
+  const y = (Math.sin(t) + Math.sin((n + 1) * t) / 2 + Math.cos((3 * n - 1) * t) / 3) / k;
+  return { x, y };
+}
+function gielis(t) {
+  const a = extraPar * t / 4;
+  const r = 1 / (Math.pow(Math.abs(Math.cos(a)), 7) + Math.pow(Math.abs(Math.sin(a)), 8));
+  const k = 6.68;                              // max r (independent of m)
+  const x = (r * Math.cos(t)) / k;
+  const y = (r * Math.sin(t)) / k;
+  return { x, y };
+}
+// A harmonograph is two pendulums very slightly out of tune, so each loop lands
+// a little rotated from the last and the trace weaves a ribbon. That only reads
+// if consecutive particles sit next to each other along the path, which is what
+// this curve's sampleStep is for: every other curve steps 1 per particle and
+// scatters over the whole orbit, this one steps 0.02 and follows it.
+function harmonograph(t) {
+  const a = extraPar;
+  const detune = 0.012;
+  const x = (Math.sin(a * t) + Math.sin((a + detune) * t + 1.2) / 2) / 1.5;
+  const y = (Math.cos(2 * t) + Math.cos((a + detune) * t + 0.5) / 2) / 1.5;
+  return { x, y };
+}
 
 let t = 0;
 const increment = 0.01;
@@ -244,14 +346,12 @@ function moveWhiteElements() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < whiteElements.length; i++) {
       let whiteElement = whiteElements[i];
-      let angle = t + i;
+      let angle = t + i * patternSampleStep;
 
-      whiteElement.targetX =
-        speed * (1 / increment) * graphFunctions[functionNum](angle).x +
-        canvas.width / 2;
-      whiteElement.targetY =
-        speed * (1 / increment) * graphFunctions[functionNum](angle).y +
-        canvas.height / 2;
+      const shape = graphFunctions[functionNum](angle);
+      const reach = speed * (1 / increment) * patternScale;
+      whiteElement.targetX = reach * shape.x + canvas.width / 2;
+      whiteElement.targetY = reach * shape.y + canvas.height / 2;
 
       let updatedWhiteElement = moveTowardsTarget(
         whiteElement.x,
@@ -268,7 +368,7 @@ function moveWhiteElements() {
       ctx.fillRect(whiteElement.x, whiteElement.y, 1, 1);
     }
 
-    if (!prefersReducedMotion && !document.hidden) {
+    if (loopShouldRun()) {
       requestAnimationFrame(moveWhiteElements);
     } else {
       rafPending = false;
@@ -277,12 +377,111 @@ function moveWhiteElements() {
 }
 
 let rafPending = true;
-moveWhiteElements();
+let userPlaying = false;
 
-// Stop burning frames on a backgrounded tab; pick back up on return.
-document.addEventListener("visibilitychange", function () {
-  if (!document.hidden && !prefersReducedMotion && !rafPending) {
+// Reduced motion stops the idle background animation, but not a visitor who has
+// deliberately asked to play with it.
+function loopShouldRun() {
+  return (!prefersReducedMotion || userPlaying) && !document.hidden;
+}
+
+function ensureLoopRunning() {
+  if (!rafPending && loopShouldRun()) {
     rafPending = true;
     moveWhiteElements();
   }
-});
+}
+
+moveWhiteElements();
+
+// Stop burning frames on a backgrounded tab; pick back up on return.
+document.addEventListener("visibilitychange", ensureLoopRunning);
+
+// ---- Playing with the background -------------------------------------------
+let cycleTimer = null;
+
+function stopCycle() {
+  if (!cycleTimer) return;
+  clearInterval(cycleTimer);
+  cycleTimer = null;
+  const cycle = document.getElementById("bgCycle");
+  if (cycle) {
+    cycle.setAttribute("aria-pressed", "false");
+    cycle.classList.remove("isOn");
+  }
+}
+
+function startCycle() {
+  if (cycleTimer) return;
+  regeneratePattern();
+  cycleTimer = setInterval(regeneratePattern, 4000);
+  const cycle = document.getElementById("bgCycle");
+  if (cycle) {
+    cycle.setAttribute("aria-pressed", "true");
+    cycle.classList.add("isOn");
+  }
+}
+
+function showParameterValue() {
+  if (!paramValue) return;
+  const range = parameterRanges[functionNum];
+  paramValue.textContent = Number(extraPar).toFixed(decimalsFor(range.step));
+}
+
+// Each curve reads extraPar differently, so the slider is re-scaled to that
+// curve's range whenever the shape changes.
+function syncParameterSlider() {
+  if (!paramSlider) return;
+  const range = parameterRanges[functionNum];
+  paramSlider.min = range.min;
+  paramSlider.max = range.max;
+  paramSlider.step = range.step || (range.max - range.min) / 500;
+  paramSlider.value = extraPar;
+  paramSlider.setAttribute("aria-label", range.label);
+  if (paramLabel) paramLabel.textContent = range.label;
+  showParameterValue();
+}
+
+function bringToFront() {
+  userPlaying = true;
+  canvas.classList.remove("canvas--settled");
+  root.classList.add("intro-active"); // holds the page still underneath
+  if (playButton) playButton.hidden = true;
+  if (bgControls) bgControls.hidden = false;
+  if (paramPanel) paramPanel.hidden = false;
+  syncParameterSlider();
+  ensureLoopRunning();
+}
+
+function returnToPage() {
+  userPlaying = false;
+  stopCycle();
+  canvas.classList.add("canvas--settled");
+  root.classList.remove("intro-active");
+  if (bgControls) bgControls.hidden = true;
+  if (paramPanel) paramPanel.hidden = true;
+  if (playButton) playButton.hidden = false;
+}
+
+if (playButton && bgControls) {
+  playButton.addEventListener("click", bringToFront);
+  document.getElementById("bgBack").addEventListener("click", returnToPage);
+  document.getElementById("bgNew").addEventListener("click", regeneratePattern);
+  document.getElementById("bgCycle").addEventListener("click", function () {
+    if (cycleTimer) {
+      stopCycle();
+    } else {
+      startCycle();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && userPlaying) returnToPage();
+  });
+  if (paramSlider) {
+    // No t reset here: dragging should morph the shape rather than restart it.
+    paramSlider.addEventListener("input", function () {
+      extraPar = Number(paramSlider.value);
+      showParameterValue();
+    });
+  }
+}

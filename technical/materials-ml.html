@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Machine Learning on Limited Materials Datasets | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="A time-agnostic model for small, irregularly sampled materials datasets: 97% contaminant classification accuracy." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/materials-ml.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title"
+    content="Machine Learning on Limited Materials Datasets | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="A time-agnostic model for small, irregularly sampled materials datasets: 97% contaminant classification accuracy." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/materials-ml.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>Machine Learning on Limited Materials Datasets</h1>
+      <p class="meta">
+        Nanomaterials Lab, Universidad Aut&oacute;noma del Estado de Morelos
+        <span class="sep">&middot;</span> Advisor: Prof. Vivechana Agarwal
+        <span class="sep">&middot;</span> May 2026 &ndash; August 2026
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+      <h2>The problem</h2>
+      <p>
+        It has been proven in a prior publication that machine learning can be used to determine contaminant, and on
+        some occasions, concentration of the contaminant. However, these measurements are all taken at the same time.
+        What if we want to determine these two parameters regardless of the time?
+      </p>
+
+      <h2>The approach</h2>
+      <p>
+        Using the approximately 600 point dataset with photoluminescense and colorimetry data, I created a two-model
+        pipeline to determine the contaminant, and then, determine the concentration of said contaminant, regardless of
+        the time at which the reaction was initialized relative to the measurement.
+      </p>
+
+      <h2>Results</h2>
+      <div class="tableScroll">
+        <table class="spec">
+          <tr>
+            <th>Contaminant classification</th>
+            <td>97% accuracy</td>
+          </tr>
+          <tr>
+            <th>Concentration prediction</th>
+            <td>0.061 mean absolute error</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>Manuscript in progress. Kumar Agarwal, Avalos, et al.</td>
+          </tr>
+        </table>
+      </div>
+
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="next" href="/technical/photonic.html"><span class="label">Next &rarr;</span>Inverse Design of Photonic
+        Devices</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+</body>
+
+</html>

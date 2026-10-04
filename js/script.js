@@ -468,31 +468,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-if (isMobileDevice()) {
-  const menuButton = document.querySelector(".menuButton");
-  const menuItems = document.querySelectorAll(".menu-item");
-  const menuWhole = document.querySelector(".menu");
-  menuWhole.style.backgroundColor = "black";
-  menuButton.addEventListener("click", function () {
-    menuButton.classList.toggle("displaying");
-    menuItems.forEach(function (element) {
-      if (menuButton.classList.contains("displaying")) {
-        element.style.display = "block";
-      } else {
-        element.style.display = "none";
-      }
-    });
+// Whether the menu is collapsed is now a question of width, not user agent, so
+// a narrowed desktop window gets the same button a phone does. The open state
+// lives in a class rather than inline display values: widening the window then
+// brings the full bar back on its own, instead of leaving items stuck hidden
+// because they were closed while narrow.
+const navMenu = document.querySelector(".menu");
+const navToggle = document.querySelector(".menuButton");
+
+if (navMenu && navToggle) {
+  navToggle.setAttribute("aria-expanded", "false");
+  navToggle.setAttribute("aria-label", "Toggle section navigation");
+
+  function setMenuOpen(open) {
+    navMenu.classList.toggle("menu--open", open);
+    navToggle.classList.toggle("displaying", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  navToggle.addEventListener("click", function () {
+    setMenuOpen(!navMenu.classList.contains("menu--open"));
   });
-  menuItems.forEach(function (element) {
-    element.addEventListener("click", function () {
-      menuButton.classList.toggle("displaying");
-      menuItems.forEach(function (element) {
-        if (menuButton.classList.contains("displaying")) {
-          element.style.display = "block";
-        } else {
-          element.style.display = "none";
-        }
-      });
+
+  navMenu.querySelectorAll(".menu-item").forEach(function (item) {
+    item.addEventListener("click", function () {
+      setMenuOpen(false);
     });
   });
 }
@@ -538,7 +538,7 @@ if (!reducedMotion) {
 
 const skill_descriptions = {
   Python:
-    "Data Engineering, Instrument Communication and Data Acquisition, GUI development, Dashboard Creation, Simple Game Development, Web API management",
+    "Data engineering, instrument communication and data acquisition, GUI development, dashboard creation, simple game development, and web API management. NumPy and Pandas for analysis; PyTorch and TensorFlow for models.",
   C: "Coded several problems from scratch, including tree balancing, Dijkstra's Algorithm, Sudoku solving, among others.",
   LaTeX:
     "Took notes for classes (alongside a friend), as well as developed several reports and assignments. Check out the repository!",
@@ -547,45 +547,49 @@ const skill_descriptions = {
   Onshape:
     "Like in Fusion360, I made a few Onshape designs, the relevant skillset is similar, but there are some differences in tool utilization.",
   SysVerilog:
-    "Experience writing modules and testbenches. Made a USB 1.0 communication protocol. Now taking a course to develop a Multicore Processor.",
+    "Experience writing modules and testbenches. Made a multicore processor, as well as replicated the USB 1.0 communication protocol.",
   Virtuoso:
     "Design, Simulation, Layout, Verification of transistor level circuits. Made, simulated, and created the layout for a Manchester Carry Adder and a Wallace Tree Multiplier.",
-  STM32:
-    "Used an STM32 to accurately count frequency (3Hz resolution), perform ADC and DAC, and communicate and synchronize with a Python script.",
   Embedded:
-    "Learned to code microcontrollers without built-in libraries, like HAL or Arduino. Made a 2-player (2 microcontroller) game of snake with display control, alongside a team of three other people.",
+    "Comfortable using microcontrollers in general. Have experience with Arduino, ESP32, Raspberry-Pi, STM32, and TI MCUs.",
   MATLAB:
     "Scripts for data processing, aligning, filtering, and plotting. Some scripting for simulations, and some scripting for instrument data acquisition.",
   HTML: "I designed this webpage from scratch. Learned from Youtube tutorials and LLMs. I can now read and understand how HTML files behave, as well as use this knowledge to help design GUIs.",
   CSS: "Learned it alongside HTML. You get the idea, I was trying to learn the stack of front-end development.",
   KiCad:
-    "Been using this for PCB design instead of Eagle, since it was more user friendly. I have also taught several people who came to BIDC how to use it.",
+    "Been using this for PCB design instead of Eagle, since it was more user friendly. I have also taught several people who came to BIDC how to use it. Now using it for flexible PCBs in my research.",
   Simulink:
     "Learned it for circuit simulations. That is, I simulated a 5kVDC, 2km transmission line and its subcomponents. I also designed a PLL inverter in Simulink, with hopes of expanding it into a hybrid inverter simulation.",
   Javascript:
     "Learned it with the rest of the WebDev stack, but I know there is a lot more it can offer that I don't know. I had a lot of fun designing the landing page for this website though. I was also given the responsibility of modifying and maintaining a few websites in one of my research teams.",
-  Arduino:
-    "My first embedded language. Can use it's in-built tools, but I have used it less now that I can use higher-end microcontrollers.",
   Altium:
-    "Learning PCB design on it now - for a new project I am working on at the Wireless Sensing Lab.",
+    "Outlined the circuit architecture and designed the initial PCB prototypes for AirVolt, the wireless voltage-sensing project at the Wireless Sensing Lab.",
+  SQL:
+    "Pulled and joined data from production SQL databases at Micron to build lifespan and life-expectancy analyses for DRAM components.",
+  RISCV:
+    "Coursework and project work on multicore processor design, writing and verifying modules against the RISC-V ISA.",
   LTSpice:
     "Once again, I have used this for circuit simulations. These circuits have been mostly composed of linear components. Used it in some of my classes, as well as to help understand what I am doing in my research projects.",
   Kotlin:
     "Took a basic course in Kotlin for AppDev, but I don't think I know enough to make an actual app with any use.",
   AStudio:
     "Same as Kotlin, learned it for AppDev, but I am not familiar enough to make an app with it.",
-  ML: "Took a Coursera ML course, so I understand the idea behind it. I have also run, and made slight modifications to some models. However, I would not say I can make a model of my own.",
+  ML: "Trained four baseline models to benchmark an inverse-design framework, built a VGGNet-based network that replaces an electromagnetic solver and cuts efficiency evaluation time by over 100x, and trained a time-agnostic model reaching 97% classification accuracy on small materials datasets.",
   THSoldering:
     "Several years of experience with through-hole soldering. Have also taught dozens of people how to solder.",
   SMD: "Less experience than through-hole soldering, but still notable. Some challenges I have faced are: an 0402 RF module with 6 ball pins and recreating a broken trace on a copper PCB with no mask.",
   TroubleShooting:
     "I can troubleshoot PCBs with basic techniques like continuity checking and parameter measurements.",
   Design:
-    "I can design basic circuits, both linear and logical. Planning to learn more with my senior design project.",
+    "Learned a lot of digital circuit design with my senior design project. Still learning more in my current research.",
+  Sensor:
+    "I am taking a course on sensor design, goal is to go from raw materials to digital signals.",
   Milling:
     "Milled up to two layer PCBs on an AccurateCNC PCB Mill, using their proprietary software.",
   EPlating:
     "I know how this works, I have made the solute for it, and I have electroplated (albeit unevenly) some 3D printed objects.",
+  Haptics:
+    "Taking a course on Haptic Systems, and working on haptic hardware in my research.",
   English:
     "My most proficient language. I can read upwards of 400WPM while still maintaining a general understanding of what I am reading.",
   Spanish:
@@ -642,38 +646,12 @@ projectContainers.forEach(container => {
         // Select both images and videos at once
         const mediaElements = container.querySelectorAll('div a img, div a video');
         
-        // 1. Set the widths first for both images and videos
+        // Vertical centring and equal card heights are handled in CSS; this
+        // only has to set the width the media should render at.
         mediaElements.forEach(media => {
             media.style.width = `${dynamicWidth}vw`;
             media.style.height = 'auto'; // Ensure aspect ratio is maintained
-            // media.style.display = 'block';
-            // media.style.margin = '0 auto';
         });
 
-        // 2. Wait for the browser to render the new widths before measuring
-        requestAnimationFrame(() => {
-            let maxHeight = 0;
-
-            // Find the true tallest media element at the NEW width
-            mediaElements.forEach(media => {
-                const h = media.getBoundingClientRect().height;
-                if (h > maxHeight) maxHeight = h;
-            });
-
-            // 3. Apply margins based on the accurate maxHeight
-            mediaElements.forEach(media => {
-                const currentHeight = media.getBoundingClientRect().height;
-                const diff = (maxHeight - currentHeight) / 2;
-                
-                // Only apply if there's actually a difference
-                if (diff > 1) { 
-                    media.style.marginTop = `${diff}px`;
-                    media.style.marginBottom = `${diff}px`;
-                } else {
-                    media.style.marginTop = '0px';
-                    media.style.marginBottom = '0px';
-                }
-            });
-        });
     }
 });

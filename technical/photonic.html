@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Inverse Design of Photonic Devices | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description" content="A VGGNet-based efficiency predictor that removes the electromagnetic solver from the inverse design loop, over 100x faster." />
+  <link rel="canonical" href="https://shubhamska.github.io/technical/photonic.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Inverse Design of Photonic Devices | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description" content="A VGGNet-based efficiency predictor that removes the electromagnetic solver from the inverse design loop, over 100x faster." />
+  <meta property="og:url" content="https://shubhamska.github.io/technical/photonic.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/css/demos.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/technical/">Technical Detail</a>
+    </nav>
+
+    <header>
+      <h1>Inverse Design of Photonic Devices</h1>
+      <p class="meta">
+        QuMETA NanoML Group, Purdue University
+        <span class="sep">&middot;</span> Advisors: Prof. Alexander V. Kildishev, Prof. Alexandra Boltasseva, Prof. Vladimir Shalaev
+        <span class="sep">&middot;</span> March 2025 &ndash; Present
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+    <h2>The problem</h2>
+    <p>
+      Inverse design searches a space of candidate structures for one that meets an optical target. Scoring
+      a candidate normally means running an electromagnetic solver, and that cost is what sets how much of
+      the space can be explored. The field also lacks shared datasets, so results are hard to compare
+      between groups.
+    </p>
+
+    <h2>What I built</h2>
+    <ul>
+      <li>
+        A curated and validated <strong>diffractive metagrating dataset of 10,000+ device structures</strong>, intended
+        for open source release so other groups can benchmark against the same data.
+      </li>
+      <li>
+        Two <strong>VGGNet-based networks</strong> that attempt to predict device efficiency directly, removing the
+        solver from the inner loop. One of the models is trained to predict efficiencies for the diffractive metagrating cells, while the other is for a pre-existing thermophotovoltaic dataset.
+      </li>
+      <li>
+        I recreated four models, namely, an Adversarial Auto-Encoder, a Wasserstein Generative Adversarial Network, and their conditional counterparts. I created two versions of each, one for each dataset, and trained them all.  
+      </li>
+      <li>
+        An extensive comparison of models, and their performance as inverse design methodologies applied to the development of novel high-performance photonic devices, soon to be published.
+      </li>
+    </ul>
+
+    <figure class="demo" id="demo-photonic">
+      <div class="demoStage"></div>
+      <figcaption>
+        <span>
+          Real designs from both datasets, alternating with new ones. First an autoencoder squeezes a real design into
+          a latent vector and rebuilds it, and the match rate is measured straight from these images. Then a
+          generator starts from random noise and makes a design that is in neither dataset. Everything, real or new,
+          is scored by a VGG surrogate instead of the full solver. The originals and reconstructions are real; the new
+          designs are stand-ins blended from the real ones, and the latent bars and lane timing are illustrations.
+        </span>
+      </figcaption>
+    </figure>
+
+    <h2>Results</h2>
+    <div class="tableScroll">
+      <table class="spec">
+        <tr>
+          <th>Efficiency evaluation</th>
+          <td>Over 100&times; faster than the solver, with minimal loss in accuracy</td>
+        </tr>
+        <tr>
+          <th>Dataset</th>
+          <td>10,000+ metagrating structures, curated and validated</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>Manuscript in progress: Kumar Agarwal, Iyer, et al.</td>
+        </tr>
+      </table>
+    </div>
+
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/technical/materials-ml.html"><span class="label">&larr; Previous</span>Machine Learning on Limited Materials Datasets</a>
+      <a class="next" href="/technical/airvolt.html"><span class="label">Next &rarr;</span>AirVolt: Wireless Voltage Sensing</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/js/demo-photonic.js"></script>
+</body>
+
+</html>
