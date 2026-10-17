@@ -13,7 +13,17 @@
 // under the shadow, and a thin photon ring rims it. The side of the disc
 // coming towards the viewer is brighter than the side going away (Doppler
 // beaming), which here means more of its dots show. Two narrow jets shoot out
-// along the disc's axis, widening and twisting as they go. The disc turns in
+// along the disc's axis, widening and twisting as they go.
+// Real discs flicker, and this one does too. Between flares only some of the
+// gas shines. Magnetic flares heat patches of the disc now and then, most
+// often close in, where the gas is hottest. A heated patch lights up, goes
+// round with its gas, shears out into an arc and cools. Every so often a big
+// flare, a hot spot, lights gas just outside the inner edge; it whips round
+// the hole in a couple of seconds, its lensed image arcing over the shadow,
+// and brightens the photon ring. It also sends a knot up the jets, as do
+// smaller outbursts in between, so the jets run dim with bright knots
+// travelling out along them. The hole's spin drags the disc's axis round in
+// a slow wobble (Lense-Thirring precession), jets and all. The disc turns in
 // the screen with the cursor's place across it: level in the middle, tipped
 // down towards whichever side the cursor is nearer. And it is seen as if from
 // the middle of the screen: edge on with the cursor halfway down, from above
@@ -30,7 +40,7 @@ const accretion = {
   //             cursor at the bottom or top edge
   roll: 0.5, // rad it is turned in the screen with the cursor at either edge
   lens: 4, // how strongly light from behind the hole is bent round it
-  spin: 0.05, // rad per frame the inner edge goes round; slower further out
+  spin: 0.07, // rad per frame the inner edge goes round; slower further out
   inflow: 0.03, // px per frame the gas drifts inwards at the inner edge
   thickness: 0.008, // the disc's half thickness, share of the radius
   wobble: 0.012, // how far off circular the orbits are, at most
@@ -42,6 +52,17 @@ const accretion = {
   jetSpread: 0.05, // how quickly the jets widen
   jetReach: 0.55, // how far they go, share of the height
   clumps: 80, // the disc starts as this many clumps, which shear into streaks
+  quiet: 0.35, // share of the gas that shines between flares
+  flares: 0.25, // flares per frame, on average
+  flareSize: [0.1, 0.4], // how far a flare reaches, share of its distance from
+  //                         the hole, smallest to largest
+  cooling: 0.98, // share of its heat gas keeps each frame
+  hotSpot: 300, // frames between hot spots, on average
+  knots: 120, // frames between the other knots in the jets, on average
+  knotLength: 0.03, // how long a knot is, share of the height
+  jetQuiet: 0.25, // share of a jet that shines between knots
+  precession: 0.06, // rad the disc's axis wobbles by
+  precessionPeriod: 1500, // frames for one wobble
 };
 
 let accretionTime = 0;
@@ -55,9 +76,13 @@ let accretionW = new Float32Array(0); //      a number to decide whether it
 let accretionZ = new Float32Array(0); //      shows on the dim side
 let accretionV = new Float32Array(0);
 let accretionK = new Float32Array(0);
-let accretionJetS = new Float32Array(0); // jets: how far out, across, twist
-let accretionJetL = new Float32Array(0);
-let accretionJetP = new Float32Array(0);
+let accretionH = new Float32Array(0); // gas: how hot from flares, 0 to 1
+let accretionJetS = new Float32Array(0); // jets: how far out, across, twist,
+let accretionJetL = new Float32Array(0); //       and a number to decide whether
+let accretionJetP = new Float32Array(0); //       it shows between knots
+let accretionJetK = new Float32Array(0);
+let accretionKnots = []; // the frames knots were launched up the jets
+let accretionInnerHeat = 0; // how hot the gas near the inner edge is, on average
 
 function accretionCentre() {
   return cursorOnPage
@@ -106,6 +131,24 @@ function accretionFeed(i, sizes) {
   accretionR[i] = accretionRadius(sizes);
   accretionA[i] = Math.random() * Math.PI * 2;
   accretionV[i] = 0;
+  accretionH[i] = 0;
+}
+
+// Heats the gas within `size` of a point `r0` from the hole, at a random
+// angle round it.
+function accretionFlare(r0, size, heat) {
+  const a0 = Math.random() * Math.PI * 2;
+  const x0 = r0 * Math.cos(a0);
+  const y0 = r0 * Math.sin(a0);
+  const size2 = size * size;
+  for (let i = 0; i < accretionDisc; i++) {
+    const r = accretionR[i];
+    if (Math.abs(r - r0) > size) continue;
+    const dx = r * Math.cos(accretionA[i]) - x0;
+    const dy = r * Math.sin(accretionA[i]) - y0;
+    const d2 = dx * dx + dy * dy;
+    if (d2 < size2) accretionH[i] = Math.max(accretionH[i], heat * (1 - d2 / size2));
+  }
 }
 
 function startAccretion() {
@@ -127,6 +170,9 @@ function startAccretion() {
   accretionZ = new Float32Array(d);
   accretionV = new Float32Array(d);
   accretionK = new Float32Array(d);
+  accretionH = new Float32Array(d);
+  accretionKnots = [];
+  accretionInnerHeat = 0;
   const clumps = [];
   for (let c = 0; c < Math.max(1, Math.round(accretion.clumps)); c++) {
     clumps.push({
@@ -150,10 +196,12 @@ function startAccretion() {
   accretionJetS = new Float32Array(jets);
   accretionJetL = new Float32Array(jets);
   accretionJetP = new Float32Array(jets);
+  accretionJetK = new Float32Array(jets);
   for (let j = 0; j < jets; j++) {
     accretionJetS[j] = sizes.horizon + Math.random() * accretion.jetReach * h;
     accretionJetL[j] = Math.random() * 2 - 1;
     accretionJetP[j] = Math.random() * Math.PI * 2;
+    accretionJetK[j] = Math.random();
   }
 }
 
@@ -165,11 +213,30 @@ function stepAccretion() {
   accretionTime++;
   const t = accretionTime;
   accretionTilt += (accretionWantedTilt() - accretionTilt) * 0.1;
-  const ct = Math.cos(accretionTilt);
-  const st = Math.sin(accretionTilt);
   accretionRoll += (accretionWantedRoll() - accretionRoll) * 0.1;
-  const cr = Math.cos(accretionRoll);
-  const sr = Math.sin(accretionRoll);
+  // The precession wobbles the axis round on top of where the cursor puts it.
+  const wobble = (Math.PI * 2 * t) / Math.max(1, accretion.precessionPeriod);
+  const tilt = accretionTilt + accretion.precession * Math.sin(wobble);
+  const roll = accretionRoll + accretion.precession * Math.cos(wobble);
+  const ct = Math.cos(tilt);
+  const st = Math.sin(tilt);
+  const cr = Math.cos(roll);
+  const sr = Math.sin(roll);
+
+  // Flares: mostly small and close in. Now and then a hot spot at the inner
+  // edge, which also sends a knot up the jets.
+  const sizeSpan = accretion.flareSize[1] - accretion.flareSize[0];
+  for (let chance = accretion.flares; Math.random() < chance; chance -= 1) {
+    const r0 = accretionRadius(sizes);
+    const size = r0 * (accretion.flareSize[0] + sizeSpan * Math.pow(Math.random(), 3));
+    accretionFlare(r0, size, 0.5 + 0.5 * Math.random());
+  }
+  if (Math.random() < 1 / Math.max(1, accretion.hotSpot)) {
+    const r0 = sizes.inner * (1.05 + 0.4 * Math.random());
+    accretionFlare(r0, r0 * 0.35, 1);
+    accretionKnots.push(t);
+  }
+  if (Math.random() < 1 / Math.max(1, accretion.knots)) accretionKnots.push(t);
   let next = 0;
   // From the disc's view (x across, up the screen) to the page.
   function place(e, x, up) {
@@ -186,20 +253,39 @@ function stepAccretion() {
     e.y = -100;
   }
 
-  // The photon ring, shimmering.
+  // The photon ring, shimmering, and brighter while the gas close in is hot.
   const ring = Math.min(n, Math.max(0, Math.round(accretion.ringDots)));
+  const ringShows = 0.55 + 0.45 * Math.min(1, accretionInnerHeat * 4);
   for (let k = 0; k < ring; k++) {
+    if ((k * 0.618034) % 1 > ringShows) {
+      park();
+      continue;
+    }
     const a = (k / ring) * Math.PI * 2 + t * 0.01;
     const r = sizes.shadow * (1 + Math.random() * 0.05);
     put(Math.cos(a) * r, Math.sin(a) * r);
   }
 
-  // The jets, out along the disc's axis both ways, widening and twisting.
+  // The jets, out along the disc's axis both ways, widening and twisting,
+  // dim but for the knots running out along them.
   const reach = accretion.jetReach * h;
+  const knotLength = Math.max(1, accretion.knotLength * h);
+  accretionKnots = accretionKnots.filter(function (born) {
+    return (t - born) * accretion.jetSpeed < reach + 3 * knotLength;
+  });
   for (let j = 0; j < accretionJetS.length; j++) {
     accretionJetS[j] += accretion.jetSpeed;
     if (accretionJetS[j] > reach) accretionJetS[j] = sizes.horizon;
     const s = accretionJetS[j];
+    let knot = 0;
+    for (const born of accretionKnots) {
+      const off = (s - sizes.horizon - (t - born) * accretion.jetSpeed) / knotLength;
+      knot += Math.exp(-off * off);
+    }
+    if (accretionJetK[j] > accretion.jetQuiet + (1 - accretion.jetQuiet) * Math.min(1, knot)) {
+      park();
+      continue;
+    }
     const way = j % 2 ? -1 : 1;
     const across =
       (accretion.jetSpread * s + 1.5) * accretionJetL[j] + 3 * Math.sin(s * 0.04 - t * 0.2 + accretionJetP[j]);
@@ -212,6 +298,8 @@ function stepAccretion() {
   next += images;
   let imagesUsed = 0;
   const lensing = accretion.lens * sizes.horizon;
+  let innerHeat = 0;
+  let innerCount = 0;
   for (let i = 0; i < accretionDisc; i++) {
     let r = accretionR[i];
     accretionA[i] += accretion.spin * Math.pow(sizes.inner / Math.max(r, sizes.horizon), 1.5);
@@ -227,6 +315,11 @@ function stepAccretion() {
     }
     accretionR[i] = r;
     accretionW[i] += 0.0005;
+    accretionH[i] *= accretion.cooling;
+    if (r < sizes.inner * 1.6) {
+      innerHeat += accretionH[i];
+      innerCount++;
+    }
 
     const a = accretionA[i];
     const rr = r * (1 + accretionE[i] * Math.cos(a - accretionW[i]));
@@ -236,10 +329,12 @@ function stepAccretion() {
     const up = along * st + lift * ct;
     const behind = along * ct - lift * st;
 
-    // Coming towards the viewer on the left, going away on the right: gas
-    // going away shows only some of its dots, the more so the faster it goes.
+    // Hot gas shines; between flares only some of it does. And coming towards
+    // the viewer on the left, going away on the right: gas going away shows
+    // fewer of its dots, the fewer the faster it goes.
     const towards = -Math.cos(a) * ct * Math.sqrt(sizes.inner / Math.max(r, sizes.inner));
-    if (accretionK[i] > Math.pow(1 + accretion.beaming * towards, 3)) {
+    const shine = accretion.quiet + (1 - accretion.quiet) * accretionH[i];
+    if (accretionK[i] > shine * Math.pow(1 + accretion.beaming * towards, 3)) {
       park();
       continue;
     }
@@ -262,6 +357,7 @@ function stepAccretion() {
       }
     }
   }
+  accretionInnerHeat = innerCount ? innerHeat / innerCount : 0;
   for (let k = imageStart + imagesUsed; k < imageStart + images; k++) {
     whiteElements[k].x = -100;
     whiteElements[k].y = -100;
