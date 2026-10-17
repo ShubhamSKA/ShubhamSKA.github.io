@@ -4,22 +4,13 @@ const root = document.documentElement;
 
 // The intro plays as a full-screen overlay, then demotes itself to a faint
 // background layer. Nothing is gated behind a click.
-const INTRO_HOLD_MS = 2000; // how long the overlay stays opaque
+const INTRO_HOLD_MS = 2500; // how long the overlay stays opaque
 const INTRO_FADE_MS = 900; // how long it takes to sink into the background
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 
 let introDone = false;
-
-function cameFromThisSite() {
-  if (!document.referrer) return false;
-  try {
-    return new URL(document.referrer).origin === window.location.origin;
-  } catch (e) {
-    return false;
-  }
-}
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -76,7 +67,11 @@ function settleIntoBackground() {
   if (playButton) playButton.hidden = false;
 }
 
-if (prefersReducedMotion || window.location.hash || cameFromThisSite()) {
+// It plays on every load of the page, reloads and returns from other pages
+// included; only a link straight to a section skips it. The dev page (/dev/)
+// skips it too: it is there to look at the animations, not the intro.
+const devPage = root.hasAttribute("data-canvas-dev");
+if (prefersReducedMotion || window.location.hash || devPage) {
   settleIntoBackground();
 } else {
   root.classList.add("intro-active");
@@ -331,9 +326,106 @@ function harmonograph(t) {
   return { x, y };
 }
 
+// ---- Background simulations -------------------------------------------------
+// Whenever the canvas sits behind the page the dots stop tracing the curve and
+// run one of a few simulations instead, picked at random each time the canvas
+// settles. Bringing the canvas to the front sends them back to the pattern.
+
+// Only pull towards the cursor while it is over the page; before the first move
+// it sits at (0, 0) and would drag the dots into the corner.
+let cursorOnPage = false;
+document.addEventListener("mousemove", function () {
+  cursorOnPage = true;
+});
+document.documentElement.addEventListener("mouseleave", function () {
+  cursorOnPage = false;
+});
+
+// ---- Drawing behind the page ---------------------------------------------
+// On the main page each dot is lit by how near it is to the cursor: full
+// brightness within `full` px, then falling off as 1 / distance, down to a
+// floor so the far side of the screen never goes quite dark. Drawn in a few
+// fixed levels, since changing the fill for every dot is slow.
+const cursorGlow = { enabled: true, full: 120, floor: 0.15, levels: 8 };
+let glowLevel = new Uint8Array(0);
+
+function drawBehindPage(hue) {
+  const n = whiteElements.length;
+  ctx.fillStyle = `hsl(${hue},100%,75%)`;
+  if (!cursorOnPage || !cursorGlow.enabled) {
+    for (let i = 0; i < n; i++) ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
+    return;
+  }
+  const levels = cursorGlow.levels;
+  if (glowLevel.length !== n) glowLevel = new Uint8Array(n);
+  for (let i = 0; i < n; i++) {
+    const dx = whiteElements[i].x - cursorPosition.x;
+    const dy = whiteElements[i].y - cursorPosition.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    const brightness = Math.min(1, Math.max(cursorGlow.floor, cursorGlow.full / (d || 1)));
+    glowLevel[i] = Math.ceil(brightness * levels);
+  }
+  for (let level = 1; level <= levels; level++) {
+    ctx.globalAlpha = level / levels;
+    for (let i = 0; i < n; i++) {
+      if (glowLevel[i] === level) ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+// ---- Choosing one ----------------------------------------------------------
+// Each simulation lives in its own file under js/backgrounds/ and registers
+// itself here: { start, step }, plus for the dev page the object holding its
+// settings and which of its keys are running state rather than settings.
+// Archived ones (js/backgrounds/archive/) and ones still in development
+// (js/backgrounds/lab/, when there are any) are loaded only by the dev page.
+const backgrounds = {};
+let backgroundMode = null;
+let lastBackgroundMode = null;
+
+function registerBackground(name, sim) {
+  backgrounds[name] = sim;
+}
+
+// A different one from last time, so returning to the page always changes
+// something. ?bg=ripples (or any registered name) pins one, for trying them
+// out. Null until the simulation files have loaded.
+function pickBackground() {
+  const pinned = new URLSearchParams(window.location.search).get("bg");
+  if (Object.prototype.hasOwnProperty.call(backgrounds, pinned)) return pinned;
+  const names = Object.keys(backgrounds).filter(function (name) {
+    const sim = backgrounds[name];
+    return !sim.archived && !sim.lab && name !== lastBackgroundMode;
+  });
+  if (!names.length) return null;
+  return names[Math.floor(Math.random() * names.length)];
+}
+
 let t = 0;
 const increment = 0.01;
 let color = loadTime.getMilliseconds() % 360;
+
+// Moves every dot one step towards its place on the current curve.
+function followCurve() {
+  const reach = speed * (1 / increment) * patternScale;
+  for (let i = 0; i < whiteElements.length; i++) {
+    const whiteElement = whiteElements[i];
+    const shape = graphFunctions[functionNum](t + i * patternSampleStep);
+    whiteElement.targetX = reach * shape.x + canvas.width / 2;
+    whiteElement.targetY = reach * shape.y + canvas.height / 2;
+
+    const updatedWhiteElement = moveTowardsTarget(
+      whiteElement.x,
+      whiteElement.y,
+      whiteElement.targetX,
+      whiteElement.targetY,
+      speed
+    );
+    whiteElement.x = updatedWhiteElement.x;
+    whiteElement.y = updatedWhiteElement.y;
+  }
+}
 
 function moveWhiteElements() {
   color += 0.1;
@@ -344,28 +436,24 @@ function moveWhiteElements() {
 
   if (whiteElements.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < whiteElements.length; i++) {
-      let whiteElement = whiteElements[i];
-      let angle = t + i * patternSampleStep;
-
-      const shape = graphFunctions[functionNum](angle);
-      const reach = speed * (1 / increment) * patternScale;
-      whiteElement.targetX = reach * shape.x + canvas.width / 2;
-      whiteElement.targetY = reach * shape.y + canvas.height / 2;
-
-      let updatedWhiteElement = moveTowardsTarget(
-        whiteElement.x,
-        whiteElement.y,
-        whiteElement.targetX,
-        whiteElement.targetY,
-        speed
-      );
-
-      whiteElement.x = updatedWhiteElement.x;
-      whiteElement.y = updatedWhiteElement.y;
-
+    const inBackground = introDone && !userPlaying;
+    if (inBackground && !backgroundMode) {
+      backgroundMode = pickBackground();
+      lastBackgroundMode = backgroundMode;
+      if (backgroundMode) backgrounds[backgroundMode].start();
+    }
+    // Nothing to undo: the curve loop pulls every dot back to its target from
+    // wherever the simulation left it.
+    if (!inBackground) backgroundMode = null;
+    if (backgroundMode) {
+      backgrounds[backgroundMode].step();
+      drawBehindPage(Math.floor(color));
+    } else {
+      followCurve();
       ctx.fillStyle = `hsl(${Math.floor(color)},100%,75%)`;
-      ctx.fillRect(whiteElement.x, whiteElement.y, 1, 1);
+      for (let i = 0; i < whiteElements.length; i++) {
+        ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
+      }
     }
 
     if (loopShouldRun()) {

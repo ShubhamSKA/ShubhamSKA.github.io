@@ -8,6 +8,17 @@
 }
 
 
+/* Boxes are a touch see-through so the flock behind the page shows. Each
+   colour is picked so that over the plain page background it averages to the
+   old opaque one (#232323 dark, rgb(210, 210, 210) light). */
+:root {
+  --panel: rgba(43, 43, 43, 0.82);
+}
+
+:root[data-theme="light"] {
+  --panel: rgba(203, 203, 203, 0.82);
+}
+
 body {
   font-family: "Roboto", sans-serif;
   overflow-x: hidden;
@@ -62,12 +73,12 @@ canvas {
 canvas.canvas--settled {
   z-index: -1;
   background-color: transparent;
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 :root[data-theme="light"] canvas.canvas--settled {
   filter: invert(1) saturate(1.5);
-  opacity: 0.35;
+  opacity: 0.42;
 }
 
 /* Scroll is locked only while the intro overlay is up. */
@@ -164,7 +175,7 @@ html {
 :root[data-theme="light"] .skillsBody tr td,
 :root[data-theme="light"] .skillsHeader tr th,
 :root[data-theme="light"] .linksToMe {
-  background-color: rgb(210, 210, 210);
+  background-color: var(--panel);
 }
 
 /* .warning{
@@ -239,7 +250,7 @@ html {
 
 .skillsHeader tr th {
     border: #343434 5px solid;
-    background-color: #232323;
+    background-color: var(--panel);
 }
 
 
@@ -263,7 +274,7 @@ html {
 }
 
 .skillsBody tr td {
-    background-color: #232323;
+    background-color: var(--panel);
 }
 
 .skillsBody {
@@ -317,7 +328,7 @@ html {
 .linksToMe {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  background-color: #232323;
+  background-color: var(--panel);
   padding: 2% 0%;
   margin-top: 3%;
 }
@@ -354,7 +365,7 @@ html {
 }
 
 .titleDiv {
-  background-color: #232323;
+  background-color: var(--panel);
 }
 
 .skillTypeDisplay {
@@ -412,7 +423,7 @@ html {
   line-height: 1.5;
   position: sticky;
   padding: 2%;
-  background-color: #232323;
+  background-color: var(--panel);
 }
 
 
@@ -480,7 +491,7 @@ html {
   font-weight: bolder;
   margin-bottom: 1%;
   margin-top: 1%;
-  background-color: #232323;
+  background-color: var(--panel);
 }
 
 .projectSub {
@@ -490,7 +501,7 @@ html {
 }
 
 .gridHeader {
-  background-color: #232323;
+  background-color: var(--panel);
   text-align: center;
   font-size: 2.5rem;
   border: #343434 5px solid;
@@ -499,13 +510,13 @@ html {
 
 :root[data-theme="light"] .gridHeader,
 :root[data-theme="light"] .contactAll {
-  background-color: rgb(210, 210, 210);
+  background-color: var(--panel);
   border-color: rgb(190, 190, 190);
 }
 
 .gridDiv {
   display: flex;
-  background-color: #232323;
+  background-color: var(--panel);
   margin: 0.5%;
 }
 
@@ -524,7 +535,7 @@ html {
 
 
 .contactAll {
-  background-color: #232323;
+  background-color: var(--panel);
   padding-bottom: 2%;
   border-radius: 1%;
   margin: 5% 10% 3% 10%;
@@ -618,7 +629,7 @@ div .sendButton {
 
 .singleProject {
   position: relative;
-  background-color: #232323;
+  background-color: var(--panel);
   border-radius: 5px;
   padding: 5px;
   justify-self: center;
@@ -982,7 +993,7 @@ section[id] {
   text-align: center;
   font-size: 2.2rem;
   font-weight: bolder;
-  background-color: #232323;
+  background-color: var(--panel);
   padding: 1rem;
   border-radius: 4px;
   user-select: none;
@@ -1006,7 +1017,7 @@ section[id] {
 }
 
 :root[data-theme="light"] .moreResearch > summary {
-  background-color: rgb(210, 210, 210);
+  background-color: var(--panel);
 }
 
 :root[data-theme="light"] .moreResearch > summary:hover,
