@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-canvas-dev>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Canvas lab</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <style>
+    :root {
+      --panel-bg: rgba(20, 20, 20, 0.88);
+      --panel-line: #333;
+      --text: #ddd;
+      --muted: #888;
+      --accent: #9ef;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      color: var(--text);
+      font: 13px/1.4 system-ui, sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+    }
+
+    .lab {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      bottom: 12px;
+      width: 260px;
+      overflow-y: auto;
+      padding: 12px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-line);
+      border-radius: 8px;
+    }
+
+    .lab[hidden] {
+      display: none;
+    }
+
+    .lab h1 {
+      margin: 0 0 2px;
+      font-size: 15px;
+    }
+
+    .lab h2 {
+      margin: 14px 0 6px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .readout {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .items button,
+    .lab .action {
+      padding: 3px 8px;
+      border: 1px solid var(--panel-line);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .items button:hover,
+    .lab .action:hover {
+      border-color: var(--muted);
+    }
+
+    .items button[aria-current="true"] {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .lab label.toggle {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin: 3px 0;
+    }
+
+    .settings .row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin: 3px 0;
+    }
+
+    .settings .row span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .settings input[type="number"] {
+      width: 72px;
+      padding: 2px 4px;
+      border: 1px solid var(--panel-line);
+      border-radius: 3px;
+      background: #111;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .settings input[type="range"] {
+      width: 100%;
+    }
+
+    .keys {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    /* The same ring that follows the pointer on the main page (css/style.css). */
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: white 2px double;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 500;
+    }
+
+    .keys kbd {
+      padding: 0 4px;
+      border: 1px solid var(--panel-line);
+      border-radius: 3px;
+      font: 11px ui-monospace, monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas aria-hidden="true"></canvas>
+  <div class="cursor" aria-hidden="true"></div>
+
+  <aside class="lab" id="lab">
+    <h1>Canvas lab</h1>
+    <div class="readout" id="readout">&nbsp;</div>
+
+    <h2>View</h2>
+    <label class="toggle"><input type="checkbox" id="behindPage" /> As behind the page</label>
+    <label class="toggle"><input type="checkbox" id="cursorGlow" checked /> Cursor glow</label>
+
+    <h2>Patterns</h2>
+    <div class="items" id="patterns"></div>
+
+    <h2>Backgrounds</h2>
+    <div class="items" id="live"></div>
+
+    <h2>In development</h2>
+    <div class="items" id="inDevelopment"></div>
+
+    <h2>Archived</h2>
+    <div class="items" id="archived"></div>
+
+    <h2>Settings</h2>
+    <div class="settings" id="settings"></div>
+    <button type="button" class="action" id="restart">Restart</button>
+
+    <div class="keys">
+      <kbd>↑</kbd> <kbd>↓</kbd> previous / next &nbsp;
+      <kbd>R</kbd> restart<br />
+      <kbd>B</kbd> behind the page &nbsp; <kbd>G</kbd> glow &nbsp; <kbd>H</kbd> hide panel
+    </div>
+  </aside>
+
+  <script src="/js/infinity.js"></script>
+  <script src="/js/backgrounds/shared.js"></script>
+  <script src="/js/backgrounds/flock.js"></script>
+  <script src="/js/backgrounds/ripples.js"></script>
+  <script src="/js/backgrounds/lava.js"></script>
+  <script src="/js/backgrounds/magnet.js"></script>
+  <script src="/js/backgrounds/dandelion.js"></script>
+  <script src="/js/backgrounds/river.js"></script>
+  <script src="/js/backgrounds/growth.js"></script>
+  <script src="/js/backgrounds/chladni.js"></script>
+  <script src="/js/backgrounds/smoke.js"></script>
+  <script src="/js/backgrounds/orbits.js"></script>
+  <script src="/js/backgrounds/fungus.js"></script>
+  <script src="/js/backgrounds/archive/pool.js"></script>
+  <script src="/js/backgrounds/archive/life.js"></script>
+  <script src="dev.js"></script>
+</body>
+
+</html>

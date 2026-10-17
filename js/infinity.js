@@ -68,8 +68,10 @@ function settleIntoBackground() {
 }
 
 // It plays on every load of the page, reloads and returns from other pages
-// included; only a link straight to a section skips it.
-if (prefersReducedMotion || window.location.hash) {
+// included; only a link straight to a section skips it. The dev page (/dev/)
+// skips it too: it is there to look at the animations, not the intro.
+const devPage = root.hasAttribute("data-canvas-dev");
+if (prefersReducedMotion || window.location.hash || devPage) {
   settleIntoBackground();
 } else {
   root.classList.add("intro-active");
@@ -327,8 +329,7 @@ function harmonograph(t) {
 // ---- Background simulations -------------------------------------------------
 // Whenever the canvas sits behind the page the dots stop tracing the curve and
 // run one of a few simulations instead, picked at random each time the canvas
-// settles: a flock, a pool of liquid, or ripples on water. Bringing the canvas
-// to the front sends them back to the pattern.
+// settles. Bringing the canvas to the front sends them back to the pattern.
 
 // Only pull towards the cursor while it is over the page; before the first move
 // it sits at (0, 0) and would drag the dots into the corner.
@@ -340,533 +341,91 @@ document.documentElement.addEventListener("mouseleave", function () {
   cursorOnPage = false;
 });
 
-// ---- Flock -----------------------------------------------------------------
-// Boids: every dot steers by what it can see within `vision` (match heading,
-// drift towards the middle of the group, keep out of each other's way). Nothing
-// steers the flock as a whole except a pull back towards a point that wanders
-// around the screen, which keeps it on screen and makes it swoop. The pull only
-// starts outside a zone around that point: pulling everyone towards the same
-// spot at every distance squeezes the flock into a knot.
-const flock = {
-  vision: 30, // px: who counts as a neighbour
-  personal: 4, // px: closer than this and they push apart
-  maxNeighbours: 12, // dense knots would otherwise cost n^2
-  minSpeed: 1.6,
-  maxSpeed: 3.2,
-  alignment: 0.15,
-  cohesion: 1,
-  separation: 1.2,
-  homing: 0.0004, // pull back into the zone, per px outside it
-  gravity: 25, // the cursor's pull: gravity / distance, so it fades with range
-  softening: 30, // px: keeps the pull finite when a dot passes over the cursor
-  zone: 0.25, // radius of the zone, as a share of the shorter screen side
-  frame: 0,
-};
+// ---- Drawing behind the page ---------------------------------------------
+// On the main page each dot is lit by how near it is to the cursor: full
+// brightness within `full` px, then falling off as 1 / distance, down to a
+// floor so the far side of the screen never goes quite dark. Drawn in a few
+// fixed levels, since changing the fill for every dot is slow.
+const cursorGlow = { enabled: true, full: 120, floor: 0.15, levels: 8 };
+let glowLevel = new Uint8Array(0);
 
-// Each frame the dots are counting-sorted into grid cells, so each dot only
-// looks at the 3x3 block of cells around it, and each row of that block is one
-// unbroken run of the sorted arrays. There are two grids: a coarse one a
-// vision radius wide for heading and cohesion, and a fine one a personal space
-// wide for separation. With a single coarse grid and a cap on neighbours, the
-// dots a bird counted were rarely the ones touching it, so nothing kept them
-// apart and the flock packed solid.
-function makeGrid() {
-  return {
-    cols: 1,
-    rows: 1,
-    start: new Int32Array(0), // where each cell's run begins; one extra at the end
-    slot: new Int32Array(0), // where dot i landed in the sorted arrays
-    cell: new Int32Array(0),
-    x: new Float32Array(0),
-    y: new Float32Array(0),
-    vx: new Float32Array(0),
-    vy: new Float32Array(0),
-  };
-}
-
-function fillGrid(grid, size, w, h) {
-  const n = posX.length;
-  grid.cols = Math.max(1, Math.ceil(w / size));
-  grid.rows = Math.max(1, Math.ceil(h / size));
-  const cells = grid.cols * grid.rows;
-  if (grid.start.length !== cells + 1) grid.start = new Int32Array(cells + 1);
-  if (grid.slot.length !== n) {
-    grid.slot = new Int32Array(n);
-    grid.cell = new Int32Array(n);
-    grid.x = new Float32Array(n);
-    grid.y = new Float32Array(n);
-    grid.vx = new Float32Array(n);
-    grid.vy = new Float32Array(n);
-  }
-  const start = grid.start;
-  start.fill(0);
-  for (let i = 0; i < n; i++) {
-    const cx = Math.min(grid.cols - 1, Math.max(0, Math.floor(posX[i] / size)));
-    const cy = Math.min(grid.rows - 1, Math.max(0, Math.floor(posY[i] / size)));
-    const c = cy * grid.cols + cx;
-    grid.cell[i] = c;
-    start[c + 1]++;
-  }
-  for (let c = 0; c < cells; c++) start[c + 1] += start[c];
-  // Hand out slots from the end of each run backwards, which leaves start[c]
-  // pointing at the beginning of the run again once every dot is placed.
-  for (let c = 0; c < cells; c++) start[c] = start[c + 1];
-  for (let i = n - 1; i >= 0; i--) {
-    const k = --start[grid.cell[i]];
-    grid.slot[i] = k;
-    grid.x[k] = posX[i];
-    grid.y[k] = posY[i];
-    grid.vx[k] = velX[i];
-    grid.vy[k] = velY[i];
-  }
-}
-
-// Working copies of the dots in flat arrays: the inner loops run thousands of
-// times a frame and object lookups were half the cost.
-let posX = new Float32Array(0);
-let posY = new Float32Array(0);
-let velX = new Float32Array(0);
-let velY = new Float32Array(0);
-let nextVX = new Float32Array(0);
-let nextVY = new Float32Array(0);
-const visionGrid = makeGrid();
-const personalGrid = makeGrid();
-
-// Copies the dots into the flat arrays and returns how many there are.
-function loadDots() {
+function drawBehindPage(hue) {
   const n = whiteElements.length;
-  if (posX.length !== n) {
-    posX = new Float32Array(n);
-    posY = new Float32Array(n);
-    velX = new Float32Array(n);
-    velY = new Float32Array(n);
-    nextVX = new Float32Array(n);
-    nextVY = new Float32Array(n);
+  ctx.fillStyle = `hsl(${hue},100%,75%)`;
+  if (!cursorOnPage || !cursorGlow.enabled) {
+    for (let i = 0; i < n; i++) ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
+    return;
   }
+  const levels = cursorGlow.levels;
+  if (glowLevel.length !== n) glowLevel = new Uint8Array(n);
   for (let i = 0; i < n; i++) {
-    const e = whiteElements[i];
-    posX[i] = e.x;
-    posY[i] = e.y;
-    velX[i] = e.vx;
-    velY[i] = e.vy;
+    const dx = whiteElements[i].x - cursorPosition.x;
+    const dy = whiteElements[i].y - cursorPosition.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    const brightness = Math.min(1, Math.max(cursorGlow.floor, cursorGlow.full / (d || 1)));
+    glowLevel[i] = Math.ceil(brightness * levels);
   }
-  return n;
-}
-
-function startFlock() {
-  const reach = speed * (1 / increment) * patternScale;
-  for (let i = 0; i < whiteElements.length; i++) {
-    const e = whiteElements[i];
-    // Leave along the curve: the heading is where this dot's target was about
-    // to go next.
-    const ahead = graphFunctions[functionNum](t + increment + i * patternSampleStep);
-    let vx = reach * ahead.x + canvas.width / 2 - e.targetX;
-    let vy = reach * ahead.y + canvas.height / 2 - e.targetY;
-    let v = Math.sqrt(vx * vx + vy * vy);
-    if (!(v > 1e-6)) {
-      const a = Math.random() * Math.PI * 2;
-      vx = Math.cos(a);
-      vy = Math.sin(a);
-      v = 1;
-    }
-    e.vx = (vx / v) * 2.4;
-    e.vy = (vy / v) * 2.4;
-  }
-}
-
-function stepFlock() {
-  const n = loadDots();
-  const w = canvas.width;
-  const h = canvas.height;
-  const R2 = flock.vision * flock.vision;
-  const P = flock.personal;
-  const P2 = P * P;
-
-  fillGrid(visionGrid, flock.vision, w, h);
-  fillGrid(personalGrid, P, w, h);
-  // Pulled out into locals: the inner loops are hot enough that going through
-  // the grid objects every time showed up in the frame time.
-  const cap = flock.maxNeighbours;
-  const { cols: vCols, rows: vRows, start: vStart, slot: vSlot, cell: vCell, x: vX, y: vY, vx: vVX, vy: vVY } = visionGrid;
-  const { cols: pCols, rows: pRows, start: pStart, slot: pSlot, cell: pCell, x: pX, y: pY } = personalGrid;
-
-  flock.frame++;
-  const goalX = w / 2 + w * 0.3 * Math.sin(flock.frame * 0.0041);
-  const goalY = h / 2 + h * 0.25 * Math.sin(flock.frame * 0.0067 + 1);
-  const margin = Math.min(80, w * 0.08);
-  // Any stronger and the flock settles into a slow spinning disc (a mill)
-  // instead of travelling.
-  const cohesion = flock.cohesion * 0.002;
-  const zone = Math.min(w, h) * flock.zone;
-
-  for (let i = 0; i < n; i++) {
-    const ax = posX[i];
-    const ay = posY[i];
-    let vx = velX[i];
-    let vy = velY[i];
-    let alignX = 0, alignY = 0, centreX = 0, centreY = 0, pushX = 0, pushY = 0;
-    let seen = 0;
-
-    let self = vSlot[i];
-    let cx0 = vCell[i] % vCols;
-    let cy0 = (vCell[i] - cx0) / vCols;
-    let left = Math.max(0, cx0 - 1);
-    let right = Math.min(vCols - 1, cx0 + 1);
-    search: for (let gy = Math.max(0, cy0 - 1); gy <= Math.min(vRows - 1, cy0 + 1); gy++) {
-      const end = vStart[gy * vCols + right + 1];
-      for (let k = vStart[gy * vCols + left]; k < end; k++) {
-        if (k === self) continue;
-        const dx = vX[k] - ax;
-        const dy = vY[k] - ay;
-        if (dx * dx + dy * dy > R2) continue;
-        alignX += vVX[k];
-        alignY += vVY[k];
-        centreX += dx;
-        centreY += dy;
-        if (++seen >= cap) break search;
-      }
-    }
-
-    self = pSlot[i];
-    cx0 = pCell[i] % pCols;
-    cy0 = (pCell[i] - cx0) / pCols;
-    left = Math.max(0, cx0 - 1);
-    right = Math.min(pCols - 1, cx0 + 1);
-    let crowd = 0;
-    crowding: for (let gy = Math.max(0, cy0 - 1); gy <= Math.min(pRows - 1, cy0 + 1); gy++) {
-      const end = pStart[gy * pCols + right + 1];
-      for (let k = pStart[gy * pCols + left]; k < end; k++) {
-        if (k === self) continue;
-        const dx = pX[k] - ax;
-        const dy = pY[k] - ay;
-        const d2 = dx * dx + dy * dy;
-        if (d2 >= P2) continue;
-        const d = Math.sqrt(d2) || 0.01;
-        // Harder the closer they are, nothing at the edge of personal space.
-        const f = (1 - d / P) / d;
-        pushX -= dx * f;
-        pushY -= dy * f;
-        if (++crowd >= cap) break crowding;
-      }
-    }
-
-    if (seen > 0) {
-      vx += (alignX / seen - vx) * flock.alignment;
-      vy += (alignY / seen - vy) * flock.alignment;
-      vx += (centreX / seen) * cohesion;
-      vy += (centreY / seen) * cohesion;
-    }
-    vx += pushX * flock.separation;
-    vy += pushY * flock.separation;
-
-    // The wandering goal, the screen edges and the cursor's slight gravity.
-    const gx = goalX - ax;
-    const gy = goalY - ay;
-    const gd = Math.sqrt(gx * gx + gy * gy);
-    if (gd > zone) {
-      const pull = ((gd - zone) / gd) * flock.homing;
-      vx += gx * pull;
-      vy += gy * pull;
-    }
-    if (ax < margin) vx += 0.12;
-    else if (ax > w - margin) vx -= 0.12;
-    if (ay < margin) vy += 0.12;
-    else if (ay > h - margin) vy -= 0.12;
-    if (cursorOnPage) {
-      const mx = cursorPosition.x - ax;
-      const my = cursorPosition.y - ay;
-      const md = Math.sqrt(mx * mx + my * my) + flock.softening;
-      const pull = flock.gravity / (md * md);
-      vx += mx * pull;
-      vy += my * pull;
-    }
-    vx += (Math.random() - 0.5) * 0.08;
-    vy += (Math.random() - 0.5) * 0.08;
-
-    const v = Math.sqrt(vx * vx + vy * vy) || 1;
-    const clamped = Math.min(flock.maxSpeed, Math.max(flock.minSpeed, v));
-    nextVX[i] = (vx / v) * clamped;
-    nextVY[i] = (vy / v) * clamped;
-  }
-
-  // Everyone decides from the same snapshot, then moves.
-  for (let i = 0; i < n; i++) {
-    const e = whiteElements[i];
-    e.vx = nextVX[i];
-    e.vy = nextVY[i];
-    e.x += e.vx;
-    e.y += e.vy;
-  }
-}
-
-// ---- Pool ------------------------------------------------------------------
-// The dots as a liquid. Gravity pours them to the bottom of the screen and the
-// cursor pulls the other way, lifting a bulge of liquid up after the pointer.
-// Pressure is the double density relaxation of Clavet et al. (2005): each dot
-// works out how crowded it is and pushes its neighbours apart by moving their
-// positions directly, which stays stable at the step sizes a frame allows.
-const pool = {
-  radius: 14, // px: how far pressure reaches
-  restDensity: 2.5, // how crowded a dot likes to be; lower spreads the liquid
-  stiffness: 0.3,
-  nearStiffness: 0.6, // short-range push that stops dots stacking up
-  maxPush: 1.5, // px per neighbour per frame; tames the first splash
-  gravity: 0.12, // px per frame per frame, downwards
-  pull: 30, // the cursor: pull / distance, against gravity
-  softening: 40, // px: keeps the pull finite right at the cursor
-  drag: 0.98, // calms the fizz of a liquid at rest
-  maxSpeed: 10,
-  maxNeighbours: 24,
-};
-const poolGrid = makeGrid();
-let prevX = new Float32Array(0);
-let prevY = new Float32Array(0);
-const poolNeighbour = new Int32Array(64);
-const poolCloseness = new Float32Array(64);
-
-function startPool() {
-  // Let go of the curve where it is and let it pour.
-  for (let i = 0; i < whiteElements.length; i++) {
-    whiteElements[i].vx = 0;
-    whiteElements[i].vy = 0;
-  }
-}
-
-function stepPool() {
-  const n = loadDots();
-  const w = canvas.width;
-  const h = canvas.height;
-  const R = pool.radius;
-  const R2 = R * R;
-  if (prevX.length !== n) {
-    prevX = new Float32Array(n);
-    prevY = new Float32Array(n);
-  }
-
-  for (let i = 0; i < n; i++) {
-    let vx = velX[i] * pool.drag;
-    let vy = velY[i] * pool.drag + pool.gravity;
-    if (cursorOnPage) {
-      const mx = cursorPosition.x - posX[i];
-      const my = cursorPosition.y - posY[i];
-      const md = Math.sqrt(mx * mx + my * my);
-      const pull = pool.pull / ((md + pool.softening) * (md || 1));
-      vx += mx * pull;
-      vy += my * pull;
-    }
-    const v = Math.sqrt(vx * vx + vy * vy);
-    if (v > pool.maxSpeed) {
-      vx *= pool.maxSpeed / v;
-      vy *= pool.maxSpeed / v;
-    }
-    prevX[i] = posX[i];
-    prevY[i] = posY[i];
-    posX[i] += vx;
-    posY[i] += vy;
-  }
-
-  // Relax in grid order, straight on the sorted copies, so neighbours sit
-  // next to each other in memory.
-  fillGrid(poolGrid, R, w, h);
-  const { cols, rows, start, slot, x: X, y: Y } = poolGrid;
-  const cap = Math.min(pool.maxNeighbours, poolNeighbour.length);
-  const maxPush = pool.maxPush;
-  for (let k = 0; k < n; k++) {
-    const ax = X[k];
-    const ay = Y[k];
-    const cx0 = Math.min(cols - 1, Math.max(0, Math.floor(ax / R)));
-    const cy0 = Math.min(rows - 1, Math.max(0, Math.floor(ay / R)));
-    const left = Math.max(0, cx0 - 1);
-    const right = Math.min(cols - 1, cx0 + 1);
-    let density = 0;
-    let nearDensity = 0;
-    let found = 0;
-    search: for (let gy = Math.max(0, cy0 - 1); gy <= Math.min(rows - 1, cy0 + 1); gy++) {
-      const end = start[gy * cols + right + 1];
-      for (let j = start[gy * cols + left]; j < end; j++) {
-        if (j === k) continue;
-        const dx = X[j] - ax;
-        const dy = Y[j] - ay;
-        const d2 = dx * dx + dy * dy;
-        if (d2 >= R2) continue;
-        const q = 1 - Math.sqrt(d2) / R;
-        density += q * q;
-        nearDensity += q * q * q;
-        poolNeighbour[found] = j;
-        poolCloseness[found] = q;
-        if (++found >= cap) break search;
-      }
-    }
-    const pressure = pool.stiffness * (density - pool.restDensity);
-    const nearPressure = pool.nearStiffness * nearDensity;
-    let selfX = 0;
-    let selfY = 0;
-    for (let f = 0; f < found; f++) {
-      const j = poolNeighbour[f];
-      const q = poolCloseness[f];
-      const dx = X[j] - ax;
-      const dy = Y[j] - ay;
-      const d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-      let push = (pressure * q + nearPressure * q * q) / 2;
-      if (push > maxPush) push = maxPush;
-      else if (push < -maxPush) push = -maxPush;
-      const ux = (dx / d) * push;
-      const uy = (dy / d) * push;
-      X[j] += ux;
-      Y[j] += uy;
-      selfX -= ux;
-      selfY -= uy;
-    }
-    X[k] = ax + selfX;
-    Y[k] = ay + selfY;
-  }
-
-  // The screen edges are the walls of the tank; velocity is whatever the step
-  // actually moved, so hitting a wall also stops the dot.
-  for (let i = 0; i < n; i++) {
-    const k = slot[i];
-    const x = Math.min(w - 1, Math.max(0, X[k]));
-    const y = Math.min(h - 1, Math.max(0, Y[k]));
-    const e = whiteElements[i];
-    e.vx = x - prevX[i];
-    e.vy = y - prevY[i];
-    e.x = x;
-    e.y = y;
-  }
-}
-
-// ---- Ripples ---------------------------------------------------------------
-// The cursor bobs on the water like a float and sends out a ring every so
-// often, and the dots are the rings: each ring has a fixed share of them, spaced
-// round it. A ring keeps the centre it was born at, so a cursor sitting still
-// draws even concentric circles, and a moving one crowds the rings ahead of it
-// and spreads them out behind (Doppler). Scrolling carries the water, and every
-// ring on it, along with the page, which moves the float through the water just
-// the same. Once a ring has grown to full size its dots go back to the float to
-// make the next one.
-const ripple = {
-  speed: 2.5, // px per frame a ring travels
-  period: 40, // frames between rings
-  reach: 0.6, // how big a ring grows, as a share of the screen diagonal
-  roughness: 1.5, // px: dots sit this far either side of the line, at most
-  frame: 0,
-  rings: [], // one per share of dots: { x, y, born }
-  angle: new Float32Array(0),
-  offset: new Float32Array(0),
-  scrolled: 0,
-};
-
-let lastScrollY = window.scrollY;
-window.addEventListener(
-  "scroll",
-  function () {
-    ripple.scrolled += window.scrollY - lastScrollY;
-    lastScrollY = window.scrollY;
-  },
-  { passive: true }
-);
-
-function rippleSource() {
-  // The float is the cursor, or the middle of the screen without one.
-  return cursorOnPage
-    ? { x: cursorPosition.x, y: cursorPosition.y }
-    : { x: canvas.width / 2, y: canvas.height / 2 };
-}
-
-function startRipples() {
-  const n = whiteElements.length;
-  const w = canvas.width;
-  const h = canvas.height;
-  const lifetime = (ripple.reach * Math.sqrt(w * w + h * h)) / ripple.speed;
-  const count = Math.max(1, Math.ceil(lifetime / ripple.period));
-  const perRing = Math.ceil(n / count);
-
-  // Start as if the float had been bobbing for a while, so every ring is
-  // already out and the curve has something to settle into.
-  const source = rippleSource();
-  ripple.frame = 0;
-  ripple.rings = [];
-  for (let k = 0; k < count; k++) {
-    ripple.rings.push({ x: source.x, y: source.y, born: -k * ripple.period });
-  }
-  ripple.angle = new Float32Array(n);
-  ripple.offset = new Float32Array(n);
-  for (let i = 0; i < n; i++) {
-    const place = Math.floor(i / count);
-    ripple.angle[i] = ((place + Math.random() * 0.5) / perRing) * Math.PI * 2;
-    ripple.offset[i] = (Math.random() * 2 - 1) * ripple.roughness;
-  }
-  ripple.scrolled = 0;
-}
-
-function stepRipples() {
-  const rings = ripple.rings;
-  const count = rings.length;
-  const lifetime = count * ripple.period;
-  ripple.frame++;
-
-  // Scrolling down slides the page, and the water with it, up the screen.
-  if (ripple.scrolled !== 0) {
-    for (const ring of rings) ring.y -= ripple.scrolled;
-    ripple.scrolled = 0;
-  }
-
-  // The oldest ring goes back to the float to start again.
-  const reborn = [];
-  for (let k = 0; k < count; k++) {
-    if (ripple.frame - rings[k].born >= lifetime) {
-      const source = rippleSource();
-      rings[k] = { x: source.x, y: source.y, born: ripple.frame };
-      reborn.push(k);
+  for (let level = 1; level <= levels; level++) {
+    ctx.globalAlpha = level / levels;
+    for (let i = 0; i < n; i++) {
+      if (glowLevel[i] === level) ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
     }
   }
-  const radius = rings.map(function (ring) {
-    return (ripple.frame - ring.born) * ripple.speed;
-  });
-
-  // Dots drift onto their rings at first, then ride them exactly. A reborn
-  // ring's dots jump straight back to the float rather than flying across.
-  const ease = Math.min(1, 0.03 + ripple.frame * 0.0015);
-  for (let i = 0; i < whiteElements.length; i++) {
-    const k = i % count;
-    const ring = rings[k];
-    const r = radius[k] + ripple.offset[i];
-    const tx = ring.x + Math.cos(ripple.angle[i]) * r;
-    const ty = ring.y + Math.sin(ripple.angle[i]) * r;
-    const e = whiteElements[i];
-    if (ease >= 1 || reborn.indexOf(k) !== -1) {
-      e.x = tx;
-      e.y = ty;
-    } else {
-      e.x += (tx - e.x) * ease;
-      e.y += (ty - e.y) * ease;
-    }
-  }
+  ctx.globalAlpha = 1;
 }
 
 // ---- Choosing one ----------------------------------------------------------
-const backgrounds = {
-  flock: { start: startFlock, step: stepFlock },
-  pool: { start: startPool, step: stepPool },
-  ripples: { start: startRipples, step: stepRipples },
-};
+// Each simulation lives in its own file under js/backgrounds/ and registers
+// itself here: { start, step }, plus for the dev page the object holding its
+// settings and which of its keys are running state rather than settings.
+// Archived ones (js/backgrounds/archive/) and ones still in development
+// (js/backgrounds/lab/, when there are any) are loaded only by the dev page.
+const backgrounds = {};
 let backgroundMode = null;
 let lastBackgroundMode = null;
 
+function registerBackground(name, sim) {
+  backgrounds[name] = sim;
+}
+
 // A different one from last time, so returning to the page always changes
-// something. ?bg=pool (or flock, or ripples) pins one, for trying them out.
+// something. ?bg=ripples (or any registered name) pins one, for trying them
+// out. Null until the simulation files have loaded.
 function pickBackground() {
   const pinned = new URLSearchParams(window.location.search).get("bg");
   if (Object.prototype.hasOwnProperty.call(backgrounds, pinned)) return pinned;
   const names = Object.keys(backgrounds).filter(function (name) {
-    return name !== lastBackgroundMode;
+    const sim = backgrounds[name];
+    return !sim.archived && !sim.lab && name !== lastBackgroundMode;
   });
+  if (!names.length) return null;
   return names[Math.floor(Math.random() * names.length)];
 }
 
 let t = 0;
 const increment = 0.01;
 let color = loadTime.getMilliseconds() % 360;
+
+// Moves every dot one step towards its place on the current curve.
+function followCurve() {
+  const reach = speed * (1 / increment) * patternScale;
+  for (let i = 0; i < whiteElements.length; i++) {
+    const whiteElement = whiteElements[i];
+    const shape = graphFunctions[functionNum](t + i * patternSampleStep);
+    whiteElement.targetX = reach * shape.x + canvas.width / 2;
+    whiteElement.targetY = reach * shape.y + canvas.height / 2;
+
+    const updatedWhiteElement = moveTowardsTarget(
+      whiteElement.x,
+      whiteElement.y,
+      whiteElement.targetX,
+      whiteElement.targetY,
+      speed
+    );
+    whiteElement.x = updatedWhiteElement.x;
+    whiteElement.y = updatedWhiteElement.y;
+  }
+}
 
 function moveWhiteElements() {
   color += 0.1;
@@ -881,40 +440,20 @@ function moveWhiteElements() {
     if (inBackground && !backgroundMode) {
       backgroundMode = pickBackground();
       lastBackgroundMode = backgroundMode;
-      backgrounds[backgroundMode].start();
+      if (backgroundMode) backgrounds[backgroundMode].start();
     }
     // Nothing to undo: the curve loop pulls every dot back to its target from
     // wherever the simulation left it.
     if (!inBackground) backgroundMode = null;
     if (backgroundMode) {
       backgrounds[backgroundMode].step();
+      drawBehindPage(Math.floor(color));
+    } else {
+      followCurve();
       ctx.fillStyle = `hsl(${Math.floor(color)},100%,75%)`;
       for (let i = 0; i < whiteElements.length; i++) {
         ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
       }
-    }
-    for (let i = 0; !backgroundMode && i < whiteElements.length; i++) {
-      let whiteElement = whiteElements[i];
-      let angle = t + i * patternSampleStep;
-
-      const shape = graphFunctions[functionNum](angle);
-      const reach = speed * (1 / increment) * patternScale;
-      whiteElement.targetX = reach * shape.x + canvas.width / 2;
-      whiteElement.targetY = reach * shape.y + canvas.height / 2;
-
-      let updatedWhiteElement = moveTowardsTarget(
-        whiteElement.x,
-        whiteElement.y,
-        whiteElement.targetX,
-        whiteElement.targetY,
-        speed
-      );
-
-      whiteElement.x = updatedWhiteElement.x;
-      whiteElement.y = updatedWhiteElement.y;
-
-      ctx.fillStyle = `hsl(${Math.floor(color)},100%,75%)`;
-      ctx.fillRect(whiteElement.x, whiteElement.y, 1, 1);
     }
 
     if (loopShouldRun()) {
