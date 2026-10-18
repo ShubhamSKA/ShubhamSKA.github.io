@@ -42,6 +42,7 @@ const plasma = {
 };
 
 let plasmaBolts = [];
+let plasmaShakes = 0; // the phone's shakes already answered
 
 function plasmaBetween(range) {
   return range[0] + Math.random() * (range[1] - range[0]);
@@ -192,6 +193,12 @@ function stepPlasma() {
   const n = whiteElements.length;
   const c = plasmaCentre();
   const bolts = plasmaBolts;
+
+  // A shake on a phone: every bolt strikes again at once.
+  if (phone.shakes !== plasmaShakes) {
+    plasmaShakes = phone.shakes;
+    for (const bolt of bolts) plasmaStrike(bolt);
+  }
 
   // The bolts swing round at random, keep apart, flicker, and strike anew.
   for (let i = 0; i < bolts.length; i++) {

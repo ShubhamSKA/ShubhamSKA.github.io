@@ -11,7 +11,8 @@
 // the air only partly passes through, so the smoke parts round it a little and
 // curls off its edges, and moving it drags the air along. The
 // dots are the smoke, carried by the air; one that leaves the screen or burns
-// out starts again at the source.
+// out starts again at the source. On a phone the smoke rises the way that is
+// truly up, so tipping the phone tips the plume.
 const smoke = {
   cells: 64, // across; down follows the screen's shape
   rise: 0.003, // cells per frame per frame of lift where the smoke is
@@ -166,12 +167,17 @@ function stepSmoke() {
   }
   const perCell = whiteElements.length / (cols * rows);
   const source = incense();
+  // Lift is against gravity: straight up off a phone.
+  const upX = -phone.downX;
+  const upY = -phone.downY;
   for (let j = 1; j <= rows; j++) {
     for (let i = 1; i <= cols; i++) {
       const c = I(i, j);
-      v[c] -= smoke.rise * Math.min(4, smokeHeat[c] / perCell);
+      let lift = smoke.rise * Math.min(4, smokeHeat[c] / perCell);
       const across = Math.abs(i - source.x) / ((smoke.source * cols) / 2 + 1);
-      if (across < 1) v[c] -= smoke.plume * (1 - across) * (j / rows);
+      if (across < 1) lift += smoke.plume * (1 - across) * (j / rows);
+      u[c] += upX * lift;
+      v[c] += upY * lift;
       u[c] *= smoke.fade;
       v[c] *= smoke.fade;
     }

@@ -15,7 +15,9 @@
 // Bubbles swell a little as they rise and the pressure drops, merge when they
 // run into each other, keeping their volume, and drift with slow eddies in the
 // water, which grow as they rise, so the column sways and spreads. Moving the
-// mouse stirs the water near it. The pattern the background starts from fizzes
+// mouse stirs the water near it. On a phone, bubbles rise the way that is
+// truly up, so tipping the phone tips the column. The pattern the background
+// starts from fizzes
 // away, each dot a speck rising at its own pace, and gives up its dots to
 // bubbles as they need them.
 // Dots: the bubbles first, then the fizz; anything left is parked out of sight.
@@ -98,10 +100,10 @@ function bubbleMake(x, y, r) {
   return {
     x,
     y,
-    r, // radius when it was at y0; it swells from there
-    y0: y,
-    vx: 0,
-    vy: 0,
+    r, // radius when it had climbed nothing; it swells from there
+    climbed: 0, // px it has risen
+    vx: 0, // across the way up
+    vy: 0, // along the way down: rising is negative
     zig: Math.random() * Math.PI * 2,
     modes,
     seed: Math.random() * 1000,
@@ -141,7 +143,7 @@ function bubbleDots(r) {
 
 // How big a bubble is now, having swelled on its way up.
 function bubbleRadius(b, h) {
-  return b.r * (1 + (bubbles.swell * Math.max(0, b.y0 - b.y)) / h);
+  return b.r * (1 + (bubbles.swell * Math.max(0, b.climbed)) / h);
 }
 
 // Sideways drift of the water at (x, y).
@@ -166,6 +168,11 @@ function stepBubbles() {
   const h = canvas.height;
   bubbleTime++;
   const source = bubbleSource();
+  // Which way is down, and across it: straight down off a phone.
+  const downX = phone.downX;
+  const downY = phone.downY;
+  const acrossX = downY;
+  const acrossY = -downX;
 
   // The mouse's motion, smoothed, stirs the water.
   const m = bubbleMouse;
@@ -197,9 +204,9 @@ function stepBubbles() {
       used += extra;
     }
     // It sits on its site, which moves with the cursor.
-    b.x = sx;
-    b.y = sy - b.r;
-    b.y0 = b.y;
+    b.x = sx - downX * b.r;
+    b.y = sy - downY * b.r;
+    b.climbed = 0;
     if (b.r >= site.size) {
       b.site = -1;
       site.bubble = null;
@@ -219,30 +226,36 @@ function stepBubbles() {
     b.vy += (-full - b.vy) * bubbles.speedUp;
     // Small bubbles go with the water; big ones only slowly. The eddies are
     // weak where the bubble set off and grow as it climbs.
-    const risen = Math.min(1, Math.max(0, b.y0 - b.y) / (0.3 * h));
+    const risen = Math.min(1, Math.max(0, b.climbed) / (0.3 * h));
     const follow = r < 2 ? 0.08 : 0.08 / Math.sqrt(r / 2);
     b.vx += (bubbleEddy(b.x, b.y) * risen - b.vx) * follow;
     const d2 = (b.x - m.x) ** 2 + (b.y - m.y) ** 2;
     if (cursorOnPage && d2 < reach2) {
       const near = 1 - Math.sqrt(d2) / bubbles.stirReach;
-      b.vx += m.vx * bubbles.stir * near;
-      b.vy += m.vy * bubbles.stir * near * 0.5;
+      b.vx += (m.vx * acrossX + m.vy * acrossY) * bubbles.stir * near;
+      b.vy += (m.vx * downX + m.vy * downY) * bubbles.stir * near * 0.5;
     }
     // Mid-sized bubbles zigzag, unevenly; caps mostly rock.
     const zigs = bubbleRamp(2, 6, r) * (1 - 0.7 * bubbleRamp(bubbles.capFrom, bubbles.biggest, r));
     b.zig += bubbles.zigzagRate * (0.6 + 0.8 * Math.random());
-    b.x += b.vx + bubbles.zigzag * r * zigs * bubbles.zigzagRate * Math.cos(b.zig);
-    b.y += b.vy;
+    const across = b.vx + bubbles.zigzag * r * zigs * bubbles.zigzagRate * Math.cos(b.zig);
+    b.x += acrossX * across + downX * b.vy;
+    b.y += acrossY * across + downY * b.vy;
+    b.climbed -= b.vy;
     // A full cap sheds a little bubble off its skirt now and then.
     if (r > bubbles.biggest * 0.9 && Math.random() < bubbles.shed) {
       const small = 1 + Math.random();
       const side = Math.random() < 0.5 ? -1 : 1;
-      const child = bubbleMake(b.x + side * r * 1.1, b.y + r * 0.3, small);
+      const child = bubbleMake(
+        b.x + acrossX * side * r * 1.1 + downX * r * 0.3,
+        b.y + acrossY * side * r * 1.1 + downY * r * 0.3,
+        small
+      );
       child.vx = b.vx + side * 0.4;
       child.vy = b.vy * 0.4;
       shed.push(child);
       b.r = Math.cbrt(r * r * r - small * small * small);
-      b.y0 = b.y;
+      b.climbed = 0;
     }
   }
   for (const child of shed) bubbleList.push(child);
@@ -269,26 +282,27 @@ function stepBubbles() {
       a.vy += (b.vy - a.vy) * share;
       // Re-based so it does not swell twice for the height already risen.
       a.r = Math.cbrt(va + vb);
-      a.y0 = a.y;
+      a.climbed = 0;
       ra = a.r;
       bubbleList.splice(j, 1);
       j--;
     }
   }
 
-  // Off the top, or blown off a side, they are gone.
+  // Off the screen, they are gone.
   for (let k = bubbleList.length - 1; k >= 0; k--) {
     const b = bubbleList[k];
-    const r = bubbleRadius(b, h);
-    if (b.site === -1 && (b.y + 2 * r < 0 || b.x < -50 || b.x > w + 50)) bubbleList.splice(k, 1);
+    const r = 2 * bubbleRadius(b, h) + 50;
+    if (b.site === -1 && (b.y < -r || b.y > h + r || b.x < -r || b.x > w + r)) bubbleList.splice(k, 1);
   }
 
   // The fizz rises and gives up its dots to whatever needs them.
   used = 0;
   for (let k = 0; k < bubbleList.length; k++) used += bubbleDots(bubbleRadius(bubbleList[k], h));
   for (let i = bubbleFizz - 1; i >= 0; i--) {
-    bubbleFizzY[i] -= bubbleFizzV[i];
-    if (bubbleFizzY[i] < 0) {
+    bubbleFizzX[i] -= downX * bubbleFizzV[i];
+    bubbleFizzY[i] -= downY * bubbleFizzV[i];
+    if (bubbleFizzY[i] < 0 || bubbleFizzY[i] > h || bubbleFizzX[i] < 0 || bubbleFizzX[i] > w) {
       bubbleFizz--;
       bubbleFizzX[i] = bubbleFizzX[bubbleFizz];
       bubbleFizzY[i] = bubbleFizzY[bubbleFizz];
@@ -334,7 +348,9 @@ function stepBubbles() {
     // A cap's underside is cut off this far below its middle.
     const floor = r * (1 - 0.75 * cap);
     // Tipped the way it is drifting.
-    const tip = b.site === -1 ? Math.max(-0.4, Math.min(0.4, b.vx * 0.25)) * ellipsoid : 0;
+    // Tipped the way it is drifting, and turned to the way up.
+    const tip =
+      (b.site === -1 ? Math.max(-0.4, Math.min(0.4, b.vx * 0.25)) * ellipsoid : 0) + Math.atan2(-downX, downY);
     const cos = Math.cos(tip);
     const sin = Math.sin(tip);
     const outline = bubbleDots(r);

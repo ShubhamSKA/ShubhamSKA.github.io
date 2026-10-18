@@ -180,12 +180,32 @@ lab.behindPage.addEventListener("change", applyView);
 lab.glow.addEventListener("change", applyView);
 applyView();
 
+// ---- Phone -----------------------------------------------------------------
+// A phone's tilt and shakes, made up with sliders (js/motion.js), to try the
+// backgrounds the way a phone drives them. The first tilt is taken as the way
+// the phone is held, as on a real one.
+const phoneTilt = document.getElementById("phoneTilt");
+const phoneControls = document.getElementById("phoneControls");
+const phoneBeta = document.getElementById("phoneBeta");
+const phoneGamma = document.getElementById("phoneGamma");
+function feedTilt() {
+  if (phoneTilt.checked) phoneSimulate(Number(phoneBeta.value), Number(phoneGamma.value));
+}
+phoneTilt.addEventListener("change", function () {
+  phoneControls.hidden = !phoneTilt.checked;
+  if (phoneTilt.checked) feedTilt();
+  else phoneStop();
+});
+phoneBeta.addEventListener("input", feedTilt);
+phoneGamma.addEventListener("input", feedTilt);
+document.getElementById("phoneShake").addEventListener("click", phoneShake);
+
 document.getElementById("restart").addEventListener("click", function () {
   start(lab.items[lab.current]);
 });
 
 document.addEventListener("keydown", function (event) {
-  if (event.target instanceof HTMLInputElement && event.target.type === "number") return;
+  if (event.target instanceof HTMLInputElement && (event.target.type === "number" || event.target.type === "range")) return;
   const key = event.key.toLowerCase();
   if (event.key === "ArrowDown" || event.key === "ArrowRight") show(lab.current + 1);
   else if (event.key === "ArrowUp" || event.key === "ArrowLeft") show(lab.current - 1);

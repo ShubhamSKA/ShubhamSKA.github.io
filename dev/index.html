@@ -171,6 +171,14 @@
     <label class="toggle"><input type="checkbox" id="behindPage" /> As behind the page</label>
     <label class="toggle"><input type="checkbox" id="cursorGlow" checked /> Cursor glow</label>
 
+    <h2>Phone</h2>
+    <label class="toggle"><input type="checkbox" id="phoneTilt" /> Tilt instead of the cursor</label>
+    <div class="settings" id="phoneControls" hidden>
+      <label class="row"><span>Tipped forward</span><input type="range" id="phoneBeta" min="-10" max="100" value="45" /></label>
+      <label class="row"><span>Tipped sideways</span><input type="range" id="phoneGamma" min="-80" max="80" value="0" /></label>
+      <button type="button" class="action" id="phoneShake">Shake</button>
+    </div>
+
     <h2>Patterns</h2>
     <div class="items" id="patterns"></div>
 
@@ -195,6 +203,7 @@
   </aside>
 
   <script src="/js/infinity.js"></script>
+  <script src="/js/motion.js"></script>
   <script src="/js/backgrounds/shared.js"></script>
   <script src="/js/backgrounds/flock.js"></script>
   <script src="/js/backgrounds/ripples.js"></script>

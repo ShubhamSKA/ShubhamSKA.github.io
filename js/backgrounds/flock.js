@@ -6,7 +6,8 @@
 // steers the flock as a whole except a pull back towards a point that wanders
 // around the screen, which keeps it on screen and makes it swoop. The pull only
 // starts outside a zone around that point: pulling everyone towards the same
-// spot at every distance squeezes the flock into a knot.
+// spot at every distance squeezes the flock into a knot. On a phone, a shake
+// startles it: every dot turns to flee the point the phone's tilt sets.
 const flock = {
   vision: 30, // px: who counts as a neighbour
   personal: 4, // px: closer than this and they push apart
@@ -54,7 +55,17 @@ function startFlock() {
   }
 }
 
+let flockShakes = 0; // the phone's shakes already answered
+
 function stepFlock() {
+  if (phone.shakes !== flockShakes) {
+    flockShakes = phone.shakes;
+    for (const e of whiteElements) {
+      const a = Math.atan2(e.y - cursorPosition.y, e.x - cursorPosition.x) + (Math.random() - 0.5);
+      e.vx = Math.cos(a) * flock.maxSpeed;
+      e.vy = Math.sin(a) * flock.maxSpeed;
+    }
+  }
   const n = loadDots();
   const w = canvas.width;
   const h = canvas.height;
