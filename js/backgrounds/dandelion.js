@@ -195,8 +195,9 @@ function stepDandelion() {
         towardY += (dy / d) * drift;
       }
       const take = seed.catch || 0.05;
-      seed.vx += (towardX - seed.vx) * take + (Math.random() - 0.5) * dandelion.flutter;
-      seed.vy += (towardY - seed.vy) * take + dandelion.sink + (Math.random() - 0.5) * dandelion.flutter;
+      // They sink the way that is truly down, on a phone too.
+      seed.vx += (towardX - seed.vx) * take + dandelion.sink * phone.downX + (Math.random() - 0.5) * dandelion.flutter;
+      seed.vy += (towardY - seed.vy) * take + dandelion.sink * phone.downY + (Math.random() - 0.5) * dandelion.flutter;
       seed.x += seed.vx;
       seed.y += seed.vy;
       if (seed.x < -30 || seed.x > w + 30 || seed.y < -30 || seed.y > h + 10) seed.parked = true;

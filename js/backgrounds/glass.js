@@ -15,7 +15,8 @@
 // meets the next crack: the spider's web. Dots left over go to more rings at
 // random radii, then to the crushed spot. A new break takes its dots from the
 // pattern first, then from the oldest break, which un-breaks from its last
-// crack back to its impact as the new one runs.
+// crack back to its impact as the new one runs. On a phone, a shake breaks
+// the glass at once.
 const glass = {
   every: 70, // frames between breaks
   perBreak: 1250, // dots in each break
@@ -48,6 +49,7 @@ let glassUnused = 0; // dots of the starting pattern not yet taken
 let glassTimer = 0;
 let glassSerial = 0;
 let glassRun = null; // the break being laid
+let glassShakes = 0; // the phone's shakes already answered
 
 function glassGauss() {
   return Math.sqrt(-2 * Math.log(1 - Math.random() * 0.9999)) * Math.cos(Math.random() * Math.PI * 2);
@@ -319,6 +321,10 @@ function startGlass() {
 }
 
 function stepGlass() {
+  if (phone.shakes !== glassShakes) {
+    glassShakes = phone.shakes;
+    glassTimer = 0;
+  }
   if (--glassTimer <= 0) {
     glassTimer = Math.max(1, glass.every);
     glassBreak();

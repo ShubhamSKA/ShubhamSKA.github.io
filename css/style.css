@@ -237,6 +237,13 @@ html {
 :root[data-theme="light"] .cursor {
   border: black 2px double;
 }
+
+/* No pointer to ring on a phone: the backgrounds follow its tilt instead. */
+@media (hover: none) and (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
 .skillsTable {
   width: 100%;
   text-align: center;

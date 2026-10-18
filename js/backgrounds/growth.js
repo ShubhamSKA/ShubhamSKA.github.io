@@ -14,9 +14,10 @@
 // towards the light: upwards, and towards the cursor, which is the sun. The
 // sun is far away, so its light is parallel: a tree takes one direction to it,
 // from its root, and all its tips lean the same way, rather than converging on
-// the cursor like fingers. Wood already grown keeps the way it grew, so when
-// the cursor moves the new growth swings after it and the tree records where
-// the sun has been. The trunk is long enough that the crown reaches the
+// the cursor like fingers. On a phone, up is the way that is truly up, so
+// tipping the phone tips the way new growth heads. Wood already grown keeps
+// the way it grew, so when the cursor moves the new growth swings after it and
+// the tree records where the sun has been. The trunk is long enough that the crown reaches the
 // cursor's height. Tips near the sun grow fastest, so the side of the crown
 // facing the cursor fills in first, and the branches they put out are longer
 // than those of shaded tips far from it.
@@ -331,8 +332,8 @@ function stepGrowth() {
     const tree = tip.tree;
     // Towards the light: up, plus the direction from the tree's root to the
     // sun, the same for every tip of the tree.
-    let lightX = 0;
-    let lightY = -growth.upward;
+    let lightX = -growth.upward * phone.downX;
+    let lightY = -growth.upward * phone.downY;
     if (cursorOnPage) {
       const sx = cursorPosition.x - tree.root.x;
       const sy = cursorPosition.y - tree.root.y;
