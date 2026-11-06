@@ -1,4 +1,5 @@
-// The boiling background. Loaded after infinity.js.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js.
 
 // ---- Boiling -----------------------------------------------------------------
 // The cursor is a hot spot under water, and bubbles boil off it. Nucleation
@@ -380,4 +381,5 @@ registerBackground("bubbles", {
   start: startBubbles,
   step: stepBubbles,
   settings: bubbles,
+  archived: true,
 });

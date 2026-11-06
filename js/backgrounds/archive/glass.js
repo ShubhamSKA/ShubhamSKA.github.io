@@ -1,4 +1,5 @@
-// The breaking glass background. Loaded after infinity.js.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js.
 
 // ---- Breaking glass ----------------------------------------------------------
 // Every few seconds a pane of glass breaks where the cursor is, and each break
@@ -336,4 +337,5 @@ registerBackground("glass", {
   start: startGlass,
   step: stepGlass,
   settings: glass,
+  archived: true,
 });

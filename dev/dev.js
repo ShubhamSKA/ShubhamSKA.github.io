@@ -30,7 +30,7 @@ function addItem(container, kind, key, label) {
 }
 
 graphFunctions.forEach(function (fn, index) {
-  addItem(document.getElementById("patterns"), "pattern", index, fn.name);
+  addItem(document.getElementById(parameterRanges[index].archived ? "archived" : "patterns"), "pattern", index, fn.name);
 });
 Object.keys(backgrounds).forEach(function (name) {
   const sim = backgrounds[name];
@@ -149,7 +149,10 @@ function buildSettings(item) {
     const row = document.createElement("label");
     row.className = "row";
     const name = document.createElement("span");
-    name.textContent = range.label;
+    const showValue = function () {
+      name.textContent = `${range.label} ${Number(extraPar).toFixed(decimalsFor(range.step))}`;
+    };
+    showValue();
     const slider = document.createElement("input");
     slider.type = "range";
     slider.min = range.min;
@@ -158,9 +161,12 @@ function buildSettings(item) {
     slider.value = extraPar;
     slider.addEventListener("input", function () {
       extraPar = Number(slider.value);
+      showValue();
     });
     row.append(name, slider);
     lab.settings.append(row);
+    // A pattern kept outside infinity.js can bring more numbers to try.
+    if (range.settings) lab.settings.append.apply(lab.settings, settingsRows(range.settings, "", []));
     return;
   }
   const sim = backgrounds[item.key];
@@ -200,8 +206,10 @@ phoneBeta.addEventListener("input", feedTilt);
 phoneGamma.addEventListener("input", feedTilt);
 document.getElementById("phoneShake").addEventListener("click", phoneShake);
 
+// Through show, not start: a pattern draws a new random parameter each time, and
+// the slider has to show it.
 document.getElementById("restart").addEventListener("click", function () {
-  start(lab.items[lab.current]);
+  show(lab.current);
 });
 
 document.addEventListener("keydown", function (event) {
@@ -209,7 +217,7 @@ document.addEventListener("keydown", function (event) {
   const key = event.key.toLowerCase();
   if (event.key === "ArrowDown" || event.key === "ArrowRight") show(lab.current + 1);
   else if (event.key === "ArrowUp" || event.key === "ArrowLeft") show(lab.current - 1);
-  else if (key === "r") start(lab.items[lab.current]);
+  else if (key === "r") show(lab.current);
   else if (key === "h") lab.panel.hidden = !lab.panel.hidden;
   else if (key === "b") {
     lab.behindPage.checked = !lab.behindPage.checked;

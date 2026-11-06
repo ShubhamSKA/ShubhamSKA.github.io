@@ -163,6 +163,7 @@ const graphFunctions = [
   farris,
   gielis,
   harmonograph,
+  springs,
 ];
 
 // What extraPar means differs per curve, so each one gets its own range. These
@@ -185,6 +186,9 @@ const parameterRanges = [
   // sweep at speed * |f'|, and a smaller figure slows them without touching
   // the particle speed. Above ratio 4 it smears whatever the scale.
   { min: 1, max: 4, step: 0.05, sampleStep: 0.02, scale: 0.6, label: "Ratio" }, // harmonograph
+  // One sampleStep is one dot's share of the ring. Its t is the springs' clock,
+  // so it never wraps: going back to 0 would put every dot back on the ring.
+  { min: 2, max: 12, step: 1, sampleStep: (2 * Math.PI) / whiteElements.length, period: Infinity, label: "Lobes" }, // springs
 ];
 
 function parameterFor(index) {
@@ -325,6 +329,25 @@ function harmonograph(t) {
   const y = (Math.cos(2 * t) + Math.cos((a + detune) * t + 0.5) / 2) / 1.5;
   return { x, y };
 }
+// A ring of dots, each tied to the centre by a spring nobody sees with a
+// stiffness set by its place on the ring: k = c + sin(n theta). Let go at t = 0,
+// each would swing along its own diameter as cos(sqrt(k) t), through the centre
+// and out the other side. Like every curve, though, that is only a target, and
+// the dot chases it at a capped speed. A target too quick for that leaves its
+// dot running flat out, back and forth over a shorter swing, shorter the stiffer
+// the spring, so the ring collapses into a small star and comes back as spikes
+// rather than the petals real springs would make. The argument is the dot's
+// place plus t, so taking t off leaves its theta, and t is left to be the clock.
+function springs(place) {
+  const c = 1.5; // k stays above 0; below 1 some springs would push
+  const pace = 2; // how much faster than t the springs run: at 1 the dots about
+  //                 keep up, and the higher it goes the smaller the figure
+  const theta = place - t;
+  const r = Math.cos(Math.sqrt(c + Math.sin(extraPar * theta)) * t * pace);
+  const x = r * Math.cos(theta);
+  const y = -r * Math.sin(theta); // theta runs anticlockwise
+  return { x, y };
+}
 
 // ---- Background simulations -------------------------------------------------
 // Whenever the canvas sits behind the page the dots stop tracing the curve and
@@ -345,20 +368,29 @@ document.documentElement.addEventListener("mouseleave", function () {
 // On the main page each dot is lit by how near it is to the cursor: full
 // brightness within `full` px, then falling off as 1 / distance, down to a
 // floor so the far side of the screen never goes quite dark. Drawn in a few
-// fixed levels, since changing the fill for every dot is slow.
+// fixed levels, since changing the fill for every dot is slow. A background
+// may bring its own light instead: its `light(x, y, i)` gives dot i's
+// brightness, 0 to 1, cursor or not; at 0 the dot is not drawn.
 const cursorGlow = { enabled: true, full: 120, floor: 0.15, levels: 8 };
 let glowLevel = new Uint8Array(0);
 
 function drawBehindPage(hue) {
   const n = whiteElements.length;
   ctx.fillStyle = `hsl(${hue},100%,75%)`;
-  if (!cursorOnPage || !cursorGlow.enabled) {
+  const sim = backgroundMode ? backgrounds[backgroundMode] : null;
+  const light = cursorGlow.enabled && sim && sim.light ? sim.light : null;
+  if (!light && (!cursorOnPage || !cursorGlow.enabled)) {
     for (let i = 0; i < n; i++) ctx.fillRect(whiteElements[i].x, whiteElements[i].y, 1, 1);
     return;
   }
   const levels = cursorGlow.levels;
   if (glowLevel.length !== n) glowLevel = new Uint8Array(n);
   for (let i = 0; i < n; i++) {
+    if (light) {
+      const brightness = Math.min(1, Math.max(0, light(whiteElements[i].x, whiteElements[i].y, i)));
+      glowLevel[i] = Math.ceil(brightness * levels);
+      continue;
+    }
     const dx = whiteElements[i].x - cursorPosition.x;
     const dy = whiteElements[i].y - cursorPosition.y;
     const d = Math.sqrt(dx * dx + dy * dy);
@@ -430,7 +462,7 @@ function followCurve() {
 function moveWhiteElements() {
   color += 0.1;
   t += increment;
-  if (t > 2) {
+  if (t > (parameterRanges[functionNum].period || 2)) {
     t = 0;
   }
 

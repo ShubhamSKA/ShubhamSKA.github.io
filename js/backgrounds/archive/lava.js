@@ -1,4 +1,5 @@
-// The lava lamp background. Loaded after infinity.js and shared.js.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js and shared.js.
 
 // ---- Lava lamp -------------------------------------------------------------
 // Every dot is a drop of wax with a temperature of its own. The wax is a sticky
@@ -217,4 +218,5 @@ registerBackground("lava", {
   start: startLava,
   step: stepLava,
   settings: lava,
+  archived: true,
 });

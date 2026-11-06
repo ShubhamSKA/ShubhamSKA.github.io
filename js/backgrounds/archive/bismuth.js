@@ -1,4 +1,5 @@
-// The bismuth background. Loaded after infinity.js.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js.
 
 // ---- Bismuth -----------------------------------------------------------------
 // Bismuth crystals growing out of the melt round the cursor. Bismuth grows as
@@ -342,4 +343,5 @@ registerBackground("bismuth", {
   start: startBismuth,
   step: stepBismuth,
   settings: bismuth,
+  archived: true,
 });
