@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>2-Player Snake Game | Shubham Saluja Kumar Agarwal</title>
+  <meta name="description"
+    content="A 2-player snake game on two STM32 microcontrollers. Play the original firmware on two emulated boards and watch the signals they send each other." />
+  <link rel="canonical" href="https://shubhamska.github.io/projects/mcu-snake.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="2-Player Snake Game | Shubham Saluja Kumar Agarwal" />
+  <meta property="og:description"
+    content="A 2-player snake game on two STM32 microcontrollers. Play the original firmware on two emulated boards and watch the signals they send each other." />
+  <meta property="og:url" content="https://shubhamska.github.io/projects/mcu-snake.html" />
+  <meta property="og:image" content="https://shubhamska.github.io/img/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/css/technical.css" />
+  <link rel="stylesheet" href="/projects/mcu-snake/rig.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_main.png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <script>
+    // Shares the main site's stored theme, and runs before first paint.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("ska-theme"); } catch (e) { }
+      if (!t) { t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <button id="themeToggle" type="button" aria-label="Switch theme">&#9788;</button>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/projects/">Projects</a>
+    </nav>
+
+    <header>
+      <h1>2-Player Snake Game</h1>
+      <p class="meta">
+        ECE 36200, Purdue University
+        <span class="sep">&middot;</span> 2024
+        <span class="sep">&middot;</span> with Craig Eagleburger, Andrew Larkins and Brian Diaz
+        <span class="sep">&middot;</span> <a href="https://github.com/larkins-andrew/mcu-snake/tree/platformio"
+          target="_blank">Source on GitHub</a>
+      </p>
+      <div class="rule"></div>
+    </header>
+
+    <main>
+      <p>
+        Each player gets a board of their own: a microcontroller, an LCD and four buttons.
+        Both boards run the same firmware, and neither one is in charge. Each keeps its own copy of the game and
+        draws it on its own screen, and the two stay in step by telling each other only what they have to, over four
+        wires.
+      </p>
+
+      <p class="rigNeedsLaptop">
+        This game needs a keyboard, so the boards only run on a laptop or desktop.
+      </p>
+
+      <section class="rig" id="snakeRig" data-base="/projects/mcu-snake/" aria-label="Two emulated boards">
+        <div class="rigControls">
+          <button type="button" class="rigPower" hidden>Power on</button>
+          <button type="button" class="rigReset" hidden disabled>Reset both</button>
+          <p class="rigStatus" role="status" aria-live="polite">Loading the firmware.</p>
+        </div>
+        <div class="rigBench">
+          <div class="board"></div>
+          <div class="wires">
+            <div class="wiresStage"><canvas aria-hidden="true"></canvas></div>
+            <p class="wiresNote">Slowed down so you can see it: at 115200 baud a byte spends 87&nbsp;&micro;s on the wire.</p>
+          </div>
+          <div class="board"></div>
+        </div>
+      </section>
+
+      <h2>Playing</h2>
+      <ul>
+        <li>
+          Press <em>Power on</em>. The two boards start a moment apart, the way two boards plugged in by hand would.
+        </li>
+        <li>
+          Board A takes <code>W</code> <code>A</code> <code>S</code> <code>D</code> and board B the arrow keys. You
+          can also click the buttons under each screen.
+        </li>
+        <li>
+          Press a key on each side to start. Whichever board sees its button first is player 1, the blue snake from
+          the top-left corner. The other is player 2, the green snake from the bottom-right.
+        </li>
+        <li>
+          A snake only turns: pressing the way it is already going, or the way it came from, does nothing. The game
+          speeds up with every apple.
+        </li>
+        <li>
+          When a snake hits a wall, itself or the other snake, both screens turn the winner's colour, or split in two
+          for a tie. To play again, reset both boards.
+        </li>
+      </ul>
+
+      <h2>What the wires carry</h2>
+      <div class="tableScroll">
+        <table class="spec">
+          <tr>
+            <th>Ready line</th>
+            <td>
+              A plain GPIO line that means <em>ready</em>. Each board sets its own line high as soon as it has
+              started, then sleeps until the other's comes up, which it hears as a rising-edge interrupt.
+            </td>
+          </tr>
+          <tr>
+            <th><code>'p'</code></th>
+            <td>
+              The first button pressed on either board sends <code>'p'</code> over the UART. The board that sent it
+              is player 1; the board that received it becomes player 2, and sends its own <code>'p'</code> once its
+              player presses a button.
+            </td>
+          </tr>
+          <tr>
+            <th>Seed</th>
+            <td>
+              When player 2's <code>'p'</code> arrives, player 1 reads its TIM6 counter and sends that as the
+              random seed. Both boards call <code>srand</code> with it, so every apple lands in the same place on
+              both screens.
+            </td>
+          </tr>
+          <tr>
+            <th>Direction</th>
+            <td>
+              On every tick each board sends the direction its player last pressed (0 right, 1 up, 2 left,
+              3 down) and waits for the other's. Only then does it move both snakes, so the two copies of the
+              game never drift apart.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>How it runs</h2>
+      <p>
+        Nothing on this page is a rewrite of the game. The firmware is compiled, unchanged, from the project's own
+        source, and runs on two emulated microcontrollers wired together like the real boards. Everything on the
+        wires and on the screens comes from that firmware. As on the real chips, each board's clock runs very
+        slightly fast or slow; without that, every game would get the same random seed.
+      </p>
+
+      <figure class="bench">
+        <video controls preload="none" poster="/img/mcu_snake_poster.jpg" width="1280" height="720">
+          <source src="/img/mcu_snake.mp4" type="video/mp4">
+        </video>
+        <figcaption>The real boards on the breadboard.</figcaption>
+      </figure>
+    </main>
+
+    <nav class="pager" aria-label="Other entries">
+      <a class="prev" href="/projects/stereoboy.html"><span class="label">&larr; Previous</span>StereoBoy: Modular Expandable MP3 Player</a>
+      <a class="next" href="/projects/wallace-tree.html"><span class="label">Next &rarr;</span>8-bit Wallace Tree Multiplier</a>
+    </nav>
+  </div>
+
+  <script src="/js/technical.js"></script>
+  <script src="/projects/mcu-snake/stm32.js"></script>
+  <script src="/projects/mcu-snake/rig.js"></script>
+</body>
+
+</html>

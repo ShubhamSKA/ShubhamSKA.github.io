@@ -1,0 +1,332 @@
+/* The two emulated boards on /projects/mcu-snake.html. Loaded after technical.css, whose
+   colours and type these reuse. The LCD modules and the STM32 boards keep their real PCB
+   colours in both themes. */
+
+.rig {
+  --pcb-red: #b3121c;
+  --pcb-green: #0c5a2c;
+  --silk: rgba(255, 255, 255, 0.86);
+  --wire-idle: rgba(255, 255, 255, 0.3);
+  --led-on: #ffb21e;
+  --led-off: #23382a;
+  /* Wider than the text column: two screens and the wires between them need the room. */
+  width: min(1120px, 94vw);
+  margin: 1.75rem 0 1rem calc(50% - min(1120px, 94vw) / 2);
+}
+
+:root[data-theme="light"] .rig {
+  --wire-idle: rgba(0, 0, 0, 0.3);
+}
+
+.rigControls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.rigControls button {
+  font: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.3rem;
+  color: var(--text);
+  background: transparent;
+  border: 2px solid var(--text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.rigControls button:hover,
+.rigControls button:focus-visible {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .rigControls button:hover,
+:root[data-theme="light"] .rigControls button:focus-visible {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+.rigControls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: transparent;
+}
+
+.rigControls .rigPower {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.rigStatus {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+  flex: 1 1 18rem;
+}
+
+/* ---- bench: board, wires, board ---- */
+.rigBench {
+  display: grid;
+  grid-template-columns: minmax(170px, 250px) minmax(200px, 1fr) minmax(170px, 250px);
+  gap: 0 0.75rem;
+  align-items: stretch;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.boardHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.boardName {
+  font-weight: 700;
+}
+
+.boardRole {
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.boardRole .swatch {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-right: 0.35em;
+  border-radius: 2px;
+  vertical-align: -0.05em;
+}
+
+/* the red ILI9341 module */
+.lcdModule {
+  background: var(--pcb-red);
+  border-radius: 5px;
+  padding: 9px 9px 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.lcdGlass {
+  background: #0d0d0d;
+  padding: 6px 6px 14px;
+  border-radius: 2px;
+}
+
+.lcdGlass canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  image-rendering: pixelated;
+  background: #0b0b0b;
+}
+
+/* the green STM32 board */
+.mcuBoard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--pcb-green);
+  border-radius: 4px;
+  padding: 0.45rem 0.6rem;
+}
+
+.leds {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.led i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--led-off);
+}
+
+.led.isOn i {
+  background: var(--led-on);
+  box-shadow: 0 0 6px 1px var(--led-on);
+}
+
+.nrst {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--silk);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.58rem;
+  cursor: pointer;
+}
+
+.nrst::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #111;
+  border: 3px solid #3d3d3d;
+}
+
+.nrst:hover::before,
+.nrst:focus-visible::before {
+  border-color: var(--led-on);
+}
+
+.nrst:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* four push buttons in a cross, as on the breadboard */
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 2.6rem);
+  grid-template-rows: repeat(2, 2.6rem);
+  gap: 0.3rem;
+  justify-content: center;
+}
+
+.pad button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+  background: var(--panel);
+  border: 2px solid var(--panel-edge);
+  border-radius: 6px;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.pad button.isDown {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+
+.pad .up { grid-column: 2; grid-row: 1; }
+.pad .left { grid-column: 1; grid-row: 2; }
+.pad .down { grid-column: 2; grid-row: 2; }
+.pad .right { grid-column: 3; grid-row: 2; }
+
+.boardState {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+  min-height: 5.6rem;
+}
+
+.boardState code {
+  display: inline-block;
+  color: var(--text);
+  font-size: 0.78rem;
+  margin-bottom: 0.25rem;
+  word-break: break-all;
+}
+
+.boardVars {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.72rem;
+}
+
+/* ---- the wires ---- */
+.wires {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* The canvas is taken out of the flow so its pixel size never feeds back into the layout. */
+.wiresStage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 300px;
+}
+
+.wiresStage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wiresNote {
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+  margin: 0.4rem 0 0;
+}
+
+/* ---- laptops and desktops only ----
+   The game needs a keyboard, so the boards only appear where the main pointer is a fine
+   one that can hover. Everywhere else gets a note. */
+.rigNeedsLaptop {
+  border-left: 4px solid var(--accent);
+  background: var(--panel);
+  padding: 0.85rem 1.1rem;
+  color: var(--muted);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1rem;
+}
+
+.rig {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rig {
+    display: block;
+  }
+
+  .rigNeedsLaptop {
+    display: none;
+  }
+}
+
+/* The video of the real boards. */
+figure.bench {
+  margin: 2rem 0;
+}
+
+figure.bench video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background: #000;
+}
+
+figure.bench figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}

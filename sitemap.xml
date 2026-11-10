@@ -61,6 +61,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://shubhamska.github.io/projects/mcu-snake.html</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://shubhamska.github.io/projects/wallace-tree.html</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
