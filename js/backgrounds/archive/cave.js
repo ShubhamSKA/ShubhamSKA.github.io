@@ -1,5 +1,5 @@
-// The cave background, in development. Loaded after infinity.js, by the canvas
-// lab only.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js.
 
 // ---- Cave ----------------------------------------------------------------------
 // A chamber of a limestone cave, like those of Cacahuamilpa, seen in section,
@@ -704,5 +704,5 @@ registerBackground("cave", {
   step: stepCave,
   light: caveLight,
   settings: cave,
-  lab: true,
+  archived: true,
 });
