@@ -1,5 +1,5 @@
-// The shooting stars background, in development. Loaded after infinity.js and
-// meteors-sky.js, by the canvas lab only.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js and meteors-sky.js.
 
 // ---- Shooting stars ------------------------------------------------------------
 // Lying back under the real night sky: a patch of it, picked at random each
@@ -732,5 +732,5 @@ registerBackground("meteors", {
   step: stepMeteors,
   light: meteorLight,
   settings: meteors,
-  lab: true,
+  archived: true,
 });

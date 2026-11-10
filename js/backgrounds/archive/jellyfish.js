@@ -1,5 +1,5 @@
-// The jellyfish background, in development. Loaded after infinity.js, by the
-// canvas lab only.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. Loaded after infinity.js.
 
 // ---- Jellyfish ---------------------------------------------------------------
 // A tank of moon jellies, seen through the glass, the screen's edges its
@@ -405,5 +405,5 @@ registerBackground("jellyfish", {
   start: startJellyfish,
   step: stepJellyfish,
   settings: jelly,
-  lab: true,
+  archived: true,
 });

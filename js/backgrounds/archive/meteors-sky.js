@@ -1,6 +1,6 @@
-// The shooting stars background's sky, in development: constellations, bright
-// stars and a dot font for names. Loaded before meteors.js, by the canvas lab
-// only.
+// ARCHIVED: not loaded by the site, only by the dev page (/dev/). Kept to look
+// at and work on later. The shooting stars background's sky: constellations,
+// bright stars and a dot font for names. Loaded before meteors.js.
 
 // The zodiac and some of the best-known constellations besides: each its
 // stars, as [right ascension in hours, declination in degrees, magnitude],
