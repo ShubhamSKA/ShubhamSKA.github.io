@@ -1290,13 +1290,15 @@ section[id] {
 }
 
 /* ---- Play me ----
-   The Python games run in the browser at /projects/python/, but they need a keyboard and
-   a mouse, so the button only shows where the main pointer can hover. */
+   The games under /projects/ run in the browser, but they need a keyboard and a mouse, so
+   the button only shows where some pointer can hover: a mouse or a trackpad. That is "any"
+   pointer, not the main one, because a laptop with a touchscreen can report the screen as
+   its main pointer and would otherwise lose the button. */
 .playMe {
   display: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .cardActions.playMe {
     display: flex;
   }

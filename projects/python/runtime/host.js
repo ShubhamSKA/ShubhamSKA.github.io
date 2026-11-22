@@ -356,7 +356,7 @@
     const stopBtn = stage.querySelector(".pyStop");
     const screenArea = stage.querySelector(".pyScreen");
 
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (!window.matchMedia("(any-hover: hover) and (any-pointer: fine)").matches) return;
 
     if (!window.crossOriginIsolated) {
       const sw = "serviceWorker" in navigator && window.isSecureContext;

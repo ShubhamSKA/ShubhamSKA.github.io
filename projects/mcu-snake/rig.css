@@ -286,8 +286,9 @@
 }
 
 /* ---- laptops and desktops only ----
-   The game needs a keyboard, so the boards only appear where the main pointer is a fine
-   one that can hover. Everywhere else gets a note. */
+   The game needs a keyboard, so the boards only appear where some pointer is a fine one
+   that can hover (a mouse or a trackpad, even on a laptop with a touchscreen). Everywhere
+   else gets a note. */
 .rigNeedsLaptop {
   border-left: 4px solid var(--accent);
   background: var(--panel);
@@ -301,7 +302,7 @@
   display: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .rig {
     display: block;
   }

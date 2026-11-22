@@ -10,7 +10,7 @@
        so they skip it. -->
   <script>
     window.coi = {
-      shouldRegister: () => window.matchMedia("(hover: hover) and (pointer: fine)").matches,
+      shouldRegister: () => window.matchMedia("(any-hover: hover) and (any-pointer: fine)").matches,
       // require-corp everywhere: Safari has no "credentialless", and every file these pages load allows it.
       coepCredentialless: () => false,
     };

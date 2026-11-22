@@ -216,13 +216,14 @@
 }
 
 /* ---- laptops and desktops only ----
-   The games need a keyboard and a mouse, so the player only appears where the
-   main pointer is a fine one that can hover. Everywhere else gets a note. */
+   The games need a keyboard and a mouse, so the player only appears where some
+   pointer is a fine one that can hover (a mouse or a trackpad, even on a laptop
+   with a touchscreen). Everywhere else gets a note. */
 .pyStage {
   display: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .pyStage {
     display: block;
   }
