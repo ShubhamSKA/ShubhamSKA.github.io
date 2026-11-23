@@ -216,19 +216,14 @@
 }
 
 /* ---- laptops and desktops only ----
-   The games need a keyboard and a mouse, so the player only appears where some
-   pointer is a fine one that can hover (a mouse or a trackpad, even on a laptop
-   with a touchscreen). Everywhere else gets a note. */
-.pyStage {
+   The games need a keyboard and a mouse, so phones and tablets get a note instead of the
+   player. /js/device.js decides which those are; a pointer media query cannot, because a
+   laptop with a touchscreen can report having no mouse at all. */
+.pyNeedsLaptop,
+.touchOnly .pyStage {
   display: none;
 }
 
-@media (any-hover: hover) and (any-pointer: fine) {
-  .pyStage {
-    display: block;
-  }
-
-  .pyNeedsLaptop {
-    display: none;
-  }
+.touchOnly .pyNeedsLaptop {
+  display: block;
 }

@@ -136,7 +136,10 @@ function phoneStop() {
   phoneHasRest = false;
 }
 
-if (window.matchMedia("(hover: none) and (pointer: coarse)").matches && "DeviceOrientationEvent" in window) {
+// Phones and tablets, as /js/device.js decides. A page without it (the canvas lab) falls back
+// to the pointer query, which a laptop with a touchscreen can get wrong.
+const tiltDevice = "touchOnly" in window ? window.touchOnly : window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+if (tiltDevice && "DeviceOrientationEvent" in window) {
   if (typeof DeviceOrientationEvent.requestPermission === "function") {
     // Asked on a tap, until the visitor answers; a request that fails because
     // it was not on a tap is tried again on the next.

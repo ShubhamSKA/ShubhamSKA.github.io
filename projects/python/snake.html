@@ -6,11 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Python needs a SharedArrayBuffer, which needs cross-origin isolation. GitHub Pages cannot send the
-       headers for that, so this service worker adds them, for /projects/python/ only. Phones never get the player,
-       so they skip it. -->
+       headers for that, so this service worker adds them, for /projects/python/ only. Phones and tablets never
+       get the player, so they skip it. -->
+  <script src="/js/device.js"></script>
   <script>
     window.coi = {
-      shouldRegister: () => window.matchMedia("(any-hover: hover) and (any-pointer: fine)").matches,
+      shouldRegister: () => !window.touchOnly,
       // require-corp everywhere: Safari has no "credentialless", and every file these pages load allows it.
       coepCredentialless: () => false,
     };

@@ -286,9 +286,9 @@
 }
 
 /* ---- laptops and desktops only ----
-   The game needs a keyboard, so the boards only appear where some pointer is a fine one
-   that can hover (a mouse or a trackpad, even on a laptop with a touchscreen). Everywhere
-   else gets a note. */
+   The game needs a keyboard, so phones and tablets get a note instead of the boards.
+   /js/device.js decides which those are; a pointer media query cannot, because a laptop
+   with a touchscreen can report having no mouse at all. */
 .rigNeedsLaptop {
   border-left: 4px solid var(--accent);
   background: var(--panel);
@@ -298,18 +298,13 @@
   margin-bottom: 1rem;
 }
 
-.rig {
+.rigNeedsLaptop,
+.touchOnly .rig {
   display: none;
 }
 
-@media (any-hover: hover) and (any-pointer: fine) {
-  .rig {
-    display: block;
-  }
-
-  .rigNeedsLaptop {
-    display: none;
-  }
+.touchOnly .rigNeedsLaptop {
+  display: block;
 }
 
 /* The video of the real boards. */

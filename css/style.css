@@ -261,11 +261,10 @@ html {
   border: black 2px double;
 }
 
-/* No pointer to ring on a phone: the backgrounds follow its tilt instead. */
-@media (hover: none) and (pointer: coarse) {
-  .cursor {
-    display: none;
-  }
+/* No pointer to ring on a phone or tablet (see /js/device.js): the backgrounds follow its
+   tilt instead. */
+.touchOnly .cursor {
+  display: none;
 }
 .skillsTable {
   width: 100%;
@@ -1290,16 +1289,9 @@ section[id] {
 }
 
 /* ---- Play me ----
-   The games under /projects/ run in the browser, but they need a keyboard and a mouse, so
-   the button only shows where some pointer can hover: a mouse or a trackpad. That is "any"
-   pointer, not the main one, because a laptop with a touchscreen can report the screen as
-   its main pointer and would otherwise lose the button. */
-.playMe {
+   The games under /projects/ run in the browser, but they need a keyboard, so phones and
+   tablets never get the button. /js/device.js decides which those are; a pointer media query
+   cannot, because a laptop with a touchscreen can report having no mouse at all. */
+.touchOnly .playMe {
   display: none;
-}
-
-@media (any-hover: hover) and (any-pointer: fine) {
-  .cardActions.playMe {
-    display: flex;
-  }
 }
